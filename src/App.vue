@@ -1,30 +1,43 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="app">
+    <sales></sales>
+    <my-header></my-header>
+    <burger-menu></burger-menu>
+    <main>
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Sales from "./components/UI/Sales.vue";
+import MyHeader from "./components/UI/MyHeader.vue";
+import BurgerMenu from "./components/UI/BurgerMenu.vue";
+export default {
+  name: "App",
+  components: { Sales, MyHeader, BurgerMenu },
+};
+</script>
 
-nav {
-  padding: 30px;
+<style lang="scss">
+html {
+  box-sizing: border-box;
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  /* outline: solid 1px red; */
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  min-width: 20em;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  font-family: "Inter", sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 </style>

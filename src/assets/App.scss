@@ -1,0 +1,11 @@
+$black: #141718;
+@mixin button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  width: fit-content;
+  border: none;
+  padding: 0rem;
+  cursor: pointer;
+}
