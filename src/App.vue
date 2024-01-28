@@ -6,6 +6,7 @@
     <main>
       <router-view></router-view>
     </main>
+    <my-footer></my-footer>
   </div>
 </template>
 
@@ -13,9 +14,10 @@
 import Sales from "./components/UI/Sales.vue";
 import MyHeader from "./components/UI/MyHeader.vue";
 import BurgerMenu from "./components/UI/BurgerMenu.vue";
+import MyFooter from "./components/UI/MyFooter.vue";
 export default {
   name: "App",
-  components: { Sales, MyHeader, BurgerMenu },
+  components: { Sales, MyHeader, BurgerMenu, MyFooter },
 };
 </script>
 

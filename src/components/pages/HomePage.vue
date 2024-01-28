@@ -46,14 +46,16 @@
       <span class="indicator-slider"></span>
       <span class="indicator-slider"></span>
     </div>
-    <h1 class="container__title">
-      Simply Unique<span class="container__title-span">/</span> Simply
-      Better<span class="container__title-span">.</span>
-    </h1>
-    <h2 class="container__subtitle">
-      <span class="container__subtitle-span">3legant</span> is a gift &
-      decorations store based in HCMC, Vietnam. Est since 2019.
-    </h2>
+    <div class="container__title-and-subtitle-flex">
+      <h1 class="container__title">
+        Simply Unique<span class="container__title-span">/</span> Simply
+        Better<span class="container__title-span">.</span>
+      </h1>
+      <h2 class="container__subtitle">
+        <span class="container__subtitle-span">3legant</span> is a gift &
+        decorations store based in HCMC, Vietnam. Est since 2019.
+      </h2>
+    </div>
     <section class="container__sections-flex">
       <div class="container__section-card">
         <span class="container__section-card-title">Living Room</span>
@@ -67,29 +69,31 @@
           alt=""
         />
       </div>
-      <div class="container__section-card">
-        <span class="container__section-card-title">Bedroom</span>
-        <button class="container__section-card-shop-now-btn">
-          Shop Now
-          <img src="imgs/arrow-right-black.svg" alt="" />
-        </button>
-        <img
-          class="container__section-card-hero"
-          src="imgs/section-card-2.svg"
-          alt=""
-        />
-      </div>
-      <div class="container__section-card">
-        <span class="container__section-card-title">Kitchen</span>
-        <button class="container__section-card-shop-now-btn">
-          Shop Now
-          <img src="imgs/arrow-right-black.svg" alt="" />
-        </button>
-        <img
-          class="container__section-card-hero"
-          src="imgs/section-card-3.svg"
-          alt=""
-        />
+      <div class="container__section-cards-subflex">
+        <div class="container__section-card">
+          <span class="container__section-card-title">Bedroom</span>
+          <button class="container__section-card-shop-now-btn">
+            Shop Now
+            <img src="imgs/arrow-right-black.svg" alt="" />
+          </button>
+          <img
+            class="container__section-card-hero"
+            src="imgs/section-card-2.svg"
+            alt=""
+          />
+        </div>
+        <div class="container__section-card">
+          <span class="container__section-card-title">Kitchen</span>
+          <button class="container__section-card-shop-now-btn">
+            Shop Now
+            <img src="imgs/arrow-right-black.svg" alt="" />
+          </button>
+          <img
+            class="container__section-card-hero"
+            src="imgs/section-card-3.svg"
+            alt=""
+          />
+        </div>
       </div>
     </section>
     <section class="container__new-arrivals">
@@ -427,6 +431,166 @@
         </div>
       </div>
     </section>
+    <section class="container__advantages">
+      <div class="container__advantage-cards-flex">
+        <div class="container__advantage-card">
+          <div class="container__advantage-card-icon-and-titles-flex">
+            <img
+              class="container__advantage-card-icon"
+              src="imgs/advantage-fast-delivery-icon.svg"
+              alt=""
+            />
+            <div class="container__advantage-card-titles-flex">
+              <span class="container__advantage-card-title">Free Shipping</span>
+              <span class="container__advantage-card-subtitle"
+                >Order above $200</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="container__advantage-card">
+          <div class="container__advantage-card-icon-and-titles-flex">
+            <img src="imgs/advantage-money-back-icon.svg" alt="" />
+            <div class="container__advantage-card-titles-flex">
+              <span class="container__advantage-card-title">Money-back </span>
+              <span class="container__advantage-card-subtitle"
+                >30 days guarantee</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="container__advantage-card">
+          <div class="container__advantage-card-icon-and-titles-flex">
+            <img src="imgs/advantage-lock-icon.svg" alt="" />
+            <div class="container__advantage-card-titles-flex">
+              <span class="container__advantage-card-title"
+                >Secure Payments
+              </span>
+              <span class="container__advantage-card-subtitle"
+                >Secured by Stripe</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="container__advantage-card">
+          <div class="container__advantage-card-icon-and-titles-flex">
+            <img src="imgs/advantage-call-icon.svg" alt="" />
+            <div class="container__advantage-card-titles-flex">
+              <span class="container__advantage-card-title">24/7 Support</span>
+              <span class="container__advantage-card-subtitle"
+                >Phone and Email support</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container__sales">
+      <img src="imgs/sales-hero.svg" alt="" class="container__sales-hero" />
+      <div class="container__sales-desctiption">
+        <div class="container__sales-desctiption-titles-and-text-flex">
+          <span class="container__sales-desctiption-title"
+            >SALE UP TO 35% OFF</span
+          >
+          <span class="container__sales-desctiption-subtitle"
+            >HUNDREDS of New lower prices!</span
+          >
+          <span class="container__sales-desctiption-text"
+            >It’s more affordable than ever to give every room in your home a
+            stylish makeover</span
+          >
+        </div>
+        <button class="container__sales-desctiption-shop-now-btn">
+          Shop Now <img src="imgs/arrow-right-black.svg" alt="" />
+        </button>
+      </div>
+    </section>
+    <section class="container__articles">
+      <div class="container__articles-title-and-more-articles-btn-flex">
+        <h2 class="container__articles-title">Articles</h2>
+        <button class="container__articles-more-articles-btn">
+          More Articles <img src="imgs/arrow-right-black.svg" alt="" />
+        </button>
+      </div>
+      <div class="container__article-cards-flex">
+        <div class="container__article-card">
+          <div class="container__article-card-hero-and-title-and-btn-flex">
+            <img
+              src="imgs/article-hero-1.svg"
+              alt=""
+              class="container__article-card-hero"
+            />
+            <div class="container__article-card-title-and-flex">
+              <span class="container__article-card-title"
+                >7 ways to decor your home</span
+              >
+              <button class="container__article-card-btn">
+                Read More <img src="imgs/arrow-right-black.svg" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="container__article-card">
+          <div class="container__article-card-hero-and-title-and-btn-flex">
+            <img
+              src="imgs/article-hero-2.svg"
+              alt=""
+              class="container__article-card-hero"
+            />
+            <div class="container__article-card-title-and-flex">
+              <span class="container__article-card-title"
+                >Kitchen organization</span
+              >
+              <button class="container__article-card-btn">
+                Read More <img src="imgs/arrow-right-black.svg" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="container__article-card">
+          <div class="container__article-card-hero-and-title-and-btn-flex">
+            <img
+              src="imgs/article-hero-3.svg"
+              alt=""
+              class="container__article-card-hero"
+            />
+            <div class="container__article-card-title-and-flex">
+              <span class="container__article-card-title"
+                >Decor your bedroom</span
+              >
+              <button class="container__article-card-btn">
+                Read More <img src="imgs/arrow-right-black.svg" alt="" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="container__Newsletter">
+      <div class="container__Newsletter-titles-form-flex">
+        <div class="container__Newsletter-titles-flex">
+          <span class="container__Newsletter-title">Join Our Newsletter</span>
+          <span class="container__Newsletter-subtitle">
+            Sign up for deals, new products and promotions
+          </span>
+        </div>
+        <form class="container__Newsletter-form">
+          <div class="container__Newsletter-form-icon-and-input-btn-flex">
+            <img
+              class="container__Newsletter-form-icon"
+              src="imgs/email-icon.svg"
+              alt=""
+            />
+            <input
+              class="container__Newsletter-form-input"
+              type="text"
+              placeholder="Email address"
+            />
+            <button class="container__Newsletter-form-btn">Signup</button>
+          </div>
+        </form>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -739,15 +903,7 @@ export default {
   overflow: hidden;
   overflow-x: scroll;
   height: 400px;
-  // flex-direction: row;
 }
-/* .container__new-arrivals-cards-flex::-webkit-scrollbar-thumb {
-  border-radius: 5rem;
-  background: #343839;
-}
-.container__new-arrivals-cards-flex::-webkit-scrollbar-track {
-  background-color: #e8ecef;
-} */
 .container__new-arrivals-card {
   width: 231px;
 }
@@ -847,6 +1003,208 @@ export default {
   font-weight: 400;
   color: #6c7275;
   text-decoration-line: line-through;
+}
+.container__advantages {
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+}
+.container__advantage-cards-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.container__advantage-card {
+  background: #f3f5f7;
+  padding: 2rem 1rem;
+  height: 198px;
+  width: 48.44%;
+}
+.container__advantage-card-icon-and-titles-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container__advantage-card-icon-and-titles-flex img {
+  width: 48px;
+  height: 48px;
+}
+.container__advantage-card-titles-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.container__advantage-card-title {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $black;
+}
+.container__advantage-card-subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6c7275;
+}
+.container__sales {
+  margin-bottom: 2.5rem;
+}
+.container__sales-hero {
+  display: block;
+  position: relative;
+  left: -2rem;
+  width: calc(100% + 4rem);
+}
+.container__sales-desctiption {
+  position: relative;
+  left: -2rem;
+  width: calc(100% + 4rem);
+  background: #f3f5f7;
+  padding: 3.66rem 2rem;
+  margin-top: -0.3rem;
+}
+.container__sales-desctiption-titles-and-text-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container__sales-desctiption-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #377dff;
+}
+.container__sales-desctiption-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.125rem;
+  font-weight: 500;
+  color: $black;
+}
+.container__sales-desctiption-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: $black;
+}
+.container__sales-desctiption-shop-now-btn {
+  @include button;
+  margin-top: 1.5rem;
+  border-bottom: 1px solid $black;
+  padding-bottom: 2px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.container__articles {
+  margin-bottom: 2.5rem;
+}
+.container__articles-title-and-more-articles-btn-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+.container__articles-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.125rem;
+  font-weight: 500;
+  color: #000;
+  margin: 0rem;
+}
+.container__articles-more-articles-btn {
+  @include button;
+  border-bottom: 1px solid $black;
+  padding-bottom: 2px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.container__article-cards-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.container__article-card-hero-and-title-and-btn-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container__article-card-hero {
+  width: 100%;
+}
+.container__article-card-title-and-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.container__article-card-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #23262f;
+}
+.container__article-card-btn {
+  @include button;
+  border-bottom: 1px solid $black;
+  padding-bottom: 2px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.container__Newsletter {
+  position: relative;
+  left: -2rem;
+  width: calc(100% + 4rem);
+  background: #f2f4f6;
+  padding: 5.9375rem 2rem;
+}
+.container__Newsletter-titles-form-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.container__Newsletter-titles-flex {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 0.5rem;
+}
+.container__Newsletter-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: $black;
+  white-space: nowrap;
+}
+.container__Newsletter-subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: $black;
+}
+.container__Newsletter-form {
+  border-bottom: 1px solid rgba(108, 114, 117, 0.5);
+  padding-bottom: 15px;
+}
+.container__Newsletter-form-icon-and-input-btn-flex {
+  display: flex;
+  gap: 0.5rem;
+}
+.container__Newsletter-form-input {
+  @include input;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c7275;
+  width: 64%;
+}
+.container__Newsletter-form-btn {
+  position: absolute;
+  right: 2rem;
+  @include button;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c7275;
 }
 /* 375px = 23.438em */
 @media (min-width: 23.43em) {
