@@ -21,10 +21,17 @@
           />
         </form>
         <div class="burger-menu__titles-btns">
-          <button class="burger-menu__title-btn">Home</button>
-          <button class="burger-menu__title-btn">Shop</button>
-          <button class="burger-menu__title-btn">Blog</button>
+          <button @click="goToHomePage" class="burger-menu__title-btn">
+            Home
+          </button>
+          <button @click="goToShopPage" class="burger-menu__title-btn">
+            Shop
+          </button>
+          <button @click="goToBlogPage" class="burger-menu__title-btn">
+            Blog
+          </button>
           <button
+            @click="goToContactUsPage"
             class="burger-menu__title-btn"
             style="border-bottom: 2px solid transparent"
           >
@@ -72,8 +79,10 @@
 
 <script>
 import $ from "jquery";
+import routesMixin from "@/mixins/routes.js";
 export default {
   name: "BurgerMenu",
+  mixins: [routesMixin],
   mounted() {
     $(function () {
       $(".header__burger-btn").click(function () {

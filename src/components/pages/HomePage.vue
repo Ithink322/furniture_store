@@ -48,16 +48,17 @@
     </div>
     <div class="container__title-and-subtitle-flex">
       <h1 class="container__title">
-        Simply Unique<span class="container__title-span">/</span> Simply
-        Better<span class="container__title-span">.</span>
+        Simply Unique<span class="container__title-span">/</span
+        ><br class="container__title-br-from1920px" />
+        Simply Better<span class="container__title-span">.</span>
       </h1>
       <h2 class="container__subtitle">
         <span class="container__subtitle-span">3legant</span> is a gift &
         decorations store based in HCMC, Vietnam. Est since 2019.
       </h2>
     </div>
-    <section class="container__sections-flex">
-      <div class="container__section-card">
+    <section class="container__sections-grid-area">
+      <div class="container__section-card container__section-card--big">
         <span class="container__section-card-title">Living Room</span>
         <button class="container__section-card-shop-now-btn">
           Shop Now
@@ -69,31 +70,29 @@
           alt=""
         />
       </div>
-      <div class="container__section-cards-subflex">
-        <div class="container__section-card">
-          <span class="container__section-card-title">Bedroom</span>
-          <button class="container__section-card-shop-now-btn">
-            Shop Now
-            <img src="imgs/arrow-right-black.svg" alt="" />
-          </button>
-          <img
-            class="container__section-card-hero"
-            src="imgs/section-card-2.svg"
-            alt=""
-          />
-        </div>
-        <div class="container__section-card">
-          <span class="container__section-card-title">Kitchen</span>
-          <button class="container__section-card-shop-now-btn">
-            Shop Now
-            <img src="imgs/arrow-right-black.svg" alt="" />
-          </button>
-          <img
-            class="container__section-card-hero"
-            src="imgs/section-card-3.svg"
-            alt=""
-          />
-        </div>
+      <div class="container__section-card container__section-card--small-1">
+        <span class="container__section-card-title">Bedroom</span>
+        <button class="container__section-card-shop-now-btn">
+          Shop Now
+          <img src="imgs/arrow-right-black.svg" alt="" />
+        </button>
+        <img
+          class="container__section-card-hero"
+          src="imgs/section-card-2.svg"
+          alt=""
+        />
+      </div>
+      <div class="container__section-card container__section-card--small-2">
+        <span class="container__section-card-title">Kitchen</span>
+        <button class="container__section-card-shop-now-btn">
+          Shop Now
+          <img src="imgs/arrow-right-black.svg" alt="" />
+        </button>
+        <img
+          class="container__section-card-hero"
+          src="imgs/section-card-3.svg"
+          alt=""
+        />
       </div>
     </section>
     <section class="container__new-arrivals">
@@ -112,8 +111,11 @@
           <div class="container__new-arrivals-card-sale-div">
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+          <button
+            @click="toggleIconWishList"
+            class="container__new-arrivals-card-wishlist-btn"
+          >
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-1.svg"
@@ -154,7 +156,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-2.svg"
@@ -193,7 +195,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-3.svg"
@@ -234,7 +236,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-4.svg"
@@ -275,7 +277,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-1.svg"
@@ -314,7 +316,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-2.svg"
@@ -355,7 +357,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-3.svg"
@@ -396,7 +398,7 @@
             <span class="container__new-arrivals-card-sale-text">-50%</span>
           </div>
           <button class="container__new-arrivals-card-wishlist-btn">
-            <img src="imgs/Whishlist-icon.svg" alt="" />
+            <img :src="currentIcon" alt="" />
           </button>
           <img
             src="imgs/new-arrivals-card-hero-4.svg"
@@ -566,37 +568,22 @@
         </div>
       </div>
     </section>
-    <section class="container__Newsletter">
-      <div class="container__Newsletter-titles-form-flex">
-        <div class="container__Newsletter-titles-flex">
-          <span class="container__Newsletter-title">Join Our Newsletter</span>
-          <span class="container__Newsletter-subtitle">
-            Sign up for deals, new products and promotions
-          </span>
-        </div>
-        <form class="container__Newsletter-form">
-          <div class="container__Newsletter-form-icon-and-input-btn-flex">
-            <img
-              class="container__Newsletter-form-icon"
-              src="imgs/email-icon.svg"
-              alt=""
-            />
-            <input
-              class="container__Newsletter-form-input"
-              type="text"
-              placeholder="Email address"
-            />
-            <button class="container__Newsletter-form-btn">Signup</button>
-          </div>
-        </form>
-      </div>
-    </section>
+    <NewsLetter></NewsLetter>
   </div>
 </template>
 
 <script>
+import NewsLetter from "../UI/NewsLetter.vue";
 export default {
   name: "HomePage",
+  components: { NewsLetter },
+  data() {
+    return {
+      WhishListIconDisabled: "/imgs/whishlist-icon.svg",
+      WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
+      currentIcon: "/imgs/whishlist-icon.svg",
+    };
+  },
   mounted() {
     let slider = document.querySelector(
         ".container__slider-advertises-overflow"
@@ -752,10 +739,16 @@ export default {
       /* carousel for .container__slider-advertises-flex from 1440px ends */
     }
   },
+  methods: {
+    toggleIconWishList() {
+      if (this.currentIcon === this.favouriteIconDisabled) {
+      }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/App.scss";
 .container {
   padding: 0rem 2rem;
@@ -822,6 +815,9 @@ export default {
   font-weight: 500;
   color: #6c7275;
 }
+.container__title-br-from1920px {
+  display: none;
+}
 .container__subtitle {
   font-family: "Inter", sans-serif;
   font-size: 0.75rem;
@@ -835,9 +831,23 @@ export default {
   font-weight: 600;
   color: #343839;
 }
-.container__sections-flex {
-  display: flex;
-  flex-direction: column;
+.container__section-card--big {
+  grid-area: big-card;
+}
+.container__section-card--small-1 {
+  grid-area: small-card-1;
+}
+.container__section-card--small-2 {
+  grid-area: small-card-2;
+}
+.container__sections-grid-area {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, auto);
+  grid-template-areas:
+    "big-card"
+    "small-card-1"
+    "small-card-2";
   gap: 1rem;
   margin-top: 2.5rem;
   margin-bottom: 2rem;
@@ -871,12 +881,14 @@ export default {
 }
 .container__section-card-hero {
   margin-top: 0rem;
+  width: 100%;
 }
 .container__new-arrivals-title-and-more-products-btn-flex {
   display: flex;
   justify-content: space-between;
   align-items: start;
 }
+//
 .container__new-arrivals-title {
   font-family: "Poppins", sans-serif;
   font-size: 2.125rem;
@@ -948,11 +960,11 @@ export default {
   border-radius: 50%;
   box-shadow: 0px 8px 16px -8px rgba(15, 15, 15, 0.12);
   margin-left: 11.5rem;
-  margin-top: -4.6rem;
+  margin-top: -4.2rem;
   z-index: 2;
 }
 .container__new-arrivals-card-hero {
-  margin-top: -2.5rem;
+  margin-top: -2.8rem;
   width: 231px;
   height: 308px;
 }
@@ -1150,62 +1162,6 @@ export default {
   font-size: 0.875rem;
   font-weight: 500;
 }
-.container__Newsletter {
-  position: relative;
-  left: -2rem;
-  width: calc(100% + 4rem);
-  background: #f2f4f6;
-  padding: 5.9375rem 2rem;
-}
-.container__Newsletter-titles-form-flex {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-.container__Newsletter-titles-flex {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 0.5rem;
-}
-.container__Newsletter-title {
-  font-family: "Poppins", sans-serif;
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: $black;
-  white-space: nowrap;
-}
-.container__Newsletter-subtitle {
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: $black;
-}
-.container__Newsletter-form {
-  border-bottom: 1px solid rgba(108, 114, 117, 0.5);
-  padding-bottom: 15px;
-}
-.container__Newsletter-form-icon-and-input-btn-flex {
-  display: flex;
-  gap: 0.5rem;
-}
-.container__Newsletter-form-input {
-  @include input;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #6c7275;
-  width: 64%;
-}
-.container__Newsletter-form-btn {
-  position: absolute;
-  right: 2rem;
-  @include button;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #6c7275;
-}
 /* 375px = 23.438em */
 @media (min-width: 23.43em) {
   .container__title,
@@ -1234,6 +1190,51 @@ export default {
   .indicators-flex-slider {
     margin-top: -2rem;
   }
+  .container__title-and-subtitle-flex {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .container__sections-grid-area {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-template-areas:
+      "big-card small-card-1"
+      "big-card small-card-2";
+    gap: 1.5rem;
+  }
+  .container__new-arrivals-title {
+    font-size: 2.5rem;
+  }
+  .container__new-arrivals-more-products-btn {
+    font-size: 1rem;
+  }
+  .container__new-arrivals-cards-flex {
+    height: 450px;
+  }
+  .container__new-arrivals-card {
+    width: 262px;
+  }
+  .container__new-arrivals-card-hero {
+    width: 262px;
+    height: 349px;
+    object-fit: cover;
+  }
+  .container__new-arrivals-card-wishlist-btn {
+    margin-left: 13.5rem;
+  }
+  .container__new-arrivals-card-add-to-cart-btn {
+    margin-left: 1.91rem;
+  }
+  .container__advantage-cards-flex {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+  .container__sales-hero,
+  .container__sales-desctiption {
+    left: -2.5rem;
+    width: calc(100% + 5rem);
+  }
 }
 /* 1024px = 64em */
 @media (min-width: 64em) {
@@ -1242,6 +1243,46 @@ export default {
   }
   .container__slider-advertise-slide-from1024px {
     display: block;
+  }
+  .container__title,
+  .container__title-span {
+    font-size: 4.5rem;
+  }
+  .container__subtitle,
+  .container__subtitle-span {
+    font-size: 1rem;
+  }
+  .container__section-card-title {
+    font-size: 2.125rem;
+  }
+  .container__section-card-shop-now-btn {
+    font-size: 1rem;
+    margin-top: 5.6rem;
+  }
+  .container__advantage-cards-flex {
+    gap: 1.5rem;
+  }
+  .container__advantage-card {
+    padding: 3rem 2rem;
+  }
+  .container__sales {
+    position: relative;
+    display: flex;
+  }
+  .container__sales-hero {
+    margin-right: -5rem;
+  }
+  .container__sales-desctiption {
+    left: 2.5rem;
+    margin-right: 0rem;
+    margin-top: 0rem;
+    padding: 5rem 10rem 2rem 4.5rem;
+  }
+  .container__article-cards-flex {
+    flex-direction: row;
+  }
+  .container__article-card {
+    width: 100%;
   }
 }
 /* 1440px = 90em */
@@ -1264,6 +1305,23 @@ export default {
     margin-top: -19rem;
     right: 11.7rem;
   }
+  .container__sales-hero {
+    margin-right: 0rem;
+    left: -10rem;
+    width: calc(100% + 20rem);
+    height: 532px;
+    object-fit: cover;
+  }
+  .container__sales-desctiption {
+    left: -10rem;
+    width: calc(100% + 20rem);
+    margin-right: -20rem;
+    height: 532px;
+    padding: 5rem 0rem 2rem 4.5rem;
+  }
+  .container__sales-desctiption-titles-and-text-flex {
+    padding-right: 15rem;
+  }
 }
 
 /* 1920px = 120em */
@@ -1283,6 +1341,28 @@ export default {
     position: absolute;
     margin-top: -24rem;
     right: 17.638rem;
+  }
+  .container__title-and-subtitle-flex {
+    justify-content: space-between;
+  }
+  .container__title-br-from1920px {
+    display: block;
+  }
+  .container__subtitle,
+  .container__subtitle-span {
+    font-size: 1.125rem;
+  }
+  .container__sales-hero {
+    left: -15.938rem;
+    width: calc(100% + 31.876rem);
+  }
+  .container__sales-desctiption {
+    left: -15.938rem;
+    width: calc(100% + 31.876rem);
+    margin-right: -31.876rem;
+  }
+  .container__sales-desctiption-titles-and-text-flex {
+    padding-right: 35rem;
   }
 }
 </style>

@@ -7,10 +7,12 @@
         <span class="footer__title">Gift & Decoration Store</span>
       </div>
       <div class="footer__titles-btns-flex">
-        <button class="footer__title-btn">Home</button>
-        <button class="footer__title-btn">Shop</button>
-        <button class="footer__title-btn">Blog</button>
-        <button class="footer__title-btn">Contact Us</button>
+        <button @click="goToHomePage" class="footer__title-btn">Home</button>
+        <button @click="goToShopPage" class="footer__title-btn">Shop</button>
+        <button @click="goToBlogPage" class="footer__title-btn">Blog</button>
+        <button @click="goToContactUsPage" class="footer__title-btn">
+          Contact Us
+        </button>
       </div>
     </div>
     <div
@@ -46,8 +48,10 @@
 </template>
 
 <script>
+import routesMixin from "@/mixins/routes.js";
 export default {
   name: "MyFooter",
+  mixins: [routesMixin],
 };
 </script>
 

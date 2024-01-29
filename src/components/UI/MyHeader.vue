@@ -9,10 +9,28 @@
       </div>
       <nav>
         <div class="header__section-titles-flex-from1440px">
-          <button class="header__section-titles-btn-from1440px">Home</button>
-          <button class="header__section-titles-btn-from1440px">Shop</button>
-          <button class="header__section-titles-btn-from1440px">Blog</button>
-          <button class="header__section-titles-btn-from1440px">
+          <button
+            @click="goToHomePage"
+            class="header__section-titles-btn-from1440px"
+          >
+            Home
+          </button>
+          <button
+            @click="goToShopPage"
+            class="header__section-titles-btn-from1440px"
+          >
+            Shop
+          </button>
+          <button
+            @click="goToBlogPage"
+            class="header__section-titles-btn-from1440px"
+          >
+            Blog
+          </button>
+          <button
+            @click="goToContactUsPage"
+            class="header__section-titles-btn-from1440px"
+          >
             Contact Us
           </button>
         </div>
@@ -50,8 +68,10 @@
 </template>
 
 <script>
+import routesMixin from "@/mixins/routes.js";
 export default {
   name: "MyHeader",
+  mixins: [routesMixin],
 };
 </script>
 
