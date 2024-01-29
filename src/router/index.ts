@@ -3,6 +3,7 @@ import HomePage from "../components/pages/HomePage.vue";
 import BlogPage from "../components/pages/BlogPage.vue";
 import ContactUsPage from "../components/pages/ContactUsPage.vue";
 import ShopPage from "../components/pages/ShopPage.vue";
+import CurrentBlogPage from "../components/pages/CurrentBlogPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +21,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/ShopPage",
     component: ShopPage,
+  },
+  {
+    path: "/CurrentBlogPage",
+    component: CurrentBlogPage,
   },
 ];
 

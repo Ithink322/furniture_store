@@ -1,5 +1,1068 @@
-<template></template>
+<template>
+  <main class="container">
+    <div class="container__hero-div">
+      <img src="imgs/blog-hero.svg" alt="" class="container__hero" />
+      <img
+        src="imgs/blog-hero-from1440px.svg"
+        alt=""
+        class="container__hero-from1440px"
+      />
+      <h1 class="container__title">Our Blog</h1>
+      <span class="container__text"
+        >Home ideas and design<br class="container__text-br" />
+        inspiration</span
+      >
+    </div>
+    <nav
+      class="container__dropdown-and-sort-by-date-btn-and-container__grid-cols-btns-flex"
+    >
+      <div class="dropdown">
+        <button class="dropdown__button">
+          <span class="dropdown__button-text">All authors</span>
+          <img
+            class="dropdown__button-arrow"
+            src="imgs/dropdown-arrow.svg"
+            alt=""
+          />
+        </button>
+        <ul class="dropdown__list">
+          <li
+            class="dropdown__list-item"
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            @click="filterBlogs(option.value)"
+          >
+            {{ option.value }}
+          </li>
+        </ul>
+      </div>
+      <div class="container__sort-by-date-btn-and-grid-cols-btns-flex">
+        <button @click="sortBlogsByDate" class="container__sort-by-date-btn">
+          Sort by date
+          <img
+            class="container__sort-by-date-btn-icon"
+            src="imgs/sort-arrow.svg"
+            alt=""
+          />
+        </button>
+        <div class="container__grid-cols-btns-flex">
+          <button
+            class="container__grid-3-cols-btn container__grid-cols-btn"
+            style="background: #e8ecef"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M1.5 3C1.5 2.60218 1.65804 2.22064 1.93934 1.93934C2.22064 1.65804 2.60218 1.5 3 1.5H6C6.39782 1.5 6.77936 1.65804 7.06066 1.93934C7.34196 2.22064 7.5 2.60218 7.5 3V6C7.5 6.39782 7.34196 6.77936 7.06066 7.06066C6.77936 7.34196 6.39782 7.5 6 7.5H3C2.60218 7.5 2.22064 7.34196 1.93934 7.06066C1.65804 6.77936 1.5 6.39782 1.5 6V3ZM9 3C9 2.60218 9.15804 2.22064 9.43934 1.93934C9.72064 1.65804 10.1022 1.5 10.5 1.5H13.5C13.8978 1.5 14.2794 1.65804 14.5607 1.93934C14.842 2.22064 15 2.60218 15 3V6C15 6.39782 14.842 6.77936 14.5607 7.06066C14.2794 7.34196 13.8978 7.5 13.5 7.5H10.5C10.1022 7.5 9.72064 7.34196 9.43934 7.06066C9.15804 6.77936 9 6.39782 9 6V3ZM16.5 3C16.5 2.60218 16.658 2.22064 16.9393 1.93934C17.2206 1.65804 17.6022 1.5 18 1.5H21C21.3978 1.5 21.7794 1.65804 22.0607 1.93934C22.342 2.22064 22.5 2.60218 22.5 3V6C22.5 6.39782 22.342 6.77936 22.0607 7.06066C21.7794 7.34196 21.3978 7.5 21 7.5H18C17.6022 7.5 17.2206 7.34196 16.9393 7.06066C16.658 6.77936 16.5 6.39782 16.5 6V3ZM1.5 10.5C1.5 10.1022 1.65804 9.72064 1.93934 9.43934C2.22064 9.15804 2.60218 9 3 9H6C6.39782 9 6.77936 9.15804 7.06066 9.43934C7.34196 9.72064 7.5 10.1022 7.5 10.5V13.5C7.5 13.8978 7.34196 14.2794 7.06066 14.5607C6.77936 14.842 6.39782 15 6 15H3C2.60218 15 2.22064 14.842 1.93934 14.5607C1.65804 14.2794 1.5 13.8978 1.5 13.5V10.5ZM9 10.5C9 10.1022 9.15804 9.72064 9.43934 9.43934C9.72064 9.15804 10.1022 9 10.5 9H13.5C13.8978 9 14.2794 9.15804 14.5607 9.43934C14.842 9.72064 15 10.1022 15 10.5V13.5C15 13.8978 14.842 14.2794 14.5607 14.5607C14.2794 14.842 13.8978 15 13.5 15H10.5C10.1022 15 9.72064 14.842 9.43934 14.5607C9.15804 14.2794 9 13.8978 9 13.5V10.5ZM16.5 10.5C16.5 10.1022 16.658 9.72064 16.9393 9.43934C17.2206 9.15804 17.6022 9 18 9H21C21.3978 9 21.7794 9.15804 22.0607 9.43934C22.342 9.72064 22.5 10.1022 22.5 10.5V13.5C22.5 13.8978 22.342 14.2794 22.0607 14.5607C21.7794 14.842 21.3978 15 21 15H18C17.6022 15 17.2206 14.842 16.9393 14.5607C16.658 14.2794 16.5 13.8978 16.5 13.5V10.5ZM1.5 18C1.5 17.6022 1.65804 17.2206 1.93934 16.9393C2.22064 16.658 2.60218 16.5 3 16.5H6C6.39782 16.5 6.77936 16.658 7.06066 16.9393C7.34196 17.2206 7.5 17.6022 7.5 18V21C7.5 21.3978 7.34196 21.7794 7.06066 22.0607C6.77936 22.342 6.39782 22.5 6 22.5H3C2.60218 22.5 2.22064 22.342 1.93934 22.0607C1.65804 21.7794 1.5 21.3978 1.5 21V18ZM9 18C9 17.6022 9.15804 17.2206 9.43934 16.9393C9.72064 16.658 10.1022 16.5 10.5 16.5H13.5C13.8978 16.5 14.2794 16.658 14.5607 16.9393C14.842 17.2206 15 17.6022 15 18V21C15 21.3978 14.842 21.7794 14.5607 22.0607C14.2794 22.342 13.8978 22.5 13.5 22.5H10.5C10.1022 22.5 9.72064 22.342 9.43934 22.0607C9.15804 21.7794 9 21.3978 9 21V18ZM16.5 18C16.5 17.6022 16.658 17.2206 16.9393 16.9393C17.2206 16.658 17.6022 16.5 18 16.5H21C21.3978 16.5 21.7794 16.658 22.0607 16.9393C22.342 17.2206 22.5 17.6022 22.5 18V21C22.5 21.3978 22.342 21.7794 22.0607 22.0607C21.7794 22.342 21.3978 22.5 21 22.5H18C17.6022 22.5 17.2206 22.342 16.9393 22.0607C16.658 21.7794 16.5 21.3978 16.5 21V18Z"
+                id="icon"
+                fill="#141718"
+              />
+            </svg>
+          </button>
+          <button class="container__grid-2-cols-btn container__grid-cols-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
+              fill="none"
+            >
+              <path
+                d="M8.75 13.5C9.34674 13.5 9.91903 13.7371 10.341 14.159C10.7629 14.581 11 15.1533 11 15.75V19.25C11 19.8467 10.7629 20.419 10.341 20.841C9.91903 21.2629 9.34674 21.5 8.75 21.5H5.25C4.65326 21.5 4.08097 21.2629 3.65901 20.841C3.23705 20.419 3 19.8467 3 19.25V15.75C3 15.1533 3.23705 14.581 3.65901 14.159C4.08097 13.7371 4.65326 13.5 5.25 13.5H8.75ZM18.75 13.5C19.3467 13.5 19.919 13.7371 20.341 14.159C20.7629 14.581 21 15.1533 21 15.75V19.25C21 19.8467 20.7629 20.419 20.341 20.841C19.919 21.2629 19.3467 21.5 18.75 21.5H15.25C14.6533 21.5 14.081 21.2629 13.659 20.841C13.2371 20.419 13 19.8467 13 19.25V15.75C13 15.1533 13.2371 14.581 13.659 14.159C14.081 13.7371 14.6533 13.5 15.25 13.5H18.75ZM8.75 3.5C9.34674 3.5 9.91903 3.73705 10.341 4.15901C10.7629 4.58097 11 5.15326 11 5.75V9.25C11 9.84674 10.7629 10.419 10.341 10.841C9.91903 11.2629 9.34674 11.5 8.75 11.5H5.25C4.65326 11.5 4.08097 11.2629 3.65901 10.841C3.23705 10.419 3 9.84674 3 9.25V5.75C3 5.15326 3.23705 4.58097 3.65901 4.15901C4.08097 3.73705 4.65326 3.5 5.25 3.5H8.75ZM18.75 3.5C19.3467 3.5 19.919 3.73705 20.341 4.15901C20.7629 4.58097 21 5.15326 21 5.75V9.25C21 9.84674 20.7629 10.419 20.341 10.841C19.919 11.2629 19.3467 11.5 18.75 11.5H15.25C14.6533 11.5 14.081 11.2629 13.659 10.841C13.2371 10.419 13 9.84674 13 9.25V5.75C13 5.15326 13.2371 4.58097 13.659 4.15901C14.081 3.73705 14.6533 3.5 15.25 3.5H18.75Z"
+                id="icon"
+                fill="#6C7275"
+              />
+            </svg>
+          </button>
+          <button class="container__grid-1-col-btn container__grid-cols-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
+              fill="none"
+            >
+              <path
+                d="M12.9999 15.75C12.9999 15.1533 13.237 14.581 13.659 14.159C14.0809 13.7371 14.6532 13.5 15.2499 13.5L18.7499 13.5C19.3467 13.5 19.919 13.7371 20.3409 14.159C20.7629 14.581 20.9999 15.1533 20.9999 15.75L20.9999 19.25C20.9999 19.8467 20.7629 20.419 20.3409 20.841C19.919 21.2629 19.3467 21.5 18.7499 21.5L15.2499 21.5C14.6532 21.5 14.0809 21.2629 13.659 20.841C13.237 20.419 12.9999 19.8467 12.9999 19.25L12.9999 15.75ZM12.9999 5.75C12.9999 5.15326 13.237 4.58097 13.6589 4.15901C14.0809 3.73705 14.6532 3.5 15.2499 3.5L18.7499 3.5C19.3467 3.5 19.919 3.73705 20.3409 4.15901C20.7629 4.58097 20.9999 5.15326 20.9999 5.75L20.9999 9.25C20.9999 9.84674 20.7629 10.419 20.3409 10.841C19.919 11.2629 19.3467 11.5 18.7499 11.5L15.2499 11.5C14.6532 11.5 14.0809 11.2629 13.6589 10.841C13.237 10.419 12.9999 9.84674 12.9999 9.25L12.9999 5.75ZM2.99994 15.75C2.99994 15.1533 3.23699 14.581 3.65895 14.159C4.08091 13.7371 4.6532 13.5 5.24994 13.5L8.74994 13.5C9.34668 13.5 9.91897 13.7371 10.3409 14.159C10.7629 14.581 10.9999 15.1533 10.9999 15.75L10.9999 19.25C10.9999 19.8467 10.7629 20.419 10.3409 20.841C9.91897 21.2629 9.34668 21.5 8.74994 21.5L5.24994 21.5C4.6532 21.5 4.08091 21.2629 3.65895 20.841C3.23699 20.419 2.99994 19.8467 2.99994 19.25L2.99994 15.75ZM2.99994 5.75C2.99994 5.15326 3.23699 4.58097 3.65895 4.15901C4.08091 3.73705 4.6532 3.5 5.24994 3.5L8.74994 3.5C9.34668 3.5 9.91897 3.73705 10.3409 4.15901C10.7629 4.58097 10.9999 5.15326 10.9999 5.75L10.9999 9.25C10.9999 9.84674 10.7629 10.419 10.3409 10.841C9.91897 11.2629 9.34668 11.5 8.74994 11.5L5.24994 11.5C4.6532 11.5 4.08091 11.2629 3.65895 10.841C3.23699 10.419 2.99994 9.84674 2.99994 9.25L2.99994 5.75Z"
+                id="icon"
+                fill="#6C7275"
+              />
+              <path
+                d="M5.99994 21.5L5.99994 13.502L17.9999 13.502L17.9999 21.5L5.99994 21.5Z"
+                id="icon"
+                fill="#6C7275"
+              />
+              <path
+                d="M5.99994 11.498L5.99994 3.5L17.9999 3.5L17.9999 11.498L5.99994 11.498Z"
+                id="icon"
+                fill="#6C7275"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <blog-list :sortedBlogs="sortedBlogs"></blog-list>
+    <button @click="loadMoreBlogs" class="container__show-more-blogs-btn">
+      Show more
+    </button>
+    <div class="container__show-more-blogs-text-loading" v-show="isBlogLoading">
+      Идёт загрузка...
+    </div>
+    <news-letter></news-letter>
+  </main>
+</template>
 
-<script></script>
+<script>
+import BlogList from "../UI/BlogList.vue";
+import NewsLetter from "../UI/NewsLetter.vue";
+import { mapState, mapActions } from "vuex";
+export default {
+  name: "BlogPage",
+  components: { BlogList, NewsLetter },
+  data() {
+    return {
+      selectedSort: "",
+      options: [
+        { value: "All authors" },
+        { value: "Michael Jordan" },
+        { value: "Markus Persson" },
+        { value: "Jay Pritchett" },
+        { value: "Philipp Dunphy" },
+        { value: "Gloria Pritchett" },
+      ],
+      sortedBlogs: [
+        {
+          id: 1,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 2,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 3,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 4,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 5,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 6,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 7,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 8,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 9,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+      ],
+      blogs: [
+        {
+          id: 10,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 11,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 12,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 13,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 14,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 15,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 16,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 17,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 18,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 19,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 20,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 21,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 22,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 23,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 24,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 25,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 26,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 27,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 28,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 29,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 30,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 31,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 32,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 33,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 34,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 35,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 36,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 37,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 38,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 39,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 40,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 41,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 42,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 43,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 44,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 45,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 46,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 47,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 48,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 49,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 50,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 51,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 52,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 53,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 54,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 55,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 56,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 57,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 58,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 59,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 60,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 61,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 62,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 63,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 64,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 65,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 66,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 67,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 68,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 69,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 70,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 71,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 72,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 73,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 74,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 75,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 76,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 77,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 78,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 79,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 80,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 81,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+        {
+          id: 82,
+          author: "Michael Jordan",
+          title: "7 ways to decor your home like a professional",
+          date: "October 16, 2023",
+          hero: "imgs/blog-card-hero-1.svg",
+        },
+        {
+          id: 83,
+          author: "Markus Persson",
+          title: "Inside a beautiful kitchen organization",
+          date: "October 21, 2023",
+          hero: "imgs/blog-card-hero-2.svg",
+        },
+        {
+          id: 84,
+          author: "Jay Pritchett",
+          title: "Decor your bedroom for your children",
+          date: "November 01 2022",
+          hero: "imgs/blog-card-hero-3.svg",
+        },
+        {
+          id: 85,
+          author: "Markus Persson",
+          title: "Modern texas home is beautiful and completely kid-friendly",
+          date: "December 29 2022",
+          hero: "imgs/blog-card-hero-4.svg",
+        },
+        {
+          id: 86,
+          author: "Philipp Dunphy",
+          title: "How to make a busy bathroom a place to relax",
+          date: "April 28 2005",
+          hero: "imgs/blog-card-hero-5.svg",
+        },
+        {
+          id: 87,
+          author: "Philipp Dunphy",
+          title: "Ice cream in a bathtub is a new way of life",
+          date: "June 05 2021",
+          hero: "imgs/blog-card-hero-6.svg",
+        },
+        {
+          id: 88,
+          author: "Gloria Pritchett",
+          title: "How to relax using bathroom after a long day at work",
+          date: "January 11 2011",
+          hero: "imgs/blog-card-hero-7.svg",
+        },
+        {
+          id: 89,
+          author: "Gloria Pritchett",
+          title: "Ladies' stuff in the bathroom",
+          date: "August 19 2023",
+          hero: "imgs/blog-card-hero-8.svg",
+        },
+        {
+          id: 90,
+          author: "Markus Persson",
+          title: "Minecraft bathroom",
+          date: "July 22 2023",
+          hero: "imgs/blog-card-hero-9.svg",
+        },
+      ],
+      blogsPerPage: 9,
+      page: 1,
+      isBlogLoading: false,
+      selectedAuthor: "",
+      sortByDate: false,
+    };
+  },
+  mounted() {
+    const dropDownBtn = document.querySelector(".dropdown__button"),
+      dropDownList = document.querySelector(".dropdown__list"),
+      dropDownListItems = document.querySelectorAll(".dropdown__list-item"),
+      dropdownText = document.querySelector(".dropdown__button-text");
+    dropDownBtn.addEventListener("click", function (e) {
+      dropDownList.classList.toggle("dropdown__list--visible");
+      this.classList.add("dropdown__button--active");
+    });
+    dropDownListItems.forEach(function (listItem) {
+      listItem.addEventListener("click", function () {
+        dropdownText.innerText = this.innerText;
+      });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Tab" || e.key === "Escape") {
+        dropDownBtn.classList.remove("dropdown__button--active");
+        dropDownList.classList.remove("dropdown__list--visible");
+      }
+    });
 
-<style></style>
+    const buttons = document.querySelectorAll(".container__grid-cols-btn");
+
+    /* change background color and img color if user clicked on .container__grid-cols-btn starts */
+    buttons.forEach((button) => {
+      const paths = button.querySelectorAll("path");
+      button.addEventListener("click", function () {
+        buttons.forEach((b) => {
+          const otherPaths = b.querySelectorAll("path");
+          if (b !== button) {
+            b.style.backgroundColor = "transparent";
+            otherPaths.forEach((path) => {
+              path.setAttribute("fill", "#6C7275"); // перекрасить остальные изображения в серый
+            });
+          } else {
+            paths.forEach((path) => {
+              path.setAttribute("fill", "#000000"); // перекрасить выбранные изображения в чёрный
+            });
+          }
+        });
+        button.style.background = "#E8ECEF";
+      });
+    });
+    /* change background color and img color if user clicked on .container__grid-cols-btn ends */
+  },
+  computed: {
+    ...mapState(["selectedItem"]),
+    sortedBlogs() {
+      if (!this.selectedAuthor || this.selectedAuthor === "All authors") {
+        return this.sortedBlogs;
+      } else {
+        return this.sortedBlogs.filter(
+          (blog) => blog.author === this.selectedAuthor
+        );
+      }
+    },
+  },
+  methods: {
+    ...mapActions(["setSelectedItem"]),
+    async loadMoreBlogs() {
+      this.isBlogLoading = true;
+      const startIndex = (this.page - 1) * this.blogsPerPage;
+      const endIndex = this.page * this.blogsPerPage;
+      const moreBlogs = await new Promise((resolve) =>
+        setTimeout(() => resolve(this.blogs.slice(startIndex, endIndex)), 1000)
+      );
+      this.page++;
+      this.sortedBlogs = [...this.sortedBlogs, ...moreBlogs];
+      this.isBlogLoading = false;
+    },
+    filterBlogs(author) {
+      this.selectedAuthor = author;
+    },
+    sortBlogsByDate() {
+      this.sortByDate = !this.sortByDate;
+      document
+        .querySelector(".container__sort-by-date-btn-icon")
+        .classList.toggle("container__sort-by-date-btn-icon-rotate");
+      console.log(this.sortByDate);
+      if (this.sortByDate) {
+        return this.sortedBlogs.sort(
+          (a, b) => new Date(a.date) - new Date(b.date)
+        );
+      } else {
+        return this.sortedBlogs.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/assets/App.scss";
+.container {
+  padding: 0 2rem;
+}
+.container__hero {
+  width: 100%;
+}
+.container__hero-from1440px {
+  display: none;
+}
+.container__title {
+  display: block;
+  text-align: center;
+  margin-top: -9.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: #000;
+}
+.container__text {
+  display: block;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #121212;
+  margin-top: -1.5rem;
+}
+.dropdown__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #6c7275;
+  border-radius: 0.5rem;
+  height: 48px;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  margin-top: 5rem;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.dropdown__button img {
+  pointer-events: none;
+}
+.dropdown__button:focus,
+.dropdown__button--active {
+  outline: none;
+}
+.dropdown__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid #f3f5f7;
+  box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
+  background: #fff;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  list-style-type: none;
+}
+.dropdown__list {
+  display: none;
+}
+.dropdown__list--visible {
+  display: flex;
+}
+.dropdown__list-item {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6c7275;
+  padding: 0.5rem;
+}
+.dropdown__list-item:hover {
+  border-radius: 0.5rem;
+  background-color: #f3f5f7;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #141718;
+}
+.container__sort-by-date-btn {
+  display: none;
+}
+.container__sort-by-date-btn-icon-rotate {
+  rotate: 180deg;
+}
+.container__grid-cols-btns-flex {
+  display: none;
+}
+.container__show-more-blogs-btn {
+  @include button;
+  border-radius: 5rem;
+  border: 1px solid $black;
+  padding: 0.5rem 2.5rem;
+  margin: 0 auto;
+  margin-bottom: 5rem;
+}
+.container__show-more-blogs-text-loading {
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+}
+/* 768px = 48em */
+@media (min-width: 48em) {
+  .container {
+    padding: 0 2.5rem;
+  }
+  .container__hero {
+    height: 392px;
+    object-fit: cover;
+  }
+  .container__text-br {
+    display: none;
+  }
+  .container__title {
+    font-size: 3.375rem;
+    margin-top: -15rem;
+  }
+  .container__text {
+    font-size: 1.25rem;
+  }
+  .dropdown__button {
+    margin-top: 9.4rem;
+  }
+}
+
+/* 1024px = 64em */
+@media (min-width: 64em) {
+  .container__dropdown-and-sort-by-date-btn-and-container__grid-cols-btns-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  .dropdown {
+    width: 312px;
+  }
+  .container__sort-by-date-btn-and-grid-cols-btns-flex {
+    display: flex;
+    gap: 2rem;
+  }
+  .container__sort-by-date-btn {
+    @include button;
+    gap: 0.25rem;
+    margin-top: 9.4rem;
+    height: 48px;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #121212;
+  }
+  .container__grid-cols-btns-flex {
+    display: flex;
+    margin-top: 9.4rem;
+    height: 48px;
+  }
+  /* .container__grid-3-cols-btn {
+    background: #e8ecef;
+  } */
+  .container__grid-3-cols-btn,
+  .container__grid-2-cols-btn,
+  .container__grid-1-col-btn {
+    @include button;
+    padding: 0.53125rem;
+    border: 1px solid #e8ecef;
+  }
+}
+
+/* 1440px = 90em */
+@media (min-width: 90em) {
+  .container {
+    padding: 0 10rem;
+  }
+  .container__hero {
+    display: none;
+  }
+  .container__hero-from1440px {
+    display: block;
+    width: 100%;
+    height: 392px;
+    object-fit: cover;
+  }
+}
+
+/* 1920px = 120em */
+@media (min-width: 120em) {
+  .container {
+    padding: 0 15.938rem;
+  }
+}
+</style>

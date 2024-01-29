@@ -1,14 +1,8 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import CurrentBlog from "./CurrentBlog";
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
-})
+    CurrentBlog,
+  },
+});
