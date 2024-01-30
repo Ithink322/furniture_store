@@ -1,10 +1,12 @@
 <template>
   <div class="container__blog-list-grid container__blog-list">
-    <blog-item
-      v-for="item in sortedBlogs"
-      :item="item"
-      :key="item.id"
-    ></blog-item>
+    <transition-group name="item-list">
+      <blog-item
+        v-for="item in sortedBlogs"
+        :item="item"
+        :key="item.id"
+      ></blog-item>
+    </transition-group>
   </div>
 </template>
 
@@ -44,6 +46,22 @@ export default {
 </script>
 
 <style lang="scss">
+.item-list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.item-list-enter-active,
+.item-list-leave-active {
+  transition: all 0.6s ease;
+}
+.item-list-enter-from,
+.item-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.item-list-move {
+  transition: transform 0.6s ease;
+}
 .container__blog-list-grid {
   display: grid;
   grid-template-columns: repeat(1, auto);
@@ -99,6 +117,9 @@ export default {
 
 /* 1920px = 120em */
 @media (min-width: 120em) {
+  .container__blog-list-grid {
+    grid-template-columns: repeat(3, 32.15%);
+  }
   .container__blog-list-grid-2-cols {
     grid-template-columns: repeat(2, 49.1%);
   }

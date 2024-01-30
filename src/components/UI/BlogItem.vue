@@ -34,6 +34,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  cursor: pointer;
 }
 .container__blog-item-card-hero {
   width: 100%;

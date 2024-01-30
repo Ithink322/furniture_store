@@ -23,7 +23,7 @@
             Our customer service is always prepared to support you 24/7</span
           >
         </div>
-        <button class="container__about-us-div-btn">
+        <button @click="goToShopPage" class="container__about-us-div-btn">
           Shop Now <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
       </div>
@@ -151,7 +151,17 @@
   </main>
 </template>
 
-<script></script>
+<script>
+export default {
+  name: "ContactUsPage",
+  methods: {
+    goToShopPage() {
+      this.$router.push("/ShopPage");
+      window.scrollTo(0, 0);
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import "@/assets/App.scss";

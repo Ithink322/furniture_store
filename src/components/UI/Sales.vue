@@ -6,7 +6,7 @@
         <span class="sales__sales-text"
           >30% off storewide — Limited time!
         </span>
-        <button class="sales__shop-now-btn-from1024px">
+        <button @click="goToShopPage" class="sales__shop-now-btn-from1024px">
           Shop Now
           <img src="imgs/blue-arrow.svg" alt="" />
         </button>
@@ -30,6 +30,10 @@ export default {
     hideSales() {
       this.salesIsVisible = false;
       sessionStorage.setItem("salesIsVisible", this.salesIsVisible);
+    },
+    goToShopPage() {
+      this.$router.push("/ShopPage");
+      window.scrollTo(0, 0);
     },
   },
   mounted() {

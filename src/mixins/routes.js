@@ -20,5 +20,10 @@ export default {
       document.querySelector(".burger-menu__shadow").style.display = "none";
       window.scrollTo(0, 0);
     },
+    goToLoginOrRegistrationPage() {
+      this.$router.push("/LoginOrRegistrationPage");
+      document.querySelector(".burger-menu__shadow").style.display = "none";
+      window.scrollTo(0, 0);
+    },
   },
 };

@@ -1,5 +1,15 @@
-<template></template>
+<template>
+  <div class="container">
+    <news-letter></news-letter>
+  </div>
+</template>
 
-<script></script>
+<script>
+import NewsLetter from "../UI/NewsLetter.vue";
+export default {
+  name: "ShopPage",
+  components: { NewsLetter },
+};
+</script>
 
-<style></style>
+<style lang="scss" scoped></style>

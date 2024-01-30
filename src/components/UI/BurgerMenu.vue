@@ -66,7 +66,12 @@
             </div>
           </button>
         </div>
-        <button class="burger-menu__sign-in-btn">Sign in</button>
+        <button
+          @click="goToLoginOrRegistrationPage"
+          class="burger-menu__sign-in-btn"
+        >
+          Sign in
+        </button>
         <div class="burger-menu__social-media-flex">
           <img src="imgs/instagram-white-icon.svg" alt="" />
           <img src="imgs/facebook-white-icon.svg" alt="" />

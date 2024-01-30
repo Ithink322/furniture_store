@@ -40,7 +40,10 @@
           <button class="header__search-icon-btn-1440px">
             <img src="imgs/search-icon.svg" alt="" />
           </button>
-          <button class="header__users-profile-btn-1440px">
+          <button
+            @click="goToLoginOrRegistrationPage"
+            class="header__users-profile-btn-1440px"
+          >
             <img src="imgs/users-profile-icon.svg" alt="" />
           </button>
         </div>

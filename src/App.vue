@@ -1,12 +1,12 @@
 <template>
   <div class="app">
-    <sales></sales>
-    <my-header></my-header>
-    <burger-menu></burger-menu>
+    <sales v-if="!hideComponents"></sales>
+    <my-header v-if="!hideComponents"></my-header>
+    <burger-menu v-if="!hideComponents"></burger-menu>
     <main>
       <router-view></router-view>
     </main>
-    <my-footer></my-footer>
+    <my-footer v-if="!hideComponents"></my-footer>
   </div>
 </template>
 
@@ -18,6 +18,11 @@ import MyFooter from "./components/UI/MyFooter.vue";
 export default {
   name: "App",
   components: { Sales, MyHeader, BurgerMenu, MyFooter },
+  computed: {
+    hideComponents() {
+      return this.$route.meta.hideComponents;
+    },
+  },
 };
 </script>
 

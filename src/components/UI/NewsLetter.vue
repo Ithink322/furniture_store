@@ -79,6 +79,7 @@ export default {
 }
 .container__Newsletter-form-input {
   @include input;
+  outline: none;
   font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 500;

@@ -60,7 +60,10 @@
     <section class="container__sections-grid-area">
       <div class="container__section-card container__section-card--big">
         <span class="container__section-card-title">Living Room</span>
-        <button class="container__section-card-shop-now-btn">
+        <button
+          @click="goToShopPage"
+          class="container__section-card-shop-now-btn"
+        >
           Shop Now
           <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
@@ -72,7 +75,10 @@
       </div>
       <div class="container__section-card container__section-card--small-1">
         <span class="container__section-card-title">Bedroom</span>
-        <button class="container__section-card-shop-now-btn">
+        <button
+          @click="goToShopPage"
+          class="container__section-card-shop-now-btn"
+        >
           Shop Now
           <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
@@ -84,7 +90,10 @@
       </div>
       <div class="container__section-card container__section-card--small-2">
         <span class="container__section-card-title">Kitchen</span>
-        <button class="container__section-card-shop-now-btn">
+        <button
+          @click="goToShopPage"
+          class="container__section-card-shop-now-btn"
+        >
           Shop Now
           <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
@@ -98,7 +107,10 @@
     <section class="container__new-arrivals">
       <div class="container__new-arrivals-title-and-more-products-btn-flex">
         <h2 class="container__new-arrivals-title">New Arrivals</h2>
-        <button class="container__new-arrivals-more-products-btn">
+        <button
+          @click="goToShopPage"
+          class="container__new-arrivals-more-products-btn"
+        >
           More Products
           <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
@@ -502,7 +514,10 @@
             stylish makeover</span
           >
         </div>
-        <button class="container__sales-desctiption-shop-now-btn">
+        <button
+          @click="goToShopPage"
+          class="container__sales-desctiption-shop-now-btn"
+        >
           Shop Now <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
       </div>
@@ -510,7 +525,10 @@
     <section class="container__articles">
       <div class="container__articles-title-and-more-articles-btn-flex">
         <h2 class="container__articles-title">Articles</h2>
-        <button class="container__articles-more-articles-btn">
+        <button
+          @click="goToBlogPage"
+          class="container__articles-more-articles-btn"
+        >
           More Articles <img src="imgs/arrow-right-black.svg" alt="" />
         </button>
       </div>
@@ -526,7 +544,10 @@
               <span class="container__article-card-title"
                 >7 ways to decor your home</span
               >
-              <button class="container__article-card-btn">
+              <button
+                @click="goToFirstBlogPage"
+                class="container__article-card-btn"
+              >
                 Read More <img src="imgs/arrow-right-black.svg" alt="" />
               </button>
             </div>
@@ -543,7 +564,10 @@
               <span class="container__article-card-title"
                 >Kitchen organization</span
               >
-              <button class="container__article-card-btn">
+              <button
+                @click="goToSecondBlogPage"
+                class="container__article-card-btn"
+              >
                 Read More <img src="imgs/arrow-right-black.svg" alt="" />
               </button>
             </div>
@@ -560,7 +584,10 @@
               <span class="container__article-card-title"
                 >Decor your bedroom</span
               >
-              <button class="container__article-card-btn">
+              <button
+                @click="goToThirdBlogPage"
+                class="container__article-card-btn"
+              >
                 Read More <img src="imgs/arrow-right-black.svg" alt="" />
               </button>
             </div>
@@ -573,6 +600,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import NewsLetter from "../UI/NewsLetter.vue";
 export default {
   name: "HomePage",
@@ -743,6 +771,48 @@ export default {
     toggleIconWishList() {
       if (this.currentIcon === this.favouriteIconDisabled) {
       }
+    },
+    goToShopPage() {
+      this.$router.push("/ShopPage");
+      window.scrollTo(0, 0);
+    },
+    goToBlogPage() {
+      this.$router.push("/BlogPage");
+      window.scrollTo(0, 0);
+    },
+    ...mapActions(["selectItem"]),
+    goToFirstBlogPage() {
+      this.selectItem({
+        id: 1,
+        author: "Michael Jordan",
+        title: "7 ways to decor your home like a professional",
+        date: "October 16, 2023",
+        hero: "imgs/blog-card-hero-1.svg",
+      });
+      this.$router.push("/CurrentBlogPage");
+      window.scrollTo(0, 0);
+    },
+    goToSecondBlogPage() {
+      this.selectItem({
+        id: 2,
+        author: "Markus Persson",
+        title: "Inside a beautiful kitchen organization",
+        date: "October 21, 2023",
+        hero: "imgs/blog-card-hero-2.svg",
+      });
+      this.$router.push("/CurrentBlogPage");
+      window.scrollTo(0, 0);
+    },
+    goToThirdBlogPage() {
+      this.selectItem({
+        id: 3,
+        author: "Jay Pritchett",
+        title: "Decor your bedroom for your children",
+        date: "November 01, 2022",
+        hero: "imgs/blog-card-hero-3.svg",
+      });
+      this.$router.push("/CurrentBlogPage");
+      window.scrollTo(0, 0);
     },
   },
 };
