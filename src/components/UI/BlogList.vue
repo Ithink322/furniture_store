@@ -65,7 +65,6 @@ export default {
 .container__blog-list-grid {
   display: grid;
   grid-template-columns: repeat(1, auto);
-  grid-template-rows: repeat(auto-fill, auto);
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 2.5rem;
@@ -88,7 +87,6 @@ export default {
   .container__blog-list-grid-2-cols {
     display: grid;
     grid-template-columns: repeat(2, 48.65%);
-    grid-template-rows: repeat(auto-fill, auto);
     column-gap: 1.56rem;
     row-gap: 2.5rem;
     margin-top: 2rem;
@@ -97,7 +95,6 @@ export default {
   .container__blog-list-grid-1-col {
     display: grid;
     grid-template-columns: repeat(1, auto);
-    grid-template-rows: repeat(auto-fill, auto);
     column-gap: 1.56rem;
     row-gap: 2.5rem;
     margin-top: 2rem;

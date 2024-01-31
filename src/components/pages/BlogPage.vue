@@ -109,7 +109,7 @@
       </div>
     </nav>
     <blog-list :sortedBlogs="sortedBlogs"></blog-list>
-    <button @click="loadMoreBlogs" class="container__show-more-blogs-btn">
+    <button @click="loadMoreBlogs" class="container__show-more-btn">
       Show more
     </button>
     <div class="container__show-more-blogs-text-loading" v-show="isBlogLoading">
@@ -120,6 +120,8 @@
 </template>
 
 <script>
+import dropDownScript from "@/mixins/dropDownScript.js";
+import columnsBtns from "@/mixins/columnsBtns.js";
 import BlogList from "../UI/BlogList.vue";
 import NewsLetter from "../UI/NewsLetter.vue";
 import { mapState, mapActions } from "vuex";
@@ -777,51 +779,7 @@ export default {
       sortByDate: false,
     };
   },
-  mounted() {
-    const dropDownBtn = document.querySelector(".dropdown__button"),
-      dropDownList = document.querySelector(".dropdown__list"),
-      dropDownListItems = document.querySelectorAll(".dropdown__list-item"),
-      dropdownText = document.querySelector(".dropdown__button-text");
-    dropDownBtn.addEventListener("click", function (e) {
-      dropDownList.classList.toggle("dropdown__list--visible");
-      this.classList.add("dropdown__button--active");
-    });
-    dropDownListItems.forEach(function (listItem) {
-      listItem.addEventListener("click", function () {
-        dropdownText.innerText = this.innerText;
-      });
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Tab" || e.key === "Escape") {
-        dropDownBtn.classList.remove("dropdown__button--active");
-        dropDownList.classList.remove("dropdown__list--visible");
-      }
-    });
-
-    const buttons = document.querySelectorAll(".container__grid-cols-btn");
-
-    /* change background color and img color if user clicked on .container__grid-cols-btn starts */
-    buttons.forEach((button) => {
-      const paths = button.querySelectorAll("path");
-      button.addEventListener("click", function () {
-        buttons.forEach((b) => {
-          const otherPaths = b.querySelectorAll("path");
-          if (b !== button) {
-            b.style.backgroundColor = "transparent";
-            otherPaths.forEach((path) => {
-              path.setAttribute("fill", "#6C7275"); // перекрасить остальные изображения в серый
-            });
-          } else {
-            paths.forEach((path) => {
-              path.setAttribute("fill", "#000000"); // перекрасить выбранные изображения в чёрный
-            });
-          }
-        });
-        button.style.background = "#E8ECEF";
-      });
-    });
-    /* change background color and img color if user clicked on .container__grid-cols-btn ends */
-  },
+  mixins: [dropDownScript, columnsBtns],
   computed: {
     ...mapState(["selectedItem"]),
     sortedBlogs() {
@@ -974,7 +932,7 @@ export default {
 .container__grid-cols-btns-flex {
   display: none;
 }
-.container__show-more-blogs-btn {
+.container__show-more-btn {
   @include button;
   border-radius: 5rem;
   border: 1px solid $black;
@@ -1038,9 +996,6 @@ export default {
     margin-top: 9.4rem;
     height: 48px;
   }
-  /* .container__grid-3-cols-btn {
-    background: #e8ecef;
-  } */
   .container__grid-3-cols-btn,
   .container__grid-2-cols-btn,
   .container__grid-1-col-btn {
