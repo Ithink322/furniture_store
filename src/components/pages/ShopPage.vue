@@ -40,8 +40,9 @@
           </ul>
         </div>
       </div>
+      <div class="container__selected-category">{{ selectedCategory }}</div>
       <div class="container__sort-by-price-btn-and-grid-cols-btns-flex">
-        <button class="container__sort-by-price-btn">
+        <button @click="sortByPriceMinMax" class="container__sort-by-price-btn">
           Sort by price
           <img
             class="container__sort-by-price-icon"
@@ -119,7 +120,15 @@
         </div>
       </div>
     </nav>
+    <prices-slider ref="pricesSlider"></prices-slider>
+    <button @click="applyFilters" class="container__apply-filters-btn">
+      Применить
+    </button>
     <shop-list :sortedItems="sortedItems"></shop-list>
+    <div
+      v-if="this.sortedItems.length === 0"
+      class="container__show-this-div-if-sorted-items-is-empty"
+    ></div>
     <button @click="loadMoreProducts" class="container__show-more-btn">
       Show more
     </button>
@@ -133,11 +142,12 @@
 <script>
 import dropDownScript from "@/mixins/dropDownScript.js";
 import columnsBtns from "@/mixins/columnsBtns.js";
+import PricesSlider from "../UI/PricesSlider.vue";
 import ShopList from "../UI/ShopList.vue";
 import NewsLetter from "../UI/NewsLetter.vue";
 export default {
   name: "ShopPage",
-  components: { NewsLetter, ShopList },
+  components: { PricesSlider, ShopList, NewsLetter },
   data() {
     return {
       btn3cols: "btn3cols",
@@ -152,7 +162,7 @@ export default {
         { value: "Outdoor" },
         { value: "Kitchen" },
       ],
-      selectedCategory: "",
+      selectedCategory: "All rooms",
       sortedItems: [
         {
           id: 1,
@@ -163,6 +173,8 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 2,
@@ -1360,6 +1372,8 @@ export default {
       isProductLoading: false,
       productsPerPage: 12,
       page: 1,
+      sortState: false,
+      originalItemsPriceSort: [],
     };
   },
   mixins: [dropDownScript, columnsBtns],
@@ -1390,52 +1404,194 @@ export default {
       this.page++;
       this.sortedItems = [...this.sortedItems, ...moreProducts];
       this.isProductLoading = false;
+      this.originalItemsPriceSort = [
+        ...this.originalItemsPriceSort,
+        ...moreProducts,
+      ];
       this.changeStylesForShopCard();
     },
     changeStylesForShopCard(button) {
       this.$nextTick(() => {
-        let grid = document.getElementById("list-grid");
-        let description = document.querySelectorAll(
-          ".container-item-card-description"
-        );
-        let textsFlex = document.querySelectorAll(
-          ".container-item-card-new-and-sale-divs-flex"
-        );
+        let grid = document.getElementById("list-grid"),
+          description = document.querySelectorAll(
+            ".container-item-card-description"
+          ),
+          textsFlex = document.querySelectorAll(
+            ".container-item-card-new-and-sale-divs-flex"
+          ),
+          wishListBtn = document.querySelectorAll(
+            ".container-item-card-wishlist-btn"
+          );
         if (button === "btn3cols") {
           grid.classList.remove("container__items-list-grid-2-cols");
           grid.classList.remove("container__items-list-grid-1-col");
           grid.classList.add("container__items-list-grid-3-cols");
           textsFlex.forEach((el) => (el.style.display = "flex"));
+          wishListBtn.forEach((el) =>
+            el.classList.add(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "none"));
         } else if (button === "btn2cols") {
           grid.classList.remove("container__items-list-grid-3-cols");
           grid.classList.remove("container__items-list-grid-1-col");
           grid.classList.add("container__items-list-grid-2-cols");
           textsFlex.forEach((el) => (el.style.display = "none"));
+          wishListBtn.forEach((el) =>
+            el.classList.add(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "none"));
         } else if (button === "btn1col") {
           grid.classList.remove("container__items-list-grid-3-cols");
           grid.classList.remove("container__items-list-grid-2-cols");
           grid.classList.add("container__items-list-grid-1-col");
           textsFlex.forEach((el) => (el.style.display = "flex"));
+          wishListBtn.forEach((el) =>
+            el.classList.remove(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "block"));
         }
         if (grid.classList.contains("container__items-list-grid-1-col")) {
           textsFlex.forEach((el) => (el.style.display = "flex"));
+          wishListBtn.forEach((el) =>
+            el.classList.remove(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "block"));
         } else if (
           grid.classList.contains("container__items-list-grid-2-cols")
         ) {
           textsFlex.forEach((el) => (el.style.display = "none"));
+          wishListBtn.forEach((el) =>
+            el.classList.add(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "none"));
         } else if (
           grid.classList.contains("container__items-list-grid-3-cols")
         ) {
           textsFlex.forEach((el) => (el.style.display = "flex"));
+          wishListBtn.forEach((el) =>
+            el.classList.add(
+              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+            )
+          );
           description.forEach((el) => (el.style.display = "none"));
+        }
+        if (
+          (window.innerWidth >= 768 && button === "btn2cols") ||
+          (window.innerWidth >= 768 &&
+            grid.classList.contains("container__items-list-grid-2-cols"))
+        ) {
+          textsFlex.forEach((el) => (el.style.display = "flex"));
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) =>
+              btn.classList.add(
+                "container-item-card-add-to-cart-btn-styles-from768px"
+              )
+            );
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) => (btn.style.bottom = "6.4rem"));
+        } else if (
+          (window.innerWidth >= 768 && button === "btn3cols") ||
+          (window.innerWidth >= 768 &&
+            grid.classList.contains("container__items-list-grid-3-cols"))
+        ) {
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) =>
+              btn.classList.add(
+                "container-item-card-add-to-cart-btn-styles-from768px"
+              )
+            );
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) => (btn.style.bottom = "6.4rem"));
+        } else if (
+          (window.innerWidth >= 768 && button === "btn1col") ||
+          (window.innerWidth >= 768 &&
+            grid.classList.contains("container__items-list-grid-1-col"))
+        ) {
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) =>
+              btn.classList.add(
+                "container-item-card-add-to-cart-btn-styles-from768px"
+              )
+            );
+          document
+            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .forEach((btn) => (btn.style.bottom = "9.4rem"));
         }
       });
     },
+    sortByPriceMinMax() {
+      this.sortState = !this.sortState;
+      let sortByPriceArrow = document.querySelector(
+        ".container__sort-by-price-icon"
+      );
+      if (this.sortState) {
+        sortByPriceArrow.style.rotate = "180deg";
+        this.sortedItems = [...this.sortedItems].sort(
+          (a, b) =>
+            parseFloat(a.currentPrice.replace("$", "")) -
+            parseFloat(b.currentPrice.replace("$", ""))
+        );
+      } else {
+        sortByPriceArrow.style.rotate = "0deg";
+        this.sortedItems = [...this.sortedItems].sort(
+          (a, b) =>
+            parseFloat(b.currentPrice.replace("$", "")) -
+            parseFloat(a.currentPrice.replace("$", ""))
+        );
+      }
+    },
+    applyFilters() {
+      /* filter prices in priceSlider starts */
+      const pricesSlider = this.$refs.pricesSlider,
+        minPrice = parseInt(pricesSlider.$refs.minPrice.value),
+        maxPrice = parseInt(pricesSlider.$refs.maxPrice.value);
+      this.sortedItems = this.originalItemsPriceSort.filter((item) => {
+        const itemPrice = parseFloat(item.currentPrice.replace("$", ""));
+        return itemPrice >= minPrice && itemPrice <= maxPrice;
+      });
+      console.log("this.sortedItems.length:", this.sortedItems.length);
+      /* filter prices in priceSlider ends */
+    },
+  },
+  created() {
+    this.originalItemsPriceSort = [...this.sortedItems];
+  },
+  mounted() {
+    if (window.innerWidth >= 768) {
+      let grid = document.getElementById("list-grid");
+      grid.classList.remove("container__items-list-grid-1-col");
+      grid.classList.remove("container__items-list-grid-2-cols");
+      grid.classList.add("container__items-list-grid-3-cols");
+      document.querySelector(".container__grid-1-col-btn").style.background =
+        "transparent";
+      document
+        .querySelectorAll(".container__grid-1-col-btn path")
+        .forEach((path) => {
+          path.setAttribute("fill", "#6C7275");
+        });
+      document
+        .querySelectorAll(".container-item-card-add-to-cart-btn")
+        .forEach((btn) =>
+          btn.classList.add(
+            "container-item-card-add-to-cart-btn-styles-from768px"
+          )
+        );
+    }
   },
 };
 </script>
@@ -1467,7 +1623,6 @@ export default {
   font-size: 1rem;
   font-weight: 400;
   color: #121212;
-  margin-top: 0rem;
 }
 .container__nav {
   margin-bottom: 2rem;
@@ -1541,6 +1696,9 @@ export default {
   font-weight: 600;
   color: #141718;
 }
+.container__selected-category {
+  display: none;
+}
 .container__sort-by-price-btn-and-grid-cols-btns-flex {
   display: flex;
   justify-content: space-between;
@@ -1559,7 +1717,7 @@ export default {
 .container__sort-by-price-btn-and-grid-cols-btns-flex::after {
   content: "";
   position: absolute;
-  margin-top: 3.1rem;
+  margin-top: 3.2rem;
   left: 2.15rem;
   right: 2rem;
   border: 1px solid #f3f5f7;
@@ -1586,6 +1744,18 @@ export default {
 .container__grid-3-cols-btn {
   display: none;
 }
+.container__apply-filters-btn {
+  position: absolute;
+  @include button;
+  border: 2px solid #6c7275;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  margin-top: 15rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #121212;
+}
 .container__show-more-btn {
   @include button;
   border-radius: 5rem;
@@ -1597,5 +1767,107 @@ export default {
 .container__show-more-text-loading {
   margin-top: -1rem;
   margin-bottom: 2rem;
+}
+/* 768px = 48em */
+@media (min-width: 48em) {
+  .container {
+    padding: 0rem 2.5rem;
+  }
+  .container__hero-from320px {
+    height: 392px;
+    object-fit: cover;
+  }
+  .container__title {
+    font-size: 3.375rem;
+    margin-top: -16rem;
+  }
+  .container__text {
+    font-size: 1.25rem;
+    margin-top: 0rem;
+  }
+  .container__text-br {
+    display: none;
+  }
+  .container__nav {
+    margin-top: 11.5rem;
+  }
+  .container__sort-by-price-btn-and-grid-cols-btns-flex::before,
+  .container__sort-by-price-btn-and-grid-cols-btns-flex::after {
+    left: 2.65rem;
+    right: 2.5rem;
+  }
+  .container__grid-3-cols-btn {
+    display: block;
+  }
+}
+
+/* 1024px = 64em */
+@media (min-width: 64em) {
+  .container__hero-from320px {
+    display: none;
+  }
+  .container__hero-from1024px {
+    display: block;
+    width: 100%;
+    height: 392px;
+    object-fit: cover;
+  }
+  .container__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+  .container__sort-by-price-btn-and-grid-cols-btns-flex {
+    margin-top: 0rem;
+    gap: 2rem;
+    padding: 0rem;
+  }
+  .container__sort-by-price-btn-and-grid-cols-btns-flex::before,
+  .container__sort-by-price-btn-and-grid-cols-btns-flex::after {
+    display: none;
+  }
+  .dropdown-title-and-dropdown-flex {
+    margin-top: 0rem;
+  }
+  .dropdown {
+    width: 312px;
+  }
+}
+
+/* 1440px = 90em */
+@media (min-width: 90em) {
+  .container {
+    padding: 0rem 10rem;
+  }
+  .container__nav {
+    align-items: center;
+  }
+  .container__selected-category {
+    display: block;
+    font-family: "Inter", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #000;
+  }
+  .dropdown-title-and-dropdown-flex {
+    position: absolute;
+    top: 38.3rem;
+  }
+  .container__prices-slider-styles-from1440px {
+    margin-top: 29rem;
+  }
+  .container__apply-filters-btn-styles-from1440px {
+    margin-top: 36rem;
+  }
+  .container__show-this-div-if-sorted-items-is-empty {
+    height: 400px;
+  }
+}
+
+/* 1920px = 120em */
+@media (min-width: 120em) {
+  .container {
+    padding: 0rem 15.938rem;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container-item-card">
+  <div @click="goToCurrentProductPage" class="container-item-card">
     <div class="container-item-card-new-and-sale-divs-flex">
       <div class="container-item-card-new-div">
         <span class="container-item-card-new-text">NEW</span>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "ShopItem",
   props: {
@@ -52,11 +53,24 @@ export default {
       required: true,
     },
   },
+  methods: {
+    ...mapActions(["selectProduct"]),
+    goToCurrentProductPage() {
+      this.selectProduct(this.item);
+      this.$router.push("/CurrentProductPage");
+      window.scrollTo(0, 0);
+      console.log(localStorage.getItem("CurrentProduct"));
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/App.scss";
+.container-item-card {
+  position: relative;
+  cursor: pointer;
+}
 .container-item-card-new-and-sale-divs-flex {
   position: absolute;
   display: flex;
@@ -119,6 +133,11 @@ export default {
   @include button;
   padding: 0.375rem;
 }
+.container-item-card-styles-for-wishlist-btn-in-2-cols-grid {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.375rem;
+}
 .container-item-card-prices-flex {
   display: flex;
   gap: 0.75rem;
@@ -152,5 +171,14 @@ export default {
   font-size: 0.875rem;
   font-weight: 500;
   color: #fefefe;
+}
+/* 768px = 48em */
+@media (min-width: 48em) {
+  .container-item-card-add-to-cart-btn-styles-from768px {
+    position: absolute;
+    bottom: 6.4rem;
+    left: 1rem;
+    width: calc(100% - 2rem);
+  }
 }
 </style>

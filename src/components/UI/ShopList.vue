@@ -21,49 +21,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    /* let btn3cols = document.querySelector(".container__grid-3-cols-btn"),
-      btn2cols = document.querySelector(".container__grid-2-cols-btn"),
-      btn1col = document.querySelector(".container__grid-1-col-btn"),
-      grid = document.querySelector(".container__items-list-grid-1-col"),
-      description = document.querySelectorAll(
-        ".container-item-card-description"
-      ),
-      textsFlex = document.querySelectorAll(
-        ".container-item-card-new-and-sale-divs-flex"
-      );
-    let isElVisible = true;
-    btn3cols.addEventListener("click", () => {
-      grid.classList.remove("container__items-list-grid-2-cols");
-      grid.classList.remove("container__items-list-grid-1-col");
-      grid.classList.add("container__items-list-grid-3-cols");
-      isElVisible = false;
-      if (!isElVisible) {
-        textsFlex.forEach((el) => (el.style.display = "flex"));
-        description.forEach((el) => (el.style.display = "none"));
-      }
-    });
-    btn2cols.addEventListener("click", () => {
-      grid.classList.remove("container__items-list-grid-3-cols");
-      grid.classList.remove("container__items-list-grid-1-col");
-      grid.classList.add("container__items-list-grid-2-cols");
-      isElVisible = false;
-      if (!isElVisible) {
-        textsFlex.forEach((el) => (el.style.display = "none"));
-        description.forEach((el) => (el.style.display = "none"));
-      }
-    });
-    btn1col.addEventListener("click", () => {
-      grid.classList.remove("container__items-list-grid-3-cols");
-      grid.classList.remove("container__items-list-grid-2-cols");
-      grid.classList.add("container__items-list-grid-1-col");
-      isElVisible = true;
-      if (isElVisible) {
-        textsFlex.forEach((el) => (el.style.display = "flex"));
-        description.forEach((el) => (el.style.display = "block"));
-      }
-    }); */
-  },
 };
 </script>
 
@@ -97,32 +54,51 @@ export default {
   row-gap: 1rem;
   margin: 2.5rem 0rem;
 }
+/* 768px = 48em */
+@media (min-width: 48em) {
+  .container__items-list-grid-2-cols {
+    grid-template-columns: repeat(2, 48.2%);
+    gap: 1.5rem;
+  }
+  .container__items-list-grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 31%);
+    gap: 1.5rem;
+    margin: 2.5rem 0rem;
+  }
+}
 /* 1024px = 64em */
 @media (min-width: 64em) {
+  .container__items-list-grid-2-cols {
+    grid-template-columns: repeat(2, 48.75%);
+  }
   .container__items-list-grid-3-cols {
-    grid-template-columns: repeat(3, 31.5%);
-    column-gap: 1.56rem;
-    row-gap: 2.5rem;
-    margin: 2.5rem 0rem;
+    grid-template-columns: repeat(3, 31.6%);
   }
 }
 /* 1440px = 90em */
 @media (min-width: 90em) {
+  .container__items-list-grid-1-col {
+    grid-template-columns: repeat(1, 100%);
+    margin-left: 21rem;
+  }
   .container__items-list-grid-2-cols {
-    grid-template-columns: repeat(2, 48.9%);
+    grid-template-columns: repeat(2, 48.5%);
+    margin-left: 21rem;
   }
   .container__items-list-grid-3-cols {
-    grid-template-columns: repeat(3, 31.83%);
+    grid-template-columns: repeat(3, 31.3%);
+    margin-left: 21rem;
   }
 }
 
 /* 1920px = 120em */
 @media (min-width: 120em) {
   .container__items-list-grid-2-cols {
-    grid-template-columns: repeat(2, 49.1%);
+    grid-template-columns: repeat(2, 48.9%);
   }
   .container__items-list-grid-3-cols {
-    grid-template-columns: repeat(3, 32.15%);
+    grid-template-columns: repeat(3, 31.85%);
   }
 }
 </style>
