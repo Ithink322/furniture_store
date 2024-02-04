@@ -65,78 +65,82 @@ export default {
 </script>
 
 <style lang="scss">
-/* hide input number arrows for Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* hide input number arrows for Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
 .container-catalog__slider-flex {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  gap: 1.3rem;
-  margin-top: 8rem;
-}
-.container-catalog__slider-range {
-  width: 259px;
-  margin-left: 0rem;
-}
-.container-catalog__slider-range-inputs {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-.container-catalog__slider-range-input {
-  border: none;
-  width: 116px;
-  height: 30px;
-  border-radius: 0.25rem;
-  padding: 0rem 0.875rem;
-  border: 1px solid #141718;
-  font-family: "Inter", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #141718;
-}
-.container-catalog__slider-range-border {
-  width: 19px;
-  height: 2px;
-  border-radius: 1px;
-  background: #141718;
-}
-.noUi-target {
-  background-color: #6c7275;
-  border: none;
-  height: 2px;
-}
-.noUi-connect {
-  background-color: #141718;
-}
-.noUi-handle::after,
-.noUi-handle::before {
   display: none;
 }
-.noUi-handle {
-  box-shadow: none;
-  border-radius: 50%;
-  border: 2px solid #141718;
-  background-color: #fff;
-  cursor: pointer;
-}
-.noUi-base {
-  width: 240px;
-  margin-left: 15rem;
-}
-.noUi-handle {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: -0.6rem;
+/* 1440px = 90em */
+@media (min-width: 90em) {
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  .container-catalog__slider-flex {
+    display: block;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    margin-top: 8rem;
+  }
+  .container-catalog__slider-range {
+    width: 259px;
+    margin-left: 0rem;
+  }
+  .container-catalog__slider-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .container-catalog__slider-range-input {
+    border: none;
+    width: 116px;
+    height: 30px;
+    border-radius: 0.25rem;
+    padding: 0rem 0.875rem;
+    border: 1px solid #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #141718;
+  }
+  .container-catalog__slider-range-border {
+    width: 19px;
+    height: 2px;
+    border-radius: 1px;
+    background: #141718;
+  }
+  .noUi-target {
+    background-color: #6c7275;
+    border: none;
+    height: 2px;
+  }
+  .noUi-connect {
+    background-color: #141718;
+  }
+  .noUi-handle::after,
+  .noUi-handle::before {
+    display: none;
+  }
+  .noUi-handle {
+    box-shadow: none;
+    border-radius: 50%;
+    border: 2px solid #141718;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  .noUi-base {
+    width: 240px;
+    margin-left: 15rem;
+  }
+  .noUi-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -0.6rem;
+  }
 }
 </style>

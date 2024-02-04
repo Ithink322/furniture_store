@@ -59,7 +59,6 @@ export default {
       this.selectProduct(this.item);
       this.$router.push("/CurrentProductPage");
       window.scrollTo(0, 0);
-      console.log(localStorage.getItem("CurrentProduct"));
     },
   },
 };

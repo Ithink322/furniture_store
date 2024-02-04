@@ -112,7 +112,7 @@ export default {
   background: rgba(0, 0, 0, 0.32);
   top: 0rem;
   height: 100%;
-  z-index: 2;
+  z-index: 3;
 }
 .burger-menu {
   display: flex;

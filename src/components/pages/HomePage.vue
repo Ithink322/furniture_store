@@ -105,345 +105,7 @@
       </div>
     </section>
     <section class="container__new-arrivals">
-      <div class="container__new-arrivals-title-and-more-products-btn-flex">
-        <h2 class="container__new-arrivals-title">New Arrivals</h2>
-        <button
-          @click="goToShopPage"
-          class="container__new-arrivals-more-products-btn"
-        >
-          More Products
-          <img src="imgs/arrow-right-black.svg" alt="" />
-        </button>
-      </div>
-      <div class="container__new-arrivals-cards-flex">
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button
-            @click="toggleIconWishList"
-            class="container__new-arrivals-card-wishlist-btn"
-          >
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-1.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Loveseat Sofa</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$199.00</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$400.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-2.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title">Table Lamp</span>
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$24.99</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$50.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-3.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Beige Table Lamp</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$24.99</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$50.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-4.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Bamboo basket</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$34.99</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$70.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-1.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title">Lovely Sofa</span>
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$999.00</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$2000.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-2.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Table Lamp V2.0</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$29.99</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$60.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-3.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Beige Table Lamp V2.0</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$50.00</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$100.00</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="container__new-arrivals-card">
-          <div class="container__new-arrivals-card-new-div">
-            <span class="container__new-arrivals-card-new-text">NEW</span>
-          </div>
-          <div class="container__new-arrivals-card-sale-div">
-            <span class="container__new-arrivals-card-sale-text">-50%</span>
-          </div>
-          <button class="container__new-arrivals-card-wishlist-btn">
-            <img :src="currentIcon" alt="" />
-          </button>
-          <img
-            src="imgs/new-arrivals-card-hero-4.svg"
-            alt=""
-            class="container__new-arrivals-card-hero"
-          />
-          <button class="container__new-arrivals-card-add-to-cart-btn">
-            Add to cart
-          </button>
-          <div
-            class="container__new-arrivals-card-rating-and-title-and-prices-flex"
-          >
-            <div class="container__new-arrivals-card-rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
-            <span class="container__new-arrivals-card-title"
-              >Bamboo basket V2.0</span
-            >
-            <div class="container__new-arrivals-card-prices-flex">
-              <span class="container__new-arrivals-card-current-price"
-                >$15.00</span
-              >
-              <span class="container__new-arrivals-card-previous-price"
-                >$30.00</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
+      <more-products></more-products>
     </section>
     <section class="container__advantages">
       <div class="container__advantage-cards-flex">
@@ -601,17 +263,11 @@
 
 <script>
 import { mapActions } from "vuex";
+import MoreProducts from "../UI/MoreProducts.vue";
 import NewsLetter from "../UI/NewsLetter.vue";
 export default {
   name: "HomePage",
-  components: { NewsLetter },
-  data() {
-    return {
-      WhishListIconDisabled: "/imgs/whishlist-icon.svg",
-      WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
-      currentIcon: "/imgs/whishlist-icon.svg",
-    };
-  },
+  components: { NewsLetter, MoreProducts },
   mounted() {
     let slider = document.querySelector(
         ".container__slider-advertises-overflow"
@@ -679,39 +335,37 @@ export default {
         showIndicator(currentIndex);
       }
       /* touchscreen for .slider__advertises-overflow ends */
-      if (window.innerWidth < 1440) {
-        /* The appearance of .slider__advertises-touch-circle from 320px to 1440px starts */
-        let advertise_circle = document.querySelector(
-          ".container__advertises-touch-circle"
-        );
-        slider.addEventListener("touchstart", function (e) {
-          let slider_backIdeas = slider.getBoundingClientRect();
-          let x = e.touches[0].clientX - slider_backIdeas.left + 17;
-          let y = e.touches[0].clientY - slider_backIdeas.top + 81;
-          advertise_circle.style.left = x + "px";
-          advertise_circle.style.top = y + "px";
-          advertise_circle.style.transform = "scale(1)";
-          advertise_circle.style.display = "block";
+      /* The appearance of .slider__advertises-touch-circle from 320px to 1440px starts */
+      let advertise_circle = document.querySelector(
+        ".container__advertises-touch-circle"
+      );
+      slider.addEventListener("touchstart", function (e) {
+        let slider_backIdeas = slider.getBoundingClientRect();
+        let x = e.touches[0].clientX - slider_backIdeas.left + 17;
+        let y = e.touches[0].clientY - slider_backIdeas.top + 81;
+        advertise_circle.style.left = x + "px";
+        advertise_circle.style.top = y + "px";
+        advertise_circle.style.transform = "scale(1)";
+        advertise_circle.style.display = "block";
 
-          setTimeout(function () {
-            advertise_circle.style.transform = "scale(2)"; // Увеличиваем размер круга
-            advertise_circle.style.opacity = "80%"; // Устанавливаем прозрачность круга
-          }, 10);
-        });
-        slider.addEventListener("touchmove", function (e) {
-          let slider_backIdeas = slider.getBoundingClientRect();
-          let x = e.touches[0].clientX - slider_backIdeas.left + 17;
-          let y = e.touches[0].clientY - slider_backIdeas.top + 81;
-          advertise_circle.style.left = x + "px";
-          advertise_circle.style.top = y + "px";
-          advertise_circle.style.transform = "scale(1)";
-        });
-        slider.addEventListener("touchend", function () {
-          advertise_circle.style.transform = "scale(0.9)";
-          advertise_circle.style.display = "none";
-        });
-        /* The appearance of .slider__advertises-touch-circle from 320px to 1440px ends */
-      }
+        setTimeout(function () {
+          advertise_circle.style.transform = "scale(2)"; // Увеличиваем размер круга
+          advertise_circle.style.opacity = "80%"; // Устанавливаем прозрачность круга
+        }, 10);
+      });
+      slider.addEventListener("touchmove", function (e) {
+        let slider_backIdeas = slider.getBoundingClientRect();
+        let x = e.touches[0].clientX - slider_backIdeas.left + 17;
+        let y = e.touches[0].clientY - slider_backIdeas.top + 81;
+        advertise_circle.style.left = x + "px";
+        advertise_circle.style.top = y + "px";
+        advertise_circle.style.transform = "scale(1)";
+      });
+      slider.addEventListener("touchend", function () {
+        advertise_circle.style.transform = "scale(0.9)";
+        advertise_circle.style.display = "none";
+      });
+      /* The appearance of .slider__advertises-touch-circle from 320px to 1440px ends */
     } else {
       /* carousel for .container__slider-advertises-flex from 1440px starts */
       const prevButton = document.querySelector(
@@ -768,14 +422,6 @@ export default {
     }
   },
   methods: {
-    toggleIconWishList() {
-      if (this.currentIcon === this.favouriteIconDisabled) {
-      }
-    },
-    goToShopPage() {
-      this.$router.push("/ShopPage");
-      window.scrollTo(0, 0);
-    },
     goToBlogPage() {
       this.$router.push("/BlogPage");
       window.scrollTo(0, 0);
@@ -952,139 +598,6 @@ export default {
 .container__section-card-hero {
   margin-top: 0rem;
   width: 100%;
-}
-.container__new-arrivals-title-and-more-products-btn-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-//
-.container__new-arrivals-title {
-  font-family: "Poppins", sans-serif;
-  font-size: 2.125rem;
-  font-weight: 500;
-  color: #000;
-  line-height: 2.375rem;
-  margin-top: 0rem;
-  margin-bottom: 2.5rem;
-}
-.container__new-arrivals-more-products-btn {
-  @include button;
-  gap: 0.25rem;
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: $black;
-  white-space: nowrap;
-  border-bottom: 1px solid $black;
-  padding-bottom: 2px;
-}
-.container__new-arrivals-cards-flex {
-  display: flex;
-  gap: 1rem;
-  overflow: hidden;
-  overflow-x: scroll;
-  height: 400px;
-}
-.container__new-arrivals-card {
-  width: 231px;
-}
-.container__new-arrivals-card-new-div {
-  position: relative;
-  background: #fff;
-  border-radius: 4px;
-  width: fit-content;
-  padding: 4px 14px;
-  z-index: 2;
-  margin-top: 1rem;
-  margin-left: 1rem;
-}
-.container__new-arrivals-card-new-text {
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: $black;
-}
-.container__new-arrivals-card-sale-div {
-  position: relative;
-  background: #38cb89;
-  border-radius: 4px;
-  width: fit-content;
-  padding: 4px 14px;
-  z-index: 2;
-  margin-top: 0.5rem;
-  margin-left: 1rem;
-}
-.container__new-arrivals-card-sale-text {
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fefefe;
-}
-.container__new-arrivals-card-wishlist-btn {
-  position: relative;
-  @include button;
-  background: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  box-shadow: 0px 8px 16px -8px rgba(15, 15, 15, 0.12);
-  margin-left: 11.5rem;
-  margin-top: -4.2rem;
-  z-index: 2;
-}
-.container__new-arrivals-card-hero {
-  margin-top: -2.8rem;
-  width: 231px;
-  height: 308px;
-}
-.container__new-arrivals-card-add-to-cart-btn {
-  position: relative;
-  @include button;
-  background: $black;
-  border-radius: 8px;
-  width: 202.786px;
-  height: 40.582px;
-  margin-left: 0.88rem;
-  margin-top: -4rem;
-  z-index: 2;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #fff;
-}
-.container__new-arrivals-card-rating-and-title-and-prices-flex {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.container__new-arrivals-card-rating-flex {
-  display: flex;
-  gap: 0.125rem;
-  margin-top: 1.63rem;
-}
-.container__new-arrivals-card-title {
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: $black;
-}
-.container__new-arrivals-card-prices-flex {
-  display: flex;
-  gap: 0.75rem;
-}
-.container__new-arrivals-card-current-price {
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: $black;
-}
-.container__new-arrivals-card-previous-price {
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #6c7275;
-  text-decoration-line: line-through;
 }
 .container__advantages {
   margin-top: 4rem;
@@ -1272,29 +785,6 @@ export default {
       "big-card small-card-1"
       "big-card small-card-2";
     gap: 1.5rem;
-  }
-  .container__new-arrivals-title {
-    font-size: 2.5rem;
-  }
-  .container__new-arrivals-more-products-btn {
-    font-size: 1rem;
-  }
-  .container__new-arrivals-cards-flex {
-    height: 450px;
-  }
-  .container__new-arrivals-card {
-    width: 262px;
-  }
-  .container__new-arrivals-card-hero {
-    width: 262px;
-    height: 349px;
-    object-fit: cover;
-  }
-  .container__new-arrivals-card-wishlist-btn {
-    margin-left: 13.5rem;
-  }
-  .container__new-arrivals-card-add-to-cart-btn {
-    margin-left: 1.91rem;
   }
   .container__advantage-cards-flex {
     flex-wrap: nowrap;

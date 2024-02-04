@@ -174,6 +174,7 @@ export default {
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
           measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
           colors: ["black", "white", "red", "beige"],
         },
         {
@@ -185,6 +186,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 3,
@@ -195,6 +199,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 4,
@@ -205,6 +212,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 5,
@@ -215,6 +225,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 6,
@@ -225,6 +238,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 7,
@@ -235,6 +251,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 8,
@@ -245,6 +264,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 9,
@@ -255,6 +277,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 10,
@@ -265,6 +290,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 11,
@@ -275,6 +303,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 12,
@@ -285,6 +316,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
       ],
       items: [
@@ -297,6 +331,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 14,
@@ -307,6 +344,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 15,
@@ -317,6 +357,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 16,
@@ -327,6 +370,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 17,
@@ -337,6 +383,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 18,
@@ -347,6 +396,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 19,
@@ -357,6 +409,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 20,
@@ -367,6 +422,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 21,
@@ -377,6 +435,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 22,
@@ -387,6 +448,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 23,
@@ -397,6 +461,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 24,
@@ -407,6 +474,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 25,
@@ -417,6 +487,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 26,
@@ -427,6 +500,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 27,
@@ -437,6 +513,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 28,
@@ -447,6 +526,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 29,
@@ -457,6 +539,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 30,
@@ -467,6 +552,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 31,
@@ -477,6 +565,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 32,
@@ -487,6 +578,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 33,
@@ -497,6 +591,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 34,
@@ -507,6 +604,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 35,
@@ -517,6 +617,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 36,
@@ -527,6 +630,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 37,
@@ -537,6 +643,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 38,
@@ -547,6 +656,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 39,
@@ -557,6 +669,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 40,
@@ -567,6 +682,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 41,
@@ -577,6 +695,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 42,
@@ -587,6 +708,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 43,
@@ -597,6 +721,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 44,
@@ -607,6 +734,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 45,
@@ -617,6 +747,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 46,
@@ -627,6 +760,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 47,
@@ -637,6 +773,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 48,
@@ -647,6 +786,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 49,
@@ -657,6 +799,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 50,
@@ -667,6 +812,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 51,
@@ -677,6 +825,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 52,
@@ -687,6 +838,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 53,
@@ -697,6 +851,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 54,
@@ -707,6 +864,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 55,
@@ -717,6 +877,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 56,
@@ -727,6 +890,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 57,
@@ -737,6 +903,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 58,
@@ -747,6 +916,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 59,
@@ -757,6 +929,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 60,
@@ -767,6 +942,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 61,
@@ -777,6 +955,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 62,
@@ -787,6 +968,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 63,
@@ -797,6 +981,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 64,
@@ -807,6 +994,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 65,
@@ -817,6 +1007,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 66,
@@ -827,6 +1020,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 67,
@@ -837,6 +1033,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 68,
@@ -847,6 +1046,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 69,
@@ -857,6 +1059,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 70,
@@ -867,6 +1072,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 71,
@@ -877,6 +1085,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 72,
@@ -887,6 +1098,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 73,
@@ -897,6 +1111,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 74,
@@ -907,6 +1124,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 75,
@@ -917,6 +1137,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 76,
@@ -927,6 +1150,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 77,
@@ -937,6 +1163,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 78,
@@ -947,6 +1176,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 79,
@@ -957,6 +1189,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 80,
@@ -967,6 +1202,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 81,
@@ -977,6 +1215,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 82,
@@ -987,6 +1228,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 83,
@@ -997,6 +1241,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 84,
@@ -1007,6 +1254,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 85,
@@ -1017,6 +1267,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 86,
@@ -1027,6 +1280,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 87,
@@ -1037,6 +1293,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 88,
@@ -1047,6 +1306,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 89,
@@ -1057,6 +1319,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 90,
@@ -1067,6 +1332,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 91,
@@ -1077,6 +1345,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 92,
@@ -1087,6 +1358,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 93,
@@ -1097,6 +1371,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 94,
@@ -1107,6 +1384,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 95,
@@ -1117,6 +1397,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 96,
@@ -1127,6 +1410,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 97,
@@ -1137,6 +1423,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 98,
@@ -1147,6 +1436,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 99,
@@ -1157,6 +1449,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 100,
@@ -1167,6 +1462,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 101,
@@ -1177,6 +1475,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 102,
@@ -1187,6 +1488,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 103,
@@ -1197,6 +1501,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 104,
@@ -1207,6 +1514,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 105,
@@ -1217,6 +1527,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 106,
@@ -1227,6 +1540,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 107,
@@ -1237,6 +1553,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 108,
@@ -1247,6 +1566,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 109,
@@ -1257,6 +1579,9 @@ export default {
           description:
             "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 110,
@@ -1267,6 +1592,9 @@ export default {
           description:
             "A modern armchair with sturdy legs, providing stability and support while offering a contemporary design element to your living space.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 111,
@@ -1277,6 +1605,9 @@ export default {
           description:
             "A functional lamp designed for illuminating your workspace, providing focused light for reading, studying, or working on your computer.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 112,
@@ -1287,6 +1618,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Dinning",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 113,
@@ -1297,6 +1631,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 114,
@@ -1307,6 +1644,9 @@ export default {
           description:
             "A versatile and convenient table with a removable tray top, ideal for serving food and drinks, or as a portable surface for working or dining.",
           category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 115,
@@ -1317,6 +1657,9 @@ export default {
           description:
             "A stylish and versatile lighting solution, featuring a tall stand with sturdy legs, providing ample illumination and adding a touch of elegance to any room.",
           category: "Outdoor",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 116,
@@ -1327,6 +1670,9 @@ export default {
           description:
             "A sleek and sophisticated table with a black finish, perfect for adding a modern and minimalist aesthetic to your Living Room or office.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 117,
@@ -1337,6 +1683,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 118,
@@ -1347,6 +1696,9 @@ export default {
           description:
             "Like small jewels in shiny brass and gray clear glass, pread a soft mood light that creates exciting shadows on walls and ceilings",
           category: "Bathroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 119,
@@ -1357,6 +1709,9 @@ export default {
           description:
             "A durable and eco-friendly basket made from bamboo, ideal for storing and organizing various items while adding a natural and rustic touch to your space.",
           category: "Kitchen",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 120,
@@ -1367,6 +1722,9 @@ export default {
           description:
             "Super-soft cushion cover in off-white with a tactile pattern that enhances the different tones in the pile and base.",
           category: "Bedroom",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
       ],
       isProductLoading: false,
@@ -1745,16 +2103,7 @@ export default {
   display: none;
 }
 .container__apply-filters-btn {
-  position: absolute;
-  @include button;
-  border: 2px solid #6c7275;
-  border-radius: 0.5rem;
-  padding: 1rem 2rem;
-  margin-top: 15rem;
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #121212;
+  display: none;
 }
 .container__show-more-btn {
   @include button;
@@ -1858,6 +2207,19 @@ export default {
   }
   .container__apply-filters-btn-styles-from1440px {
     margin-top: 36rem;
+  }
+  .container__apply-filters-btn {
+    display: block;
+    position: absolute;
+    @include button;
+    border: 2px solid #6c7275;
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    margin-top: 15rem;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #121212;
   }
   .container__show-this-div-if-sorted-items-is-empty {
     height: 400px;
