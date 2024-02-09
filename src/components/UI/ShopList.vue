@@ -4,6 +4,7 @@
       <shop-item
         v-for="item in sortedItems"
         :item="item"
+        :sortedItems="sortedItems"
         :key="item.id"
       ></shop-item>
     </transition-group>

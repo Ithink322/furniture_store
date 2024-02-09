@@ -154,13 +154,13 @@
           <div
             class="container__rating-and-title-and-description-and-prices-flex"
           >
-            <div class="container__rating-flex">
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-              <img src="imgs/Star-icon.svg" alt="" />
-            </div>
+            <star-rating
+              :star-size="16"
+              :show-rating="false"
+              :activeColor="'#343839'"
+              :rating="averageRating"
+              :read-only="true"
+            ></star-rating>
             <span class="container__title">{{ product.title }}</span>
             <span class="container__description">{{
               product.description
@@ -226,7 +226,16 @@
               <img src="imgs/wishlist-black-icon.svg" alt="" /> Wishlist
             </button>
           </div>
-          <button class="container__add-to-cart-btn">Add to Cart</button>
+          <button
+            @click="addToCart(product)"
+            class="container__add-to-cart-btn"
+            :data-productId="product.id"
+          >
+            <span class="container__add-to-cart-btn-non-active"
+              >Add to Cart</span
+            >
+            <div class="container__add-to-cart-btn-active">In cart</div>
+          </button>
         </div>
         <div class="container__category-flex">
           <span class="container__category-title">CATEGORY</span>
@@ -235,58 +244,86 @@
       </div>
     </div>
     <div class="container__dropdowns-flex">
-      <div class="container__dropdown-flex container__dropdown-flex-active">
-        <span class="container__dropdown-title">Additional Info</span>
+      <div
+        @click="showDetails"
+        class="container__dropdown-flex container__dropdown-flex-details"
+      >
+        <span
+          class="container__dropdown-title container__dropdown-title-details"
+          >Additional Info</span
+        >
         <button class="container__dropdown-btn">
           <img
-            class="container__dropdown-icon"
+            class="container__dropdown-icon container__dropdown-icon-details"
             src="imgs/dropdown-arrow-gray.svg"
             alt=""
           />
         </button>
       </div>
-      <div class="container__dropdown-details-flex">
+      <div
+        v-if="isDetailsFrom320pxVisible"
+        class="container__dropdown-details-flex"
+      >
         <span class="container__dropdown-details-title">Details</span>
         <span class="container__dropdown-details-description">{{
           product.description
         }}</span>
       </div>
-      <div @click="showQuestions" class="container__dropdown-flex">
-        <span class="container__dropdown-title"
-          >Questions({{ this.questions.length }})</span
+      <div
+        @click="showQuestions"
+        class="container__dropdown-flex container__dropdown-flex-questions"
+      >
+        <span
+          class="container__dropdown-title container__dropdown-title-questions"
+          >Questions({{ this.filteredQuestions.length }})</span
         >
         <button class="container__dropdown-btn">
           <img
-            class="container__dropdown-icon"
+            class="container__dropdown-icon container__dropdown-icon-questions"
             src="imgs/dropdown-arrow-gray.svg"
             alt=""
           />
         </button>
       </div>
-      <div @click="showReviews" class="container__dropdown-flex">
-        <span class="container__dropdown-title">Reviews()</span>
+      <div
+        @click="showReviews"
+        class="container__dropdown-flex container__dropdown-flex-reviews"
+      >
+        <span
+          class="container__dropdown-title container__dropdown-title-reviews"
+          >Reviews({{ this.filteredReviews.length }})</span
+        >
         <button class="container__dropdown-btn">
           <img
-            class="container__dropdown-icon"
+            class="container__dropdown-icon container__dropdown-icon-reviews"
             src="imgs/dropdown-arrow-gray.svg"
             alt=""
           />
         </button>
       </div>
     </div>
-    <div class="container__dropdown-details-flex-from1024px">
+    <div
+      v-if="isDetailsFrom1024pxVisible"
+      class="container__dropdown-details-flex-from1024px"
+    >
       <span class="container__dropdown-details-title">Details</span>
       <span class="container__dropdown-details-description">{{
         product.description
       }}</span>
     </div>
     <section class="container__questions-section" v-if="isQuestionsVisible">
-      <question-form @askQuestion="askQuestion"></question-form>
-      <questions-list :questions="questions"></questions-list>
+      <question-form
+        :productId="product.id"
+        @askQuestion="askQuestion"
+      ></question-form>
+      <questions-list :productId="product.id"></questions-list>
     </section>
     <section v-if="isReviewsVisible" class="container__reviews-section">
-      <review-form></review-form>
-      <reviews-list></reviews-list>
+      <review-form
+        :productId="product.id"
+        @makeReview="makeReview"
+      ></review-form>
+      <reviews-list :productId="product.id"></reviews-list>
     </section>
     <more-products></more-products>
     <div class="container__margin"></div>
@@ -295,25 +332,30 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
+import StarRating from "vue-star-rating/src/star-rating.vue";
 import QuestionForm from "../UI/QuestionForm.vue";
 import QuestionsList from "../UI/QuestionsList.vue";
 import ReviewForm from "../UI/ReviewForm.vue";
+import ReviewsList from "../UI/ReviewsList.vue";
 import MoreProducts from "../UI/MoreProducts.vue";
 import NewsLetter from "../UI/NewsLetter.vue";
 export default {
   name: "CurrentProductPage",
   components: {
+    StarRating,
     QuestionForm,
     QuestionsList,
     ReviewForm,
+    ReviewsList,
     MoreProducts,
     NewsLetter,
   },
   data() {
     return {
+      isDetailsFrom320pxVisible: false,
+      isDetailsFrom1024pxVisible: false,
       isQuestionsVisible: false,
-      questions: [],
       isReviewsVisible: false,
     };
   },
@@ -321,6 +363,261 @@ export default {
     ...mapGetters(["getSelectedProduct"]),
     product() {
       return JSON.parse(localStorage.getItem("CurrentProduct"));
+    },
+    questions() {
+      return JSON.parse(localStorage.getItem("questions")) || [];
+    },
+    filteredQuestions() {
+      return this.questions.filter(
+        (question) => question.id === this.product.id
+      );
+    },
+    reviews() {
+      return JSON.parse(localStorage.getItem("reviews")) || [];
+    },
+    filteredReviews() {
+      return this.reviews.filter((review) => review.id === this.product.id);
+    },
+    averageRating() {
+      if (this.filteredReviews.length === 0) {
+        return 0;
+      }
+
+      const totalRating = this.filteredReviews.reduce(
+        (acc, review) => acc + review.selectedRating,
+        0
+      );
+      return totalRating / this.filteredReviews.length;
+    },
+  },
+  created() {
+    this.questions = JSON.parse(localStorage.getItem("questions")) || [];
+    this.reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+  },
+  methods: {
+    ...mapMutations(["updateTotalQty"]),
+    addToCart(product) {
+      let cart = localStorage.getItem("cart");
+
+      let qty = document.querySelector(".container__counter-text").innerText;
+
+      let newItem = [
+        {
+          id: product.id,
+          hero: product.hero,
+          title: product.title,
+          category: product.category,
+          startColor: product.startColor,
+          currentPrice: product.currentPrice,
+          previousPrice: product.previousPrice,
+          qty: qty,
+        },
+      ];
+      if (!cart) {
+        localStorage.setItem("cart", JSON.stringify(newItem));
+      } else {
+        cart = JSON.parse(cart);
+
+        cart.forEach((itemInCart) => {
+          if (itemInCart.id === product.id) {
+            itemInCart.qty = Number(itemInCart.qty) + Number(qty);
+            newItem = null;
+          }
+        });
+
+        Array.prototype.push.apply(cart, newItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      products.forEach((product) => {
+        totalQty += Number(product.qty);
+      });
+      this.updateTotalQty(totalQty);
+      this.updateAddToCartButtons();
+    },
+    updateAddToCartButtons() {
+      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      let cartItemIds = cartItems.map((item) => item.id);
+      let addToCartBtns = document.querySelectorAll(
+        ".container__add-to-cart-btn"
+      );
+
+      addToCartBtns.forEach((addToCartBtn) => {
+        let flex = addToCartBtn.closest(
+          ".container__counter-and-wishlist-btn-and-add-to-cart-btn-flex"
+        );
+        let activeBtn = flex.querySelector(
+          ".container__add-to-cart-btn-active"
+        );
+        let nonActiveBtn = flex.querySelector(
+          ".container__add-to-cart-btn-non-active"
+        );
+
+        let productId = addToCartBtn.getAttribute("data-productId");
+        if (cartItemIds.includes(parseInt(productId))) {
+          activeBtn.style.display = "block";
+          nonActiveBtn.style.display = "none";
+        } else {
+          activeBtn.style.display = "none";
+          nonActiveBtn.style.display = "flex";
+        }
+      });
+    },
+    showDetails() {
+      this.isQuestionsVisible = false;
+      this.isReviewsVisible = false;
+      let isBlack =
+        document.querySelector(".container__dropdown-title-details").style
+          .color === "black";
+      if (isBlack) {
+        if (window.innerWidth < 1024) {
+          this.isDetailsFrom320pxVisible = false;
+        } else if (window.innerWidth >= 1024) {
+          this.isDetailsFrom1024pxVisible = false;
+          console.log("1024px", this.isDetailsFrom1024pxVisible);
+        }
+        document.querySelector(
+          ".container__dropdown-title-details"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-details").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-details")
+          .classList.remove("container__border-bottom");
+      } else {
+        if (window.innerWidth < 1024) {
+          this.isDetailsFrom320pxVisible = true;
+        } else if (window.innerWidth >= 1024) {
+          this.isDetailsFrom1024pxVisible = true;
+          console.log("1024px", this.isDetailsFrom1024pxVisible);
+        }
+        document.querySelector(
+          ".container__dropdown-title-details"
+        ).style.color = "black";
+        document.querySelector(".container__dropdown-icon-details").src =
+          "imgs/dropdown-arrow-black.svg";
+        document
+          .querySelector(".container__dropdown-flex-details")
+          .classList.add("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-questions"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-questions").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-questions")
+          .classList.remove("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-reviews"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-reviews").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-reviews")
+          .classList.remove("container__border-bottom");
+      }
+    },
+    showQuestions() {
+      this.isQuestionsVisible = true;
+      this.isReviewsVisible = false;
+      this.isDetailsFrom320pxVisible = false;
+      this.isDetailsFrom1024pxVisible = false;
+      let isBlack =
+        document.querySelector(".container__dropdown-title-questions").style
+          .color === "black";
+      if (isBlack) {
+        this.isQuestionsVisible = false;
+        document.querySelector(
+          ".container__dropdown-title-questions"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-questions").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-questions")
+          .classList.remove("container__border-bottom");
+      } else {
+        document.querySelector(
+          ".container__dropdown-title-questions"
+        ).style.color = "black";
+        document.querySelector(".container__dropdown-icon-questions").src =
+          "imgs/dropdown-arrow-black.svg";
+        document
+          .querySelector(".container__dropdown-flex-questions")
+          .classList.add("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-details"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-details").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-details")
+          .classList.remove("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-reviews"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-reviews").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-reviews")
+          .classList.remove("container__border-bottom");
+      }
+    },
+    askQuestion(question) {
+      this.questions.push(question);
+      localStorage.setItem("questions", JSON.stringify(this.questions));
+      setTimeout(() => window.location.reload(), 1000);
+    },
+    makeReview(review) {
+      this.reviews.push(review);
+      localStorage.setItem("reviews", JSON.stringify(this.reviews));
+      setTimeout(() => window.location.reload(), 1000);
+    },
+    showReviews() {
+      this.isReviewsVisible = true;
+      this.isQuestionsVisible = false;
+      this.isDetailsFrom320pxVisible = false;
+      this.isDetailsFrom1024pxVisible = false;
+      let isBlack =
+        document.querySelector(".container__dropdown-title-reviews").style
+          .color === "black";
+      if (isBlack) {
+        this.isReviewsVisible = false;
+        document.querySelector(
+          ".container__dropdown-title-reviews"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-reviews").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-reviews")
+          .classList.remove("container__border-bottom");
+      } else {
+        document.querySelector(
+          ".container__dropdown-title-reviews"
+        ).style.color = "black";
+        document.querySelector(".container__dropdown-icon-reviews").src =
+          "imgs/dropdown-arrow-black.svg";
+        document
+          .querySelector(".container__dropdown-flex-reviews")
+          .classList.add("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-questions"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-questions").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-questions")
+          .classList.remove("container__border-bottom");
+        document.querySelector(
+          ".container__dropdown-title-details"
+        ).style.color = "#6c7275";
+        document.querySelector(".container__dropdown-icon-details").src =
+          "imgs/dropdown-arrow-gray.svg";
+        document
+          .querySelector(".container__dropdown-flex-details")
+          .classList.remove("container__border-bottom");
+      }
     },
   },
   mounted() {
@@ -418,75 +715,7 @@ export default {
       count++;
       counterText.innerText = count;
     };
-    /* counter .container-current-item__info-details-counter ends */
-
-    /* change colors if user clicked on one of the flex containers starts */
-    let containers = document.querySelectorAll(".container__dropdown-flex");
-
-    containers.forEach((container) => {
-      container.addEventListener("click", function () {
-        let isBlack =
-          this.querySelector(".container__dropdown-title").style.color ===
-          "black";
-        let arrowIcon = this.querySelector(".container__dropdown-icon");
-        if (isBlack) {
-          this.querySelector(".container__dropdown-title").style.color =
-            "#6c7275";
-          arrowIcon.src = "imgs/dropdown-arrow-gray.svg";
-          container.classList.remove("container__border-bottom");
-        } else {
-          this.querySelector(".container__dropdown-title").style.color =
-            "black";
-          arrowIcon.src = "imgs/dropdown-arrow-black.svg";
-          container.classList.add("container__border-bottom");
-        }
-      });
-    });
-    /* change colors if user clicked on one of the flex containers ends */
-
-    /* show details if user clicked on one of the first flex container starts */
-    containers[0].addEventListener("click", function () {
-      let isBlack =
-        this.querySelector(".container__dropdown-title").style.color ===
-        "black";
-      if (isBlack) {
-        if (window.innerWidth < 1024) {
-          document.querySelector(
-            ".container__dropdown-details-flex"
-          ).style.display = "flex";
-        } else {
-          document.querySelector(
-            ".container__dropdown-details-flex-from1024px"
-          ).style.display = "flex";
-        }
-      } else {
-        if (window.innerWidth < 1024) {
-          document.querySelector(
-            ".container__dropdown-details-flex"
-          ).style.display = "none";
-        } else {
-          document.querySelector(
-            ".container__dropdown-details-flex-from1024px"
-          ).style.display = "none";
-        }
-      }
-    });
-    /* show details if user clicked on one of the first flex container ends */
-  },
-  created() {
-    this.questions = JSON.parse(localStorage.getItem("questions")) || [];
-  },
-  methods: {
-    showQuestions() {
-      this.isQuestionsVisible = !this.isQuestionsVisible;
-    },
-    askQuestion(question) {
-      this.questions.push(question);
-      localStorage.setItem("questions", JSON.stringify(this.questions));
-    },
-    showReviews() {
-      this.isReviewsVisible = !this.isReviewsVisible;
-    },
+    this.updateAddToCartButtons();
   },
 };
 </script>
@@ -594,10 +823,6 @@ export default {
   flex-direction: column;
   gap: 1rem;
   margin-top: 2rem;
-}
-.container__rating-flex {
-  display: flex;
-  gap: 0.25rem;
 }
 .container__title {
   font-family: "Inter", sans-serif;
@@ -803,12 +1028,6 @@ export default {
   flex-direction: column;
   gap: 0.5rem;
 }
-.container__dropdown-details-flex {
-  display: none;
-}
-.container__dropdown-details-flex-from1024px {
-  display: none;
-}
 .container__dropdown-details-title {
   font-family: "Inter", sans-serif;
   font-size: 0.875rem;
@@ -922,8 +1141,13 @@ export default {
     margin-top: -3rem;
     margin-bottom: 2rem;
   }
-  .container__dropdown-details-flex-from1024px {
-    display: none;
+  .container__questions-section,
+  .container__reviews-section {
+    margin-top: -3rem;
+  }
+  .container__reviews-section {
+    margin-top: -3rem;
+    margin-bottom: 3rem;
   }
 }
 /* 1440px = 90em */

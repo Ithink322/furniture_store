@@ -1,7 +1,7 @@
 <template>
   <div class="container__questions-list">
     <question-item
-      v-for="question in questions"
+      v-for="question in filteredQuestions"
       :question="question"
       :key="question.id"
     ></question-item>
@@ -14,13 +14,20 @@ export default {
   name: "QuestionsList",
   components: { QuestionItem },
   props: {
-    questions: {
-      type: Array,
+    productId: {
+      type: Number,
       required: true,
     },
   },
-  mounted() {
-    return JSON.parse(localStorage.getItem("questions"));
+  computed: {
+    questions() {
+      return JSON.parse(localStorage.getItem("questions")) || [];
+    },
+    filteredQuestions() {
+      return this.questions.filter(
+        (question) => question.id === this.productId
+      );
+    },
   },
 };
 </script>
@@ -29,7 +36,7 @@ export default {
 .container__questions-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin: 2rem 0rem;
+  gap: 2rem;
+  margin: 2rem 0rem 5rem 0rem;
 }
 </style>

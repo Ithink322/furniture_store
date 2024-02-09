@@ -1772,13 +1772,13 @@ export default {
       this.$nextTick(() => {
         let grid = document.getElementById("list-grid"),
           description = document.querySelectorAll(
-            ".container-item-card-description"
+            ".container__item-card-description"
           ),
           textsFlex = document.querySelectorAll(
-            ".container-item-card-new-and-sale-divs-flex"
+            ".container__item-card-new-and-sale-divs-flex"
           ),
           wishListBtn = document.querySelectorAll(
-            ".container-item-card-wishlist-btn"
+            ".container__item-card-wishlist-btn"
           );
         if (button === "btn3cols") {
           grid.classList.remove("container__items-list-grid-2-cols");
@@ -1787,7 +1787,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "flex"));
           wishListBtn.forEach((el) =>
             el.classList.add(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "none"));
@@ -1798,7 +1798,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "none"));
           wishListBtn.forEach((el) =>
             el.classList.add(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "none"));
@@ -1809,7 +1809,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "flex"));
           wishListBtn.forEach((el) =>
             el.classList.remove(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "block"));
@@ -1818,7 +1818,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "flex"));
           wishListBtn.forEach((el) =>
             el.classList.remove(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "block"));
@@ -1828,7 +1828,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "none"));
           wishListBtn.forEach((el) =>
             el.classList.add(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "none"));
@@ -1838,7 +1838,7 @@ export default {
           textsFlex.forEach((el) => (el.style.display = "flex"));
           wishListBtn.forEach((el) =>
             el.classList.add(
-              "container-item-card-styles-for-wishlist-btn-in-2-cols-grid"
+              "container__item-card-styles-for-wishlist-btn-in-2-cols-grid"
             )
           );
           description.forEach((el) => (el.style.display = "none"));
@@ -1850,14 +1850,14 @@ export default {
         ) {
           textsFlex.forEach((el) => (el.style.display = "flex"));
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) =>
               btn.classList.add(
-                "container-item-card-add-to-cart-btn-styles-from768px"
+                "container__item-card-add-to-cart-btn-styles-from768px"
               )
             );
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) => (btn.style.bottom = "6.4rem"));
         } else if (
           (window.innerWidth >= 768 && button === "btn3cols") ||
@@ -1865,14 +1865,14 @@ export default {
             grid.classList.contains("container__items-list-grid-3-cols"))
         ) {
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) =>
               btn.classList.add(
-                "container-item-card-add-to-cart-btn-styles-from768px"
+                "container__item-card-add-to-cart-btn-styles-from768px"
               )
             );
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) => (btn.style.bottom = "6.4rem"));
         } else if (
           (window.innerWidth >= 768 && button === "btn1col") ||
@@ -1880,14 +1880,14 @@ export default {
             grid.classList.contains("container__items-list-grid-1-col"))
         ) {
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) =>
               btn.classList.add(
-                "container-item-card-add-to-cart-btn-styles-from768px"
+                "container__item-card-add-to-cart-btn-styles-from768px"
               )
             );
           document
-            .querySelectorAll(".container-item-card-add-to-cart-btn")
+            .querySelectorAll(".container__item-card-add-to-cart-btn")
             .forEach((btn) => (btn.style.bottom = "9.4rem"));
         }
       });

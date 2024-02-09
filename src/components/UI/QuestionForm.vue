@@ -1,19 +1,21 @@
 <template>
   <form @submit.prevent="askQuestion" class="container__questions-form">
-    <span class="container__questions-form-title">Задайте вопрос о товаре</span>
+    <span class="container__questions-form-title"
+      >Ask a question about the product</span
+    >
     <textarea
       v-model="question.description"
       class="container__questions-form-text-area"
       cols="30"
       rows="10"
-      placeholder="Напишите свой вопрос"
+      placeholder="Write your question"
     ></textarea>
     <button
       type="submit"
       @click="askQuestion"
       class="container__ask-a-question-btn"
     >
-      Задать вопрос
+      Ask a Question
     </button>
   </form>
 </template>
@@ -21,6 +23,12 @@
 <script>
 export default {
   name: "QuestionForm",
+  props: {
+    productId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       question: {
@@ -31,7 +39,7 @@ export default {
   methods: {
     askQuestion() {
       if (this.question.description.trim() !== "") {
-        this.question.id = Date.now();
+        this.question.id = this.productId;
         this.$emit("askQuestion", this.question);
         this.question = {
           description: "",
@@ -61,13 +69,13 @@ export default {
   padding: 0.313rem 0.625rem;
 }
 .container__questions-form-text-area:focus {
-  border: 2px solid #005bff;
+  border: 2px solid $black;
   outline: none;
 }
 .container__ask-a-question-btn {
   @include button;
   width: 100%;
-  background: #005bff;
+  background: $black;
   border-radius: 0.5rem;
   padding: 0.625rem 1rem;
   margin-top: 1rem;
@@ -75,5 +83,12 @@ export default {
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
+}
+/* 1024px = 64em */
+@media (min-width: 64em) {
+  .container__ask-a-question-btn {
+    width: 280px;
+    margin-left: auto;
+  }
 }
 </style>

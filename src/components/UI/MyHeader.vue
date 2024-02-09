@@ -62,7 +62,9 @@
             <img src="imgs/cart-icon.svg" alt="" />
           </button>
           <button class="header__cart-items-counter-circle-btn">
-            <span class="header__cart-items-counter-circle-btn-text">0</span>
+            <span class="header__cart-items-counter-circle-btn-text">{{
+              this.totalQtyOfCartProducts.totalQtyOfCartProducts
+            }}</span>
           </button>
         </div>
       </div>
@@ -71,10 +73,30 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import routesMixin from "@/mixins/routes.js";
 export default {
   name: "MyHeader",
   mixins: [routesMixin],
+  computed: {
+    ...mapState(["totalQtyOfCartProducts"]),
+  },
+  methods: {
+    ...mapMutations(["updateTotalQty"]),
+    updateTotalQtyOfCartProducts() {
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      if (products !== null) {
+        products.forEach((product) => {
+          totalQty += Number(product.qty);
+        });
+        this.updateTotalQty(totalQty);
+      }
+    },
+  },
+  mounted() {
+    this.updateTotalQtyOfCartProducts();
+  },
 };
 </script>
 

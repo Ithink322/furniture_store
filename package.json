@@ -12,6 +12,7 @@
     "nouislider": "^15.7.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue-star-rating": "^1.7.0",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

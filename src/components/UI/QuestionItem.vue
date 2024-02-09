@@ -14,21 +14,36 @@ export default {
       required: true,
     },
   },
+  mounted() {
+    console.log(this.question);
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .container__description-and-user-name-flex {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
+.container__description-and-user-name-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid rgb(190, 197, 201);
+  bottom: -1rem;
+}
 .container__description {
   font-family: "Inter", sans-serif;
-  font-size: 1.25;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #000;
 }
 .container__user-name {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
 }
 </style>
