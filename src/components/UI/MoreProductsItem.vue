@@ -79,10 +79,12 @@ export default {
           startColor: product.startColor,
           currentPrice: product.currentPrice,
           previousPrice: product.previousPrice,
+          description: product.description,
+          colors: product.colors,
+          measurements: product.measurements,
           qty: 1,
         },
       ];
-      console.log("newItem:", newItem);
       if (!cart) {
         localStorage.setItem("cart", JSON.stringify(newItem));
       } else {

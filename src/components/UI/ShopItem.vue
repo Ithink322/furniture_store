@@ -94,6 +94,9 @@ export default {
           currentPrice: item.currentPrice,
           previousPrice: item.previousPrice,
           qty: 1,
+          description: item.description,
+          colors: item.colors,
+          measurements: item.measurements,
         },
       ];
 

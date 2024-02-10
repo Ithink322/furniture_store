@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import QuestionItem from "./QuestionItem.vue";
 export default {
   name: "QuestionsList",
@@ -29,6 +30,27 @@ export default {
       );
     },
   },
+  /* computed: {
+    ...mapState(["questions"]),
+    filteredQuestions() {
+      return this.questions.filter(
+        (question) => question.id === this.productId
+      );
+    },
+  },
+  created() {
+    this.$store.commit("loadQuestions");
+  },
+  watch: {
+    questions: {
+      handler() {
+        if (this.questions) {
+          this.$store.commit("loadQuestions");
+        }
+      },
+      deep: true,
+    },
+  }, */
 };
 </script>
 

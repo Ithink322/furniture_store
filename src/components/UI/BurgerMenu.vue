@@ -45,7 +45,7 @@
             <span>User's profile</span>
             <img src="imgs/users-profile-icon.svg" alt="" />
           </button>
-          <button class="burger-menu__cart-btn">
+          <button @click="goToCartPage" class="burger-menu__cart-btn">
             <span>Cart</span>
             <div class="burger-menu__cart-icon-and-items-counter-circle-flex">
               <img src="imgs/cart-icon.svg" alt="" />
@@ -88,6 +88,13 @@ import routesMixin from "@/mixins/routes.js";
 export default {
   name: "BurgerMenu",
   mixins: [routesMixin],
+  methods: {
+    goToCartPage() {
+      this.$router.push("/CartPage");
+      window.scrollTo(0, 0);
+      document.querySelector(".burger-menu__shadow").style.display = "none";
+    },
+  },
   mounted() {
     $(function () {
       $(".header__burger-btn").click(function () {

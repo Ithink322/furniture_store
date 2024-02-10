@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "QuestionForm",
   props: {
@@ -37,9 +38,11 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["addQuestion"]),
     askQuestion() {
       if (this.question.description.trim() !== "") {
         this.question.id = this.productId;
+        this.addQuestion(this.question);
         this.$emit("askQuestion", this.question);
         this.question = {
           description: "",

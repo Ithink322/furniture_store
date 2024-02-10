@@ -190,22 +190,22 @@
               }}</span>
             </div>
             <div class="container__colors-rects-flex">
-              <div
+              <button
                 class="container__color-rect container__color-rect-styles"
                 :style="{ background: product.colors[0] }"
-              ></div>
-              <div
+              ></button>
+              <button
                 class="container__color-rect"
                 :style="{ background: product.colors[1] }"
-              ></div>
-              <div
+              ></button>
+              <button
                 class="container__color-rect"
                 :style="{ background: product.colors[2] }"
-              ></div>
-              <div
+              ></button>
+              <button
                 class="container__color-rect"
                 :style="{ background: product.colors[3] }"
-              ></div>
+              ></button>
             </div>
           </div>
         </div>
@@ -410,6 +410,9 @@ export default {
           startColor: product.startColor,
           currentPrice: product.currentPrice,
           previousPrice: product.previousPrice,
+          description: product.description,
+          colors: product.colors,
+          measurements: product.measurements,
           qty: qty,
         },
       ];
@@ -675,7 +678,7 @@ export default {
     });
     /* carousel with arrows for .container__carousel-flex ends */
 
-    /* emphasize div when user choose color starts */
+    /* emphasize btn when user choose color starts */
     const buttons = document.querySelectorAll(".container__color-rect");
     let colorText = document.querySelector(".container__color-text");
     const colorNames = {
@@ -685,6 +688,12 @@ export default {
       "rgb(245, 245, 220)": "Beige",
     };
 
+    let selectedColor = localStorage.getItem(
+      `selectedColor_${this.product.id}`
+    );
+    if (!selectedColor) {
+      selectedColor = this.product.startColor;
+    }
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         buttons.forEach((btn) =>
@@ -696,9 +705,23 @@ export default {
         button.classList.add("container__color-rect-active");
         const btnColor = window.getComputedStyle(button).backgroundColor;
         colorText.innerText = colorNames[btnColor];
+        localStorage.setItem(
+          `selectedColor_${this.product.id}`,
+          colorText.innerText
+        );
       });
+      if (
+        selectedColor &&
+        selectedColor ===
+          colorNames[window.getComputedStyle(button).backgroundColor]
+      ) {
+        button.classList.add("container__color-rect-active");
+        colorText.innerText =
+          localStorage.getItem(`selectedColor_${this.product.id}`) ||
+          this.product.startColor;
+      }
     });
-    /* emphasize div when user choose color ends */
+    /* emphasize btn when user choose color ends */
 
     /* counter .container-current-item__info-details-counter starts */
     const minusBtn = document.querySelector(".cotainer__minus-btn"),
@@ -903,9 +926,9 @@ export default {
   height: 40px;
   border: 1px solid #000;
 }
-.container__color-rect-styles {
+/* .container__color-rect-styles {
   border: 2px solid blue;
-}
+} */
 .container__color-rect-active {
   border: 2px solid blue;
 }

@@ -40,6 +40,12 @@ export default {
           title: "Loveseat Sofa",
           currentPrice: "$199.00",
           previousPrice: "$400.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 122,
@@ -47,6 +53,12 @@ export default {
           title: "Table Lamp",
           currentPrice: "$39.99",
           previousPrice: "$80.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 123,
@@ -54,6 +66,12 @@ export default {
           title: "Beige Table Lamp",
           currentPrice: "$19.00",
           previousPrice: "$40.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 124,
@@ -61,6 +79,12 @@ export default {
           title: "Bamboo basket",
           currentPrice: "$9.99",
           previousPrice: "$20.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 125,
@@ -68,6 +92,12 @@ export default {
           title: "Loveseat Sofa",
           currentPrice: "$199.00",
           previousPrice: "$400.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 126,
@@ -75,6 +105,12 @@ export default {
           title: "Table Lamp",
           currentPrice: "$39.99",
           previousPrice: "$80.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 127,
@@ -82,6 +118,12 @@ export default {
           title: "Beige Table Lamp",
           currentPrice: "$19.00",
           previousPrice: "$40.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
         {
           id: 128,
@@ -89,6 +131,12 @@ export default {
           title: "Bamboo basket",
           currentPrice: "$9.99",
           previousPrice: "$20.00",
+          description:
+            "A comfortable and stylish armchair designed for one person, perfect for relaxation and adding a touch of elegance to any room.",
+          category: "Living Room",
+          measurements: "17 1/2x20 5/8 ",
+          startColor: "Black",
+          colors: ["black", "white", "red", "beige"],
         },
       ],
     };

@@ -57,7 +57,10 @@
             <span class="header__savings-items-counter-circle-btn-text">0</span>
           </button>
         </div>
-        <div class="header__cart-icon-btn-and-cart-items-counter-btn-flex">
+        <div
+          @click="goToCartPage"
+          class="header__cart-icon-btn-and-cart-items-counter-btn-flex"
+        >
           <button class="header__cart-icon-btn">
             <img src="imgs/cart-icon.svg" alt="" />
           </button>
@@ -92,6 +95,10 @@ export default {
         });
         this.updateTotalQty(totalQty);
       }
+    },
+    goToCartPage() {
+      this.$router.push("/CartPage");
+      window.scrollTo(0, 0);
     },
   },
   mounted() {

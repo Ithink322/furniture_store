@@ -14,9 +14,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.question);
-  },
 };
 </script>
 
