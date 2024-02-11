@@ -291,12 +291,4 @@ export default {
     gap: 3.938rem;
   }
 }
-
-/* 1440px = 90em */
-@media (min-width: 90em) {
-}
-
-/* 1920px = 120em */
-@media (min-width: 120em) {
-}
 </style>

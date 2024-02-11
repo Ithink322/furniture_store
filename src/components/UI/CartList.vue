@@ -72,8 +72,4 @@ export default {
     margin-bottom: 6.7rem;
   }
 }
-
-/* 1920px = 120em */
-@media (min-width: 120em) {
-}
 </style>

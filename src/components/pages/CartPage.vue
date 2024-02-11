@@ -3,111 +3,411 @@
     <button @click="goBack" class="container__go-back-btn">
       <img src="imgs/go-back-btn.svg" alt="" />back
     </button>
-    <h1 class="container__title">Cart</h1>
-    <span class="container__sub-title">Products</span>
-    <div
-      class="container__items-list-and-coupon-and-cart-summary-sections-flex"
-    >
-      <cart-list
-        :products="products"
-        :calculateTotals="calculateTotals"
-        @productRemoved="removeProduct"
-      ></cart-list>
-      <div class="container__coupon-and-cart-summary-sections-flex">
-        <section class="container__coupon-section">
-          <div class="container__coupon-title-and-subtitle">
-            <span class="container__coupon-title">Have a coupon?</span>
-            <span class="container__coupon-subtitle"
-              >Add your code for an instant cart discount</span
-            >
-          </div>
-          <form class="container__coupon-form">
-            <img
-              class="container__coupon-icon"
-              src="imgs/coupon-icon.svg"
+    <h1 class="container__title">{{ titleSection }}</h1>
+    <section class="container__stages-overflow">
+      <div class="container__stages-flex">
+        <div
+          @click="showShoppingCart"
+          class="container__stage-flex container__shopping-cart-stage-flex"
+        >
+          <div
+            class="container__stage-circle container__shopping-cart-stage-circle"
+          >
+            <span
+              class="container__stage-circle-num container__shopping-cart-stage-circle-num"
+              >1</span
+            ><img
+              class="container__stage-tick container__shopping-cart-stage-tick"
+              src="imgs/white-tick.svg"
               alt=""
             />
-            <input
-              placeholder="Coupon Code"
-              class="container__coupon-input"
-              type="text"
+          </div>
+          <span
+            class="container__stage-text container__shopping-cart-stage-text"
+            >Shopping cart</span
+          >
+        </div>
+        <div
+          @click="showCheckoutDetails"
+          class="container__stage-flex container__checkout-details-stage-flex"
+        >
+          <div
+            class="container__stage-circle container__checkout-details-stage-circle"
+          >
+            <span
+              class="container__stage-circle-num container__checkout-details-stage-circle-num"
+              >2</span
+            ><img
+              class="container__stage-tick container__checkout-details-stage-tick"
+              src="imgs/white-tick.svg"
+              alt=""
             />
-            <button class="container__coupon-btn">Apply</button>
-          </form>
-        </section>
-        <section class="container__cart-summary-section">
-          <span class="container__cart-summary-title">Cart summary</span>
-          <div class="container__cart-summary-shipping-divs-flex">
-            <div
-              class="container__cart-summary-shipping-div container__cart-summary-free-shipping-div"
-            >
-              <div class="container__cart-summary-shipping-input-and-text-flex">
-                <input
-                  class="container__cart-summary-free-shipping-input container__cart-summary-shipping-input"
-                  type="radio"
-                  checked
-                />
-                <span class="container__cart-summary-shipping-text"
-                  >Free shipping</span
-                >
-                <span class="container__cart-summary-shipping-price"
-                  >$0.00</span
-                >
-              </div>
-            </div>
-            <div
-              class="container__cart-summary-shipping-div container__cart-summary-express-shipping-div"
-            >
-              <div class="container__cart-summary-shipping-input-and-text-flex">
-                <input
-                  class="container__cart-summary-express-shipping-input container__cart-summary-shipping-input"
-                  type="radio"
-                />
-                <span class="container__cart-summary-shipping-text"
-                  >Express shipping</span
-                >
-                <span class="container__cart-summary-shipping-price"
-                  >+$15.00</span
-                >
-              </div>
-            </div>
           </div>
-          <div class="container__cart-summary-totals-flex">
-            <div
-              class="container__cart-summary-total-flex container__cart-summary-subtotal-flex"
-            >
-              <span class="container__cart-summary-total-text">Subtotal</span>
-              <span
-                class="container__cart-summary-total-cost container__cart-summary-subtotal-cost"
-                >${{ subTotal.toFixed(2) }}</span
-              >
-            </div>
-            <div class="container__cart-summary-total-flex">
-              <span class="container__cart-summary-total-text">Total</span>
-              <span
-                class="container__cart-summary-total-cost container__cart-summary-total-cost"
-                >${{ total.toFixed(2) }}</span
-              >
-            </div>
+          <span
+            class="container__stage-text container__checkout-details-stage-text"
+            >Checkout details</span
+          >
+        </div>
+        <div class="container__stage-flex container__order-complete-stage-flex">
+          <div
+            class="container__stage-circle container__order-complete-stage-circle"
+          >
+            <span
+              class="container__stage-circle-num container__order-complete-stage-circle-num"
+              >3</span
+            ><img
+              class="container__stage-tick container__order-complete-stage-tick"
+              src="imgs/white-tick.svg"
+              alt=""
+            />
           </div>
-          <button class="container__cart-summary-btn">Checkout</button>
-        </section>
+          <span
+            class="container__stage-text container__order-complete-stage-text"
+            >Order complete</span
+          >
+        </div>
       </div>
-    </div>
+    </section>
+    <section
+      v-if="isShoppingCartVisible"
+      class="container__shopping-cart-section"
+    >
+      <span class="container__sub-title">Products</span>
+      <div
+        class="container__items-list-and-coupon-and-cart-summary-sections-flex"
+      >
+        <cart-list
+          :products="products"
+          :calculateTotals="calculateTotals"
+          @productRemoved="removeProduct"
+        ></cart-list>
+        <div class="container__coupon-and-cart-summary-sections-flex">
+          <section class="container__coupon-section">
+            <div class="container__coupon-title-and-subtitle">
+              <span class="container__coupon-title">Have a coupon?</span>
+              <span class="container__coupon-subtitle"
+                >Add your code for an instant cart discount</span
+              >
+            </div>
+            <form class="container__coupon-form">
+              <img
+                class="container__coupon-icon"
+                src="imgs/coupon-icon.svg"
+                alt=""
+              />
+              <input
+                placeholder="Coupon Code"
+                class="container__coupon-input"
+                type="text"
+              />
+              <button class="container__coupon-btn">Apply</button>
+            </form>
+          </section>
+          <section class="container__cart-summary-section">
+            <span class="container__cart-summary-title">Cart summary</span>
+            <div class="container__cart-summary-shipping-divs-flex">
+              <div
+                class="container__cart-summary-shipping-div container__cart-summary-free-shipping-div"
+              >
+                <div
+                  class="container__cart-summary-shipping-input-and-text-flex"
+                >
+                  <input
+                    class="container__cart-summary-free-shipping-input container__cart-summary-shipping-input"
+                    type="radio"
+                    checked
+                  />
+                  <span class="container__cart-summary-shipping-text"
+                    >Free shipping</span
+                  >
+                  <span class="container__cart-summary-shipping-price"
+                    >$0.00</span
+                  >
+                </div>
+              </div>
+              <div
+                class="container__cart-summary-shipping-div container__cart-summary-express-shipping-div"
+              >
+                <div
+                  class="container__cart-summary-shipping-input-and-text-flex"
+                >
+                  <input
+                    class="container__cart-summary-express-shipping-input container__cart-summary-shipping-input"
+                    type="radio"
+                  />
+                  <span class="container__cart-summary-shipping-text"
+                    >Express shipping</span
+                  >
+                  <span class="container__cart-summary-shipping-price"
+                    >+$15.00</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="container__cart-summary-totals-flex">
+              <div
+                class="container__cart-summary-total-flex container__cart-summary-subtotal-flex"
+              >
+                <span class="container__cart-summary-total-text">Subtotal</span>
+                <span
+                  class="container__cart-summary-total-cost container__cart-summary-subtotal-cost"
+                  >${{ subTotal.toFixed(2) }}</span
+                >
+              </div>
+              <div class="container__cart-summary-total-flex">
+                <span class="container__cart-summary-total-text">Total</span>
+                <span
+                  class="container__cart-summary-total-cost container__cart-summary-total-cost"
+                  >${{ total.toFixed(2) }}</span
+                >
+              </div>
+            </div>
+            <button
+              @click="showCheckoutDetails"
+              class="container__cart-summary-btn"
+            >
+              Checkout
+            </button>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section
+      v-if="isCheckoutDetailsVisible"
+      class="container__checkout-details-section"
+    >
+      <div class="container__forms-and-items-list-and-place-order-btn-flex">
+        <form
+          @submit.prevent
+          class="container__checkout-details-contact-info-form"
+        >
+          <span class="container__title-form">Contact Infomation</span>
+          <div class="container__two-inputs-flex">
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">FIRST Name</span>
+              <input
+                placeholder="First name"
+                type="text"
+                class="container__input"
+              />
+            </div>
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">LAST Name</span>
+              <input
+                placeholder="Last name"
+                type="text"
+                class="container__input"
+              />
+            </div>
+          </div>
+          <div class="container__input-title-and-input-flex">
+            <span class="container__input-title">PHONE NUMBER</span>
+            <input
+              placeholder="Phone number"
+              type="text"
+              class="container__input"
+            />
+          </div>
+          <div class="container__input-title-and-input-flex">
+            <span class="container__input-title">EMAIL ADDRESS</span>
+            <input
+              placeholder="Your Email"
+              type="text"
+              class="container__input"
+            />
+          </div>
+        </form>
+        <form @submit.prevent class="container__shipping-address-form">
+          <div class="container__input-title-and-input-flex">
+            <span class="container__input-title">STREET ADRESS *</span>
+            <input
+              placeholder="Street Address"
+              type="text"
+              class="container__input"
+            />
+          </div>
+          <div class="dropdown">
+            <button @click="dropdownCountries" class="dropdown__button">
+              <span class="dropdown__button-text">Country</span>
+              <img
+                class="dropdown__button-arrow"
+                src="imgs/dropdown-arrow.svg"
+                alt=""
+              />
+            </button>
+            <ul class="dropdown__list">
+              <li
+                class="dropdown__list-item"
+                v-for="option in options"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.value }}
+              </li>
+            </ul>
+          </div>
+          <div class="container__input-title-and-input-flex">
+            <span class="container__input-title">TOWN / CITY *</span>
+            <input
+              placeholder="Town / City"
+              type="text"
+              class="container__input"
+            />
+          </div>
+          <div class="container__two-inputs-flex">
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">STATE</span>
+              <input placeholder="State" type="text" class="container__input" />
+            </div>
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">ZIP CODE</span>
+              <input
+                placeholder="Zip Code"
+                type="text"
+                class="container__input"
+              />
+            </div>
+          </div>
+          <div class="container__checkbox-and-text-flex">
+            <input type="checkbox" class="container__checkbox" />
+            <span class="container__checkbox-text"
+              >Use a different billing address (optional)</span
+            >
+          </div>
+        </form>
+        <form @submit.prevent class="container__checkout-details-payment-form">
+          <span class="container__title-form">Payment method</span>
+          <div class="container__checkout-details-payment-divs-flex">
+            <div
+              class="container__checkout-details-payment-div container__checkout-details-pay-by-card-credit-div"
+            >
+              <input
+                class="container__checkout-details-pay-by-card-input container__checkout-details-payment-input"
+                type="radio"
+                checked
+              />
+              <span class="container__checkout-details-payment-text"
+                >Pay by Card Credit</span
+              >
+            </div>
+            <div
+              class="container__checkout-details-payment-div container__checkout-details-paypal-div"
+            >
+              <input
+                class="container__checkout-details-paypal-card-input container__checkout-details-payment-input"
+                type="radio"
+              />
+              <span class="container__checkout-details-payment-text"
+                >Paypal</span
+              >
+            </div>
+          </div>
+          <div class="container__input-title-and-input-flex">
+            <span class="container__input-title">Card Number</span>
+            <input
+              placeholder="9999 9999 9999 9999"
+              type="text"
+              class="container__input"
+              v-model="cardNumber"
+              @input="formatCardNumber"
+            />
+          </div>
+          <div class="container__two-inputs-flex">
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">Expiration date</span>
+              <input
+                placeholder="MM/YY"
+                type="text"
+                class="container__input"
+                v-model="expiryDate"
+                @input="formatExpiryDate"
+              />
+            </div>
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">CVC</span>
+              <input
+                placeholder="CVC code"
+                type="text"
+                class="container__input"
+                v-model="cvcCode"
+                @input="limitCvcCode"
+              />
+            </div>
+          </div>
+        </form>
+        <section class="container__checkout-details-order-summary-section">
+          <span class="container__title-form">Order summary</span>
+          <summary-list :products="products"></summary-list>
+          <div class="container__checkout-details-order-summary-details-flex">
+            <span class="container__checkout-details-order-summary-details-text"
+              >Shipping</span
+            >
+            <div
+              class="container__checkout-details-order-summary-details-price"
+            >
+              {{ selectedShipping }}
+            </div>
+          </div>
+          <div class="container__checkout-details-order-summary-details-flex">
+            <span class="container__checkout-details-order-summary-details-text"
+              >Total</span
+            >
+            <div
+              class="container__checkout-details-order-summary-details-price"
+            >
+              {{ total }}
+            </div>
+          </div>
+        </section>
+        <button
+          @click="showOrderComplete"
+          class="container__checkout-details-order-summary-place-order-btn"
+        >
+          Place order
+        </button>
+      </div>
+    </section>
+    <section
+      v-if="isOrderCompleteVisible"
+      class="container__order-complete-section"
+    >
+      order-complete
+    </section>
   </div>
 </template>
 
 <script>
 import CartList from "../UI/CartList.vue";
+import SummaryList from "../UI/SummaryList.vue";
 export default {
   name: "CartPage",
-  components: { CartList },
+  components: { CartList, SummaryList },
   data() {
     return {
       products: JSON.parse(localStorage.getItem("cart")) || [],
+      titleSection: "Cart",
+      options: [
+        { value: "Canada" },
+        { value: "USA" },
+        { value: "Australia" },
+        { value: "Denmark" },
+        { value: "Sweden" },
+        { value: "Switzerland" },
+        { value: "France" },
+        { value: "Netherlands" },
+        { value: "Poland" },
+        { value: "Germany" },
+      ],
       selectedShipping: "free-shipping",
       subTotal: 0,
       total: 0,
+      isShoppingCartVisible: true,
+      isCheckoutDetailsVisible: false,
+      isOrderCompleteVisible: false,
+      payment: "Pay by Card Credit",
+      cardNumber: "",
+      expiryDate: "",
+      cvcCode: "",
     };
   },
   methods: {
@@ -136,18 +436,201 @@ export default {
       this.subTotal += deliveryCost;
       this.total += deliveryCost;
     },
-  },
-  mounted() {
-    this.calculateTotals();
-    document
-      .querySelector(".container__cart-summary-free-shipping-div")
-      .addEventListener("click", () => {
-        document.querySelector(
-          ".container__cart-summary-free-shipping-div"
-        ).style.background = "#f3f5f7";
-        document.querySelector(
-          ".container__cart-summary-express-shipping-div"
-        ).style.background = "transparent";
+    showShoppingCart() {
+      this.titleSection = "Cart";
+      this.isShoppingCartVisible = true;
+      this.isCheckoutDetailsVisible = false;
+      this.isOrderCompleteVisible = false;
+      document
+        .querySelector(".container__shopping-cart-stage-circle")
+        .classList.remove("container__stage-green-circle");
+      document.querySelector(
+        ".container__shopping-cart-stage-circle-num"
+      ).style.display = "block";
+      document.querySelector(
+        ".container__shopping-cart-stage-tick"
+      ).style.display = "none";
+      document
+        .querySelector(".container__shopping-cart-stage-text")
+        .classList.remove("container__stage-green-text");
+      document
+        .querySelector(".container__shopping-cart-stage-flex")
+        .classList.remove("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__checkout-details-stage-circle")
+        .classList.remove("container__stage-black-circle");
+      document
+        .querySelector(".container__checkout-details-stage-text")
+        .classList.remove("container__stage-black-text");
+      document.querySelector(
+        ".container__checkout-details-stage-circle-num"
+      ).style.display = "block";
+      document.querySelector(
+        ".container__checkout-details-stage-tick"
+      ).style.display = "none";
+      document
+        .querySelector(".container__checkout-details-stage-flex")
+        .classList.remove("container__border-bottom-black-stage-flex");
+      document
+        .querySelector(".container__checkout-details-stage-circle")
+        .classList.remove("container__stage-green-circle");
+      document
+        .querySelector(".container__checkout-details-stage-text")
+        .classList.remove("container__stage-green-text");
+      document
+        .querySelector(".container__checkout-details-stage-flex")
+        .classList.remove("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__order-complete-stage-circle")
+        .classList.remove("container__stage-black-circle");
+      document
+        .querySelector(".container__order-complete-stage-text")
+        .classList.remove("container__stage-black-text");
+      document
+        .querySelector(".container__order-complete-stage-flex")
+        .classList.remove("container__border-bottom-black-stage-flex");
+      this.$nextTick(() => {
+        this.addEventListenersRadioBtns();
+        this.removeEventListenersRadioBtns();
+      });
+    },
+    showCheckoutDetails() {
+      window.scrollTo(0, 0);
+      this.titleSection = "Check Out";
+      this.isShoppingCartVisible = false;
+      this.isCheckoutDetailsVisible = true;
+      this.isOrderCompleteVisible = false;
+      document
+        .querySelector(".container__shopping-cart-stage-circle")
+        .classList.add("container__stage-green-circle");
+      document.querySelector(
+        ".container__shopping-cart-stage-circle-num"
+      ).style.display = "none";
+      document.querySelector(
+        ".container__shopping-cart-stage-tick"
+      ).style.display = "block";
+      document
+        .querySelector(".container__shopping-cart-stage-text")
+        .classList.add("container__stage-green-text");
+      document
+        .querySelector(".container__shopping-cart-stage-flex")
+        .classList.add("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__checkout-details-stage-circle")
+        .classList.remove("container__stage-green-circle");
+      document
+        .querySelector(".container__checkout-details-stage-text")
+        .classList.remove("container__stage-green-text");
+      document.querySelector(
+        ".container__checkout-details-stage-circle-num"
+      ).style.display = "block";
+      document.querySelector(
+        ".container__checkout-details-stage-tick"
+      ).style.display = "none";
+      document
+        .querySelector(".container__checkout-details-stage-flex")
+        .classList.remove("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__checkout-details-stage-circle")
+        .classList.add("container__stage-black-circle");
+      document
+        .querySelector(".container__checkout-details-stage-text")
+        .classList.add("container__stage-black-text");
+      document
+        .querySelector(".container__checkout-details-stage-flex")
+        .classList.add("container__border-bottom-black-stage-flex");
+      document
+        .querySelector(".container__order-complete-stage-circle")
+        .classList.add("container__stage-gray-circle");
+      document
+        .querySelector(".container__order-complete-stage-text")
+        .classList.add("container__stage-gray-text");
+      document
+        .querySelector(".container__order-complete-stage-flex")
+        .classList.add("container__border-bottom-transparent-stage-flex");
+      this.$nextTick(() => {
+        this.removeEventListenersRadioBtns();
+        this.addEventListenersPaymentRadioBtns();
+      });
+      if (window.innerWidth < 1024) {
+        let sliderTrack = document.querySelector(".container__stages-flex");
+        sliderTrack.style.transform = `translateX(${-288}px)`;
+      }
+    },
+    showOrderComplete() {
+      window.scrollTo(0, 0);
+      this.titleSection = "Complete!";
+      this.isShoppingCartVisible = false;
+      this.isCheckoutDetailsVisible = false;
+      this.isOrderCompleteVisible = true;
+      document
+        .querySelector(".container__shopping-cart-stage-circle")
+        .classList.add("container__stage-green-circle");
+      document.querySelector(
+        ".container__shopping-cart-stage-circle-num"
+      ).style.display = "none";
+      document.querySelector(
+        ".container__shopping-cart-stage-tick"
+      ).style.display = "block";
+      document
+        .querySelector(".container__shopping-cart-stage-text")
+        .classList.add("container__stage-green-text");
+      document
+        .querySelector(".container__shopping-cart-stage-flex")
+        .classList.add("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__checkout-details-stage-circle")
+        .classList.add("container__stage-green-circle");
+      document.querySelector(
+        ".container__checkout-details-stage-circle-num"
+      ).style.display = "none";
+      document.querySelector(
+        ".container__checkout-details-stage-tick"
+      ).style.display = "block";
+      document
+        .querySelector(".container__checkout-details-stage-text")
+        .classList.add("container__stage-green-text");
+      document
+        .querySelector(".container__checkout-details-stage-flex")
+        .classList.add("container__border-bottom-green-stage-flex");
+      document
+        .querySelector(".container__order-complete-stage-circle")
+        .classList.remove("container__stage-gray-circle");
+      document
+        .querySelector(".container__order-complete-stage-text")
+        .classList.remove("container__stage-gray-text");
+      document
+        .querySelector(".container__order-complete-stage-flex")
+        .classList.remove("container__border-bottom-transparent-stage-flex");
+      document
+        .querySelector(".container__order-complete-stage-circle")
+        .classList.add("container__stage-black-circle");
+      document
+        .querySelector(".container__order-complete-stage-text")
+        .classList.add("container__stage-black-text");
+      document
+        .querySelector(".container__order-complete-stage-flex")
+        .classList.add("container__border-bottom-black-stage-flex");
+      this.$nextTick(() => {
+        this.removeEventListenersRadioBtns();
+        this.removeEventListenersRadioBtns();
+      });
+      if (window.innerWidth < 1024) {
+        let sliderTrack = document.querySelector(".container__stages-flex");
+        sliderTrack.style.transform = `translateX(${-576}px)`;
+      }
+    },
+    addEventListenersRadioBtns() {
+      const freeShippingDiv = document.querySelector(
+        ".container__cart-summary-free-shipping-div"
+      );
+      const expressShippingDiv = document.querySelector(
+        ".container__cart-summary-express-shipping-div"
+      );
+
+      const freeShippingClickHandler = () => {
+        freeShippingDiv.style.background = "#f3f5f7";
+        expressShippingDiv.style.background = "transparent";
         document.querySelector(
           ".container__cart-summary-free-shipping-input"
         ).checked = true;
@@ -156,16 +639,11 @@ export default {
         ).checked = false;
         this.selectedShipping = "free-shipping";
         this.calculateTotals();
-      });
-    document
-      .querySelector(".container__cart-summary-express-shipping-div")
-      .addEventListener("click", () => {
-        document.querySelector(
-          ".container__cart-summary-express-shipping-div"
-        ).style.background = "#f3f5f7";
-        document.querySelector(
-          ".container__cart-summary-free-shipping-div"
-        ).style.background = "transparent";
+      };
+
+      const expressShippingClickHandler = () => {
+        expressShippingDiv.style.background = "#f3f5f7";
+        freeShippingDiv.style.background = "transparent";
         document.querySelector(
           ".container__cart-summary-express-shipping-input"
         ).checked = true;
@@ -174,7 +652,344 @@ export default {
         ).checked = false;
         this.selectedShipping = "express-shipping";
         this.calculateTotals();
+      };
+
+      freeShippingDiv.addEventListener("click", freeShippingClickHandler);
+      expressShippingDiv.addEventListener("click", expressShippingClickHandler);
+
+      if (this.selectedShipping === "free-shipping") {
+        freeShippingDiv.style.background = "#f3f5f7";
+        expressShippingDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__cart-summary-free-shipping-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__cart-summary-express-shipping-input"
+        ).checked = false;
+      } else if (this.selectedShipping === "express-shipping") {
+        expressShippingDiv.style.background = "#f3f5f7";
+        freeShippingDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__cart-summary-express-shipping-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__cart-summary-free-shipping-input"
+        ).checked = false;
+      }
+    },
+    removeEventListenersRadioBtns() {
+      const freeShippingDiv = document.querySelector(
+        ".container__cart-summary-free-shipping-div"
+      );
+      const expressShippingDiv = document.querySelector(
+        ".container__cart-summary-express-shipping-div"
+      );
+      if (freeShippingDiv) {
+        freeShippingDiv.removeEventListener(
+          "click",
+          this.freeShippingClickHandler
+        );
+        expressShippingDiv.removeEventListener(
+          "click",
+          this.expressShippingClickHandler
+        );
+      }
+    },
+    sliderStages() {
+      if (window.innerWidth < 1024) {
+        let slider = document.querySelector(".container__stages-overflow"),
+          sliderTrack = slider.querySelector(".container__stages-flex"),
+          slides = [...slider.querySelectorAll(".container__stage-flex")],
+          slideWidth = 288,
+          slideIndex = 0,
+          posInit = 0,
+          posX1 = 0,
+          posX2 = 0,
+          posY1 = 0,
+          posY2 = 0,
+          posFinal = 0,
+          isSwipe = false,
+          isScroll = false,
+          allowSwipe = true,
+          transition = true,
+          nextTrf = 0,
+          prevTrf = 0,
+          lastTrf = (slides.length - 1) * slideWidth,
+          posThreshold = slides[0].offsetWidth * 0.35,
+          trfRegExp = /([-0-9.]+(?=px))/,
+          swipeStartTime,
+          swipeEndTime,
+          getEvent = function () {
+            return event.type.search("touch") !== -1 ? event.touches[0] : event;
+          },
+          slide = function () {
+            if (transition) {
+              sliderTrack.style.transition = "transform .5s";
+            }
+            sliderTrack.style.transform = `translate3d(-${
+              slideIndex * slideWidth
+            }px, 0px, 0px)`;
+          },
+          swipeStart = function () {
+            let evt = getEvent();
+
+            if (allowSwipe) {
+              swipeStartTime = Date.now();
+
+              transition = true;
+
+              nextTrf = (slideIndex + 1) * -slideWidth;
+              prevTrf = (slideIndex - 1) * -slideWidth;
+
+              posInit = posX1 = evt.clientX;
+              posY1 = evt.clientY;
+
+              sliderTrack.style.transition = "";
+
+              document.addEventListener("touchmove", swipeAction);
+              document.addEventListener("mousemove", swipeAction);
+              document.addEventListener("touchend", swipeEnd);
+              document.addEventListener("mouseup", swipeEnd);
+            }
+          },
+          swipeAction = function () {
+            let evt = getEvent(),
+              style = sliderTrack.style.transform,
+              transform = +style.match(trfRegExp)[0];
+
+            posX2 = posX1 - evt.clientX;
+            posX1 = evt.clientX;
+
+            posY2 = posY1 - evt.clientY;
+            posY1 = evt.clientY;
+
+            if (!isSwipe && !isScroll) {
+              let posY = Math.abs(posY2);
+              if (posY > 7 || posX2 === 0) {
+                isScroll = true;
+                allowSwipe = false;
+              } else if (posY < 7) {
+                isSwipe = true;
+              }
+            }
+
+            if (isSwipe) {
+              if (slideIndex === 0) {
+                if (posInit < posX1) {
+                  setTransform(transform, 0);
+                  return;
+                } else {
+                  allowSwipe = true;
+                }
+              }
+
+              if (slideIndex === slides.length - 1) {
+                if (posInit > posX1) {
+                  setTransform(transform, lastTrf);
+                  return;
+                } else {
+                  allowSwipe = true;
+                }
+              }
+
+              if (
+                (posInit > posX1 && transform < nextTrf) ||
+                (posInit < posX1 && transform > prevTrf)
+              ) {
+                reachEdge();
+                return;
+              }
+
+              sliderTrack.style.transform = `translate3d(${
+                transform - posX2
+              }px, 0px, 0px)`;
+            }
+          },
+          swipeEnd = function () {
+            posFinal = posInit - posX1;
+
+            isScroll = false;
+            isSwipe = false;
+
+            document.removeEventListener("touchmove", swipeAction);
+            document.removeEventListener("mousemove", swipeAction);
+            document.removeEventListener("touchend", swipeEnd);
+            document.removeEventListener("mouseup", swipeEnd);
+
+            if (allowSwipe) {
+              swipeEndTime = Date.now();
+              if (
+                Math.abs(posFinal) > posThreshold ||
+                swipeEndTime - swipeStartTime < 300
+              ) {
+                if (posInit < posX1) {
+                  slideIndex--;
+                } else if (posInit > posX1) {
+                  slideIndex++;
+                }
+              }
+
+              if (posInit !== posX1) {
+                allowSwipe = false;
+                slide();
+              } else {
+                allowSwipe = true;
+              }
+            } else {
+              allowSwipe = true;
+            }
+          },
+          setTransform = function (transform, comapreTransform) {
+            if (transform >= comapreTransform) {
+              if (transform > comapreTransform) {
+                sliderTrack.style.transform = `translate3d(${comapreTransform}px, 0px, 0px)`;
+              }
+            }
+            allowSwipe = false;
+          },
+          reachEdge = function () {
+            transition = false;
+            swipeEnd();
+            allowSwipe = true;
+          };
+        sliderTrack.style.transform = "translate3d(0px, 0px, 0px)";
+
+        sliderTrack.addEventListener(
+          "transitionend",
+          () => (allowSwipe = true)
+        );
+        slider.addEventListener("touchstart", swipeStart);
+        slider.addEventListener("mousedown", swipeStart);
+      }
+    },
+    dropdownCountries() {
+      const dropDownBtn = document.querySelector(".dropdown__button"),
+        dropDownList = document.querySelector(".dropdown__list"),
+        dropDownListItems = document.querySelectorAll(".dropdown__list-item"),
+        dropdownText = document.querySelector(".dropdown__button-text");
+      dropDownList.classList.toggle("dropdown__list--visible");
+      dropDownBtn.classList.add("dropdown__button--active");
+      dropDownListItems.forEach(function (listItem) {
+        listItem.addEventListener("click", function () {
+          dropdownText.innerText = this.innerText;
+        });
       });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Tab" || e.key === "Escape") {
+          dropDownBtn.classList.remove("dropdown__button--active");
+          dropDownList.classList.remove("dropdown__list--visible");
+        }
+      });
+    },
+    addEventListenersPaymentRadioBtns() {
+      const CardPaymentDiv = document.querySelector(
+        ".container__checkout-details-pay-by-card-credit-div"
+      );
+      const PaypallPaymentDiv = document.querySelector(
+        ".container__checkout-details-paypal-div"
+      );
+
+      const CardPaymentClickHandler = () => {
+        CardPaymentDiv.style.background = "#f3f5f7";
+        PaypallPaymentDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__checkout-details-pay-by-card-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__checkout-details-paypal-card-input"
+        ).checked = false;
+        this.selectedShipping = "free-shipping";
+        this.calculateTotals();
+      };
+
+      const PaypallPaymentClickHandler = () => {
+        PaypallPaymentDiv.style.background = "#f3f5f7";
+        CardPaymentDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__checkout-details-paypal-card-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__checkout-details-pay-by-card-input"
+        ).checked = false;
+        this.selectedShipping = "express-shipping";
+        this.calculateTotals();
+      };
+
+      if (CardPaymentDiv) {
+        CardPaymentDiv.addEventListener("click", CardPaymentClickHandler);
+        PaypallPaymentDiv.addEventListener("click", PaypallPaymentClickHandler);
+      }
+
+      if (this.payment === "free-shipping") {
+        CardPaymentDiv.style.background = "#f3f5f7";
+        PaypallPaymentDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__checkout-details-pay-by-card-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__checkout-details-paypal-card-input"
+        ).checked = false;
+      } else if (this.payment === "express-shipping") {
+        PaypallPaymentDiv.style.background = "#f3f5f7";
+        CardPaymentDiv.style.background = "transparent";
+        document.querySelector(
+          ".container__checkout-details-paypal-card-input"
+        ).checked = true;
+        document.querySelector(
+          ".container__checkout-details-pay-by-card-input"
+        ).checked = false;
+      }
+    },
+    removeEventListenersPaymentRadioBtns() {
+      const CardPaymentDiv = document.querySelector(
+        ".container__checkout-details-pay-by-card-credit-div"
+      );
+      const PaypallPaymentDiv = document.querySelector(
+        ".container__cart-summary-express-shipping-div"
+      );
+      if (CardPaymentDiv) {
+        CardPaymentDiv.removeEventListener(
+          "click",
+          this.CardPaymentClickHandler
+        );
+        PaypallPaymentDiv.removeEventListener(
+          "click",
+          this.PaypallPaymentClickHandler
+        );
+      }
+    },
+    formatCardNumber() {
+      let formattedNumber = this.cardNumber.replace(/\D/g, "");
+      formattedNumber = formattedNumber.slice(0, 16);
+      formattedNumber = formattedNumber.replace(/(\d{4})(?=\d)/g, "$1 ");
+      this.cardNumber = formattedNumber;
+    },
+    formatExpiryDate() {
+      let formattedDate = this.expiryDate.replace(/\D/g, "");
+      formattedDate = formattedDate.slice(0, 4);
+      const month = parseInt(formattedDate.slice(0, 2));
+      if (month > 12) {
+        formattedDate = "12" + formattedDate.slice(2);
+      }
+      if (formattedDate.length > 2) {
+        formattedDate =
+          formattedDate.slice(0, 2) + "/" + formattedDate.slice(2);
+      }
+      this.expiryDate = formattedDate;
+    },
+    limitCvcCode() {
+      let formattedCode = this.cvcCode.replace(/\D/g, "");
+      formattedCode = formattedCode.slice(0, 3);
+      this.cvcCode = formattedCode;
+    },
+  },
+  mounted() {
+    this.calculateTotals();
+    this.sliderStages();
+    this.removeEventListenersRadioBtns();
+    this.addEventListenersRadioBtns();
+    this.removeEventListenersPaymentRadioBtns();
+    this.addEventListenersPaymentRadioBtns();
   },
 };
 </script>
@@ -200,6 +1015,108 @@ export default {
   font-size: 2.5rem;
   font-weight: 500;
   color: #000;
+  margin-top: 2.5rem;
+}
+.container__stages-overflow {
+  overflow-x: hidden;
+}
+.container__stages-flex {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 6.5rem;
+  height: 100px;
+  transition: transform 0.67s ease;
+}
+.container__stage-flex {
+  position: relative;
+  display: flex;
+  gap: 1.063rem;
+  align-items: center;
+  width: 256px;
+  flex-shrink: 0;
+}
+.container__shopping-cart-stage-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid $black;
+  margin-top: 5.9rem;
+}
+
+.container__border-bottom-black-stage-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid $black;
+  margin-top: 5.9rem;
+}
+.container__border-bottom-green-stage-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid #38cb89;
+  margin-top: 5.9rem;
+}
+.container__border-bottom-transparent-stage-flex::after {
+  border: 1px solid transparent;
+}
+.container__stage-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  background: #b1b5c3;
+}
+.container__shopping-cart-stage-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  background: #23262f;
+}
+.container__stage-black-circle {
+  background: #23262f;
+}
+.container__stage-green-circle {
+  background: #38cb89;
+}
+.container__stage-gray-circle {
+  background: #b1b5c3;
+}
+.container__stage-circle-num {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fcfcfd;
+}
+.container__stage-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #b1b5c3;
+}
+.container__shopping-cart-stage-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #23262f;
+}
+.container__stage-black-text {
+  color: #23262f;
+}
+.container__stage-green-text {
+  color: #38cb89;
+}
+.container__stage-gray-text {
+  color: #b1b5c3;
+}
+.container__stage-tick {
+  display: none;
 }
 .container__sub-title {
   font-family: "Inter", sans-serif;
@@ -293,7 +1210,8 @@ export default {
   display: flex;
   gap: 0.75rem;
 }
-.container__cart-summary-shipping-input {
+.container__cart-summary-shipping-input,
+.container__checkout-details-payment-input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -308,7 +1226,8 @@ export default {
   border-radius: 50%;
   outline: none;
 }
-.container__cart-summary-shipping-input[type="radio"]:checked::before {
+.container__cart-summary-shipping-input[type="radio"]:checked::before,
+.container__checkout-details-payment-input[type="radio"]:checked::before {
   content: "";
   display: inline-block;
   width: 10px;
@@ -359,6 +1278,187 @@ export default {
   font-weight: 500;
   color: #fff;
 }
+.container__forms-and-items-list-and-place-order-btn-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+.container__checkout-details-contact-info-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  border: 1px solid #6c7275;
+  border-radius: 0.375rem;
+  margin-top: -4rem;
+}
+.container__title-form {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $black;
+}
+.container__two-inputs-flex {
+  display: flex;
+  gap: 0.5rem;
+}
+.container__input-title-and-input-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.container__input-title {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6c7275;
+}
+.container__input {
+  @include input;
+  border: 1px solid #cbcbcb;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6c7275;
+}
+.container__input:focus {
+  outline: 1px solid #121212;
+}
+.container__shipping-address-form,
+.container__checkout-details-payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #6c7275;
+  border-radius: 0.375rem;
+}
+.dropdown__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #cbcbcb;
+  border-radius: 0.5rem;
+  height: 48px;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6c7275;
+  white-space: nowrap;
+}
+.dropdown__button img {
+  pointer-events: none;
+}
+.dropdown__button:focus,
+.dropdown__button--active {
+  outline: none;
+}
+.dropdown__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid #f3f5f7;
+  box-shadow: 0px 64px 64px -48px rgba(15, 15, 15, 0.1);
+  background: #fff;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  list-style-type: none;
+}
+.dropdown__list {
+  display: none;
+}
+.dropdown__list--visible {
+  display: flex;
+}
+.dropdown__list-item {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6c7275;
+  padding: 0.5rem;
+}
+.dropdown__list-item:hover {
+  border-radius: 0.5rem;
+  background-color: #f3f5f7;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #141718;
+}
+.container__checkbox-and-text-flex {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.container__checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #6c7275;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+}
+.container__checkbox-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #6c7275;
+}
+.container__checkout-details-payment-divs-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.container__checkout-details-payment-div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0.875rem;
+  border: 1px solid #6c7275;
+  border-radius: 0.25rem;
+}
+.container__checkout-details-pay-by-card-credit-div {
+  background: #f3f5f7;
+}
+.container__checkout-details-payment-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $black;
+}
+.container__checkout-details-order-summary-section {
+  padding: 1rem;
+  border: 1px solid #6c7275;
+  border-radius: 0.375rem;
+}
+.container__checkout-details-order-summary-details-flex {
+}
+.container__checkout-details-order-summary-details-text {
+}
+.container__checkout-details-order-summary-details-price {
+}
+.container__checkout-details-order-summary-place-order-btn {
+  @include button;
+  background: $black;
+  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 2.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
 /* 768px = 48em */
 @media (min-width: 48em) {
   .container {
@@ -366,6 +1466,7 @@ export default {
   }
   .container__title {
     font-size: 3.375rem;
+    margin-bottom: 2.5rem;
   }
   .container__coupon-title {
     font-size: 1.25rem;
@@ -382,6 +1483,12 @@ export default {
   }
 }
 
+/* 1024px = 64em */
+@media (min-width: 64em) {
+  .container__stages {
+    justify-content: center;
+  }
+}
 /* 1440px = 90em */
 @media (min-width: 90em) {
   .container {
