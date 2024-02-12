@@ -7,7 +7,7 @@
         :products="products"
         :key="product.id"
         :remove-product="removeProduct"
-        @productRemoved="removeProduct()"
+        @productRemoved="removeProduct"
         :calculateTotals="calculateTotals"
       ></cart-item>
     </transition-group>

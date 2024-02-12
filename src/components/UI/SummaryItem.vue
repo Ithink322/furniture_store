@@ -2,49 +2,82 @@
   <div class="container__checkout-details-summary-item">
     <div class="container__checkout-details-summary-item-flex">
       <img
+        @click="goToCurrentProductPage"
         :src="product.hero"
         alt=""
         class="container__checkout-details-summary-item-hero"
       />
       <div
-        class="container__checkout-details-summary-item-title-and-color-and-counter-flex"
+        class="container__checkout-details-summary-item-title-and-color-and-counter-and-prices-flex"
       >
-        <span class="container__checkout-details-summary-item-title">{{
-          product.title
-        }}</span>
-        <span class="container__checkout-details-summary-item-color"
-          >Color: {{ selectedColor }}</span
+        <div
+          class="container__checkout-details-summary-item-title-and-color-and-counter-flex"
         >
-        <div class="container__checkout-details-summary-item-counter">
-          <button class="container__checkout-details-summary-item-minus-btn">
-            <img src="imgs/minus-icon.svg" alt="" />
-          </button>
-          <div class="container__checkout-details-summary-item-counter-text">
-            {{ product.qty }}
+          <span
+            @click="goToCurrentProductPage"
+            class="container__checkout-details-summary-item-title"
+            >{{ product.title }}</span
+          >
+          <span class="container__checkout-details-summary-item-color"
+            >Color: {{ selectedColor }}</span
+          >
+          <div class="container__checkout-details-summary-item-counter">
+            <button
+              @click="decreaseQty(product)"
+              class="container__checkout-details-summary-item-minus-btn"
+            >
+              <img src="imgs/minus-icon.svg" alt="" />
+            </button>
+            <div class="container__checkout-details-summary-item-counter-text">
+              {{ product.qty }}
+            </div>
+            <button
+              @click="increaseQty(product)"
+              class="container__checkout-details-summary-item-plus-btn"
+            >
+              <img src="imgs/plus-icon.svg" alt="" />
+            </button>
           </div>
-          <button class="container__checkout-details-summary-item-plus-btn">
-            <img src="imgs/plus-icon.svg" alt="" />
+        </div>
+        <div
+          class="container__checkout-details-summary-price-and-remove-btn-flex"
+        >
+          <span class="container__checkout-details-summary-price"
+            >${{
+              (product.currentPrice.replace("$", "") * product.qty).toFixed(2)
+            }}</span
+          >
+          <button
+            @click="removeProduct(product.id)"
+            class="container__checkout-details-summary-remove-btn"
+          >
+            <img src="imgs/x-icon-gray.svg" alt="" />
           </button>
         </div>
-      </div>
-      <div class="container__checkout-details-summary-price-and-close-btn-flex">
-        <span class="container__checkout-details-summary-price">{{
-          product.currentPrice
-        }}</span>
-        <button class="container__checkout-details-summary-close-btn">
-          <img src="imgs/x-icon-gray.svg" alt="" />
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "SummaryItem",
   props: {
     product: {
+      type: Object,
+      required: true,
+    },
+    products: {
       type: Array,
+      required: true,
+    },
+    removeProduct: {
+      type: Function,
+      required: true,
+    },
+    calculateTotals: {
+      type: Function,
       required: true,
     },
   },
@@ -54,6 +87,52 @@ export default {
         localStorage.getItem(`selectedColor_${this.product.id}`) ||
         this.product.startColor,
     };
+  },
+  computed: {
+    ...mapState(["totalQtyOfCartProducts"]),
+  },
+  methods: {
+    ...mapActions(["selectProduct"]),
+    goToCurrentProductPage() {
+      this.selectProduct(this.product);
+      this.$router.push("/CurrentProductPage");
+      window.scrollTo(0, 0);
+    },
+    ...mapMutations(["updateTotalQty"]),
+    updateTotalQtyOfCartProducts() {
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      if (products !== null) {
+        products.forEach((product) => {
+          totalQty += Number(product.qty);
+        });
+        this.updateTotalQty(totalQty);
+      }
+    },
+    decreaseQty(product) {
+      if (product.qty > 1) {
+        product.qty--;
+      }
+      localStorage.setItem("cart", JSON.stringify(this.products));
+      this.updateTotalQtyOfCartProducts();
+      this.calculateTotals();
+    },
+    increaseQty(product) {
+      product.qty++;
+      localStorage.setItem("cart", JSON.stringify(this.products));
+      this.updateTotalQtyOfCartProducts();
+      this.calculateTotals();
+    },
+    removeProduct(id) {
+      this.removeProduct(id);
+      this.$emit("productRemoved", id);
+      this.updateTotalQtyOfCartProducts();
+      this.calculateTotals();
+    },
+  },
+  mounted() {
+    this.updateTotalQtyOfCartProducts();
+    this.calculateTotals();
   },
 };
 </script>
@@ -69,6 +148,11 @@ export default {
 .container__checkout-details-summary-item-hero {
   width: 80px;
   height: 96px;
+}
+.container__checkout-details-summary-item-title-and-color-and-counter-and-prices-flex {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 .container__checkout-details-summary-item-title-and-color-and-counter-flex {
   display: flex;
@@ -93,6 +177,7 @@ export default {
   border: 1px solid #6c7275;
   border-radius: 0.25rem;
   padding: 0.75rem 0.5rem;
+  width: fit-content;
 }
 .container__checkout-details-summary-item-minus-btn,
 .container__checkout-details-summary-item-plus-btn {
@@ -104,7 +189,7 @@ export default {
   font-weight: 600;
   color: #121212;
 }
-.container__checkout-details-summary-price-and-close-btn-flex {
+.container__checkout-details-summary-price-and-remove-btn-flex {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -116,7 +201,7 @@ export default {
   font-weight: 600;
   color: #121212;
 }
-.container__checkout-details-summary-close-btn {
+.container__checkout-details-summary-remove-btn {
   @include button;
 }
 </style>

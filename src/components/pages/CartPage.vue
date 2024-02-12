@@ -89,7 +89,7 @@
                 >Add your code for an instant cart discount</span
               >
             </div>
-            <form class="container__coupon-form">
+            <form @submit.prevent="applyCoupone" class="container__coupon-form">
               <img
                 class="container__coupon-icon"
                 src="imgs/coupon-icon.svg"
@@ -99,8 +99,11 @@
                 placeholder="Coupon Code"
                 class="container__coupon-input"
                 type="text"
+                v-model="userCouponeCode"
               />
-              <button class="container__coupon-btn">Apply</button>
+              <button @click="applyCoupone" class="container__coupon-btn">
+                Apply
+              </button>
             </form>
           </section>
           <section class="container__cart-summary-section">
@@ -149,17 +152,35 @@
                 class="container__cart-summary-total-flex container__cart-summary-subtotal-flex"
               >
                 <span class="container__cart-summary-total-text">Subtotal</span>
-                <span
-                  class="container__cart-summary-total-cost container__cart-summary-subtotal-cost"
-                  >${{ subTotal.toFixed(2) }}</span
+                <div
+                  class="container__cart-summary-total-disount-and-cost-flex"
                 >
+                  <span
+                    v-if="this.isCouponeActivated"
+                    class="container__cart-summary-total-disount"
+                    >-${{ discountSubTotal }} [Remove]</span
+                  >
+                  <span
+                    class="container__cart-summary-total-cost container__cart-summary-subtotal-cost"
+                    >${{ subTotal.toFixed(2) }}</span
+                  >
+                </div>
               </div>
               <div class="container__cart-summary-total-flex">
                 <span class="container__cart-summary-total-text">Total</span>
-                <span
-                  class="container__cart-summary-total-cost container__cart-summary-total-cost"
-                  >${{ total.toFixed(2) }}</span
+                <div
+                  class="container__cart-summary-total-disount-and-cost-flex"
                 >
+                  <span
+                    v-if="this.isCouponeActivated"
+                    class="container__cart-summary-total-disount"
+                    >-${{ discount }} [Remove]</span
+                  >
+                  <span
+                    class="container__cart-summary-total-cost container__cart-summary-total-cost"
+                    >${{ total.toFixed(2) }}</span
+                  >
+                </div>
               </div>
             </div>
             <button
@@ -177,185 +198,227 @@
       class="container__checkout-details-section"
     >
       <div class="container__forms-and-items-list-and-place-order-btn-flex">
-        <form
-          @submit.prevent
-          class="container__checkout-details-contact-info-form"
-        >
-          <span class="container__title-form">Contact Infomation</span>
-          <div class="container__two-inputs-flex">
+        <div class="container__forms-flex">
+          <form
+            @submit.prevent
+            class="container__checkout-details-contact-info-form"
+          >
+            <span class="container__title-form">Contact Infomation</span>
+            <div class="container__two-inputs-flex">
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">FIRST Name</span>
+                <input
+                  placeholder="First name"
+                  type="text"
+                  class="container__input"
+                />
+              </div>
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">LAST Name</span>
+                <input
+                  placeholder="Last name"
+                  type="text"
+                  class="container__input"
+                />
+              </div>
+            </div>
             <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">FIRST Name</span>
+              <span class="container__input-title">PHONE NUMBER</span>
               <input
-                placeholder="First name"
+                placeholder="Phone number"
                 type="text"
                 class="container__input"
               />
             </div>
             <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">LAST Name</span>
+              <span class="container__input-title">EMAIL ADDRESS</span>
               <input
-                placeholder="Last name"
+                placeholder="Your Email"
                 type="text"
                 class="container__input"
               />
             </div>
-          </div>
-          <div class="container__input-title-and-input-flex">
-            <span class="container__input-title">PHONE NUMBER</span>
-            <input
-              placeholder="Phone number"
-              type="text"
-              class="container__input"
-            />
-          </div>
-          <div class="container__input-title-and-input-flex">
-            <span class="container__input-title">EMAIL ADDRESS</span>
-            <input
-              placeholder="Your Email"
-              type="text"
-              class="container__input"
-            />
-          </div>
-        </form>
-        <form @submit.prevent class="container__shipping-address-form">
-          <div class="container__input-title-and-input-flex">
-            <span class="container__input-title">STREET ADRESS *</span>
-            <input
-              placeholder="Street Address"
-              type="text"
-              class="container__input"
-            />
-          </div>
-          <div class="dropdown">
-            <button @click="dropdownCountries" class="dropdown__button">
-              <span class="dropdown__button-text">Country</span>
-              <img
-                class="dropdown__button-arrow"
-                src="imgs/dropdown-arrow.svg"
-                alt=""
-              />
-            </button>
-            <ul class="dropdown__list">
-              <li
-                class="dropdown__list-item"
-                v-for="option in options"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.value }}
-              </li>
-            </ul>
-          </div>
-          <div class="container__input-title-and-input-flex">
-            <span class="container__input-title">TOWN / CITY *</span>
-            <input
-              placeholder="Town / City"
-              type="text"
-              class="container__input"
-            />
-          </div>
-          <div class="container__two-inputs-flex">
+          </form>
+          <form @submit.prevent class="container__shipping-address-form">
+            <span class="container__title-form">Shipping Address</span>
             <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">STATE</span>
-              <input placeholder="State" type="text" class="container__input" />
-            </div>
-            <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">ZIP CODE</span>
+              <span class="container__input-title">STREET ADRESS *</span>
               <input
-                placeholder="Zip Code"
+                placeholder="Street Address"
                 type="text"
                 class="container__input"
               />
             </div>
-          </div>
-          <div class="container__checkbox-and-text-flex">
-            <input type="checkbox" class="container__checkbox" />
-            <span class="container__checkbox-text"
-              >Use a different billing address (optional)</span
-            >
-          </div>
-        </form>
-        <form @submit.prevent class="container__checkout-details-payment-form">
-          <span class="container__title-form">Payment method</span>
-          <div class="container__checkout-details-payment-divs-flex">
-            <div
-              class="container__checkout-details-payment-div container__checkout-details-pay-by-card-credit-div"
-            >
+            <div class="dropdown">
+              <button @click="dropdownCountries" class="dropdown__button">
+                <span class="dropdown__button-text">Country</span>
+                <img
+                  class="dropdown__button-arrow"
+                  src="imgs/dropdown-arrow.svg"
+                  alt=""
+                />
+              </button>
+              <ul class="dropdown__list">
+                <li
+                  class="dropdown__list-item"
+                  v-for="option in options"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.value }}
+                </li>
+              </ul>
+            </div>
+            <div class="container__input-title-and-input-flex">
+              <span class="container__input-title">TOWN / CITY *</span>
               <input
-                class="container__checkout-details-pay-by-card-input container__checkout-details-payment-input"
-                type="radio"
-                checked
+                placeholder="Town / City"
+                type="text"
+                class="container__input"
               />
-              <span class="container__checkout-details-payment-text"
-                >Pay by Card Credit</span
+            </div>
+            <div class="container__two-inputs-flex">
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">STATE</span>
+                <input
+                  placeholder="State"
+                  type="text"
+                  class="container__input"
+                />
+              </div>
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">ZIP CODE</span>
+                <input
+                  placeholder="Zip Code"
+                  type="text"
+                  class="container__input"
+                />
+              </div>
+            </div>
+            <div class="container__checkbox-and-text-flex">
+              <input type="checkbox" class="container__checkbox" />
+              <span class="container__checkbox-text"
+                >Use a different billing address (optional)</span
               >
             </div>
-            <div
-              class="container__checkout-details-payment-div container__checkout-details-paypal-div"
-            >
-              <input
-                class="container__checkout-details-paypal-card-input container__checkout-details-payment-input"
-                type="radio"
-              />
-              <span class="container__checkout-details-payment-text"
-                >Paypal</span
+          </form>
+          <form
+            @submit.prevent
+            class="container__checkout-details-payment-form"
+          >
+            <span class="container__title-form">Payment method</span>
+            <div class="container__checkout-details-payment-divs-flex">
+              <div
+                class="container__checkout-details-payment-div container__checkout-details-pay-by-card-credit-div"
               >
-            </div>
-          </div>
-          <div class="container__input-title-and-input-flex">
-            <span class="container__input-title">Card Number</span>
-            <input
-              placeholder="9999 9999 9999 9999"
-              type="text"
-              class="container__input"
-              v-model="cardNumber"
-              @input="formatCardNumber"
-            />
-          </div>
-          <div class="container__two-inputs-flex">
-            <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">Expiration date</span>
-              <input
-                placeholder="MM/YY"
-                type="text"
-                class="container__input"
-                v-model="expiryDate"
-                @input="formatExpiryDate"
-              />
+                <input
+                  class="container__checkout-details-pay-by-card-input container__checkout-details-payment-input"
+                  type="radio"
+                  checked
+                />
+                <span class="container__checkout-details-payment-text"
+                  >Pay by Card Credit</span
+                >
+              </div>
+              <div
+                class="container__checkout-details-payment-div container__checkout-details-paypal-div"
+              >
+                <input
+                  class="container__checkout-details-paypal-card-input container__checkout-details-payment-input"
+                  type="radio"
+                />
+                <span class="container__checkout-details-payment-text"
+                  >Paypal</span
+                >
+              </div>
             </div>
             <div class="container__input-title-and-input-flex">
-              <span class="container__input-title">CVC</span>
+              <span class="container__input-title">Card Number</span>
               <input
-                placeholder="CVC code"
+                placeholder="9999 9999 9999 9999"
                 type="text"
                 class="container__input"
-                v-model="cvcCode"
-                @input="limitCvcCode"
+                v-model="cardNumber"
+                @input="formatCardNumber"
               />
             </div>
-          </div>
-        </form>
+            <div class="container__two-inputs-flex">
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">Expiration date</span>
+                <input
+                  placeholder="MM/YY"
+                  type="text"
+                  class="container__input"
+                  v-model="expiryDate"
+                  @input="formatExpiryDate"
+                />
+              </div>
+              <div class="container__input-title-and-input-flex">
+                <span class="container__input-title">CVC</span>
+                <input
+                  placeholder="CVC code"
+                  type="text"
+                  class="container__input"
+                  v-model="cvcCode"
+                  @input="limitCvcCode"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
         <section class="container__checkout-details-order-summary-section">
           <span class="container__title-form">Order summary</span>
-          <summary-list :products="products"></summary-list>
+          <summary-list
+            :products="products"
+            :calculateTotals="calculateTotals"
+            @productRemoved="removeProduct"
+          ></summary-list>
           <div class="container__checkout-details-order-summary-details-flex">
-            <span class="container__checkout-details-order-summary-details-text"
-              >Shipping</span
-            >
             <div
-              class="container__checkout-details-order-summary-details-price"
+              v-if="this.isCouponeActivated"
+              class="container__checkout-details-order-summary-details-coupone-main-flex"
             >
-              {{ selectedShipping }}
+              <div
+                class="container__checkout-details-order-summary-details-coupone-icon-and-text-flex"
+              >
+                <img src="imgs/coupon-black-icon.svg" alt="" />
+                <span
+                  class="container__checkout-details-order-summary-details-coupone-text"
+                  >{{ couponCode }}</span
+                >
+              </div>
+              <span
+                class="container__checkout-details-order-summary-details-coupone-coupone-price"
+                >-${{ discount }} [Remove]</span
+              >
             </div>
-          </div>
-          <div class="container__checkout-details-order-summary-details-flex">
-            <span class="container__checkout-details-order-summary-details-text"
-              >Total</span
-            >
             <div
-              class="container__checkout-details-order-summary-details-price"
+              class="container__checkout-details-order-summary-details-text-and-price-flex container__checkout-details-order-summary-details-text-and-price-shipping-flex"
             >
-              {{ total }}
+              <span
+                class="container__checkout-details-order-summary-details-text"
+                >Shipping</span
+              >
+              <div
+                class="container__checkout-details-order-summary-details-price"
+              >
+                {{ selectedShipping }}
+              </div>
+            </div>
+            <div class="container__checkout-details-order-summary-details-flex">
+              <div
+                class="container__checkout-details-order-summary-details-text-and-price-flex"
+              >
+                <span
+                  class="container__checkout-details-order-summary-details-paypall-text"
+                  >Total</span
+                >
+                <div
+                  class="container__checkout-details-order-summary-details-price"
+                >
+                  {{ total.toFixed(2) }}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -371,12 +434,79 @@
       v-if="isOrderCompleteVisible"
       class="container__order-complete-section"
     >
-      order-complete
+      <div class="container__order-complete-order">
+        <div class="container__order-complete-order-title-and-text">
+          <span class="container__order-complete-order-title"
+            >Thank you! 🎉</span
+          >
+          <span class="container__order-complete-order-text"
+            >Your order has been received</span
+          >
+        </div>
+        <div class="container__order-complete-order-items-flex">
+          <div
+            v-for="product in products"
+            :key="product.id"
+            class="container__order-complete-order-item"
+          >
+            <img
+              :src="product.hero"
+              alt=""
+              class="container__order-complete-order-items-hero"
+            />
+            <div class="container__order-complete-order-items-qty-back">
+              <span class="container__order-complete-order-items-qty">{{
+                product.qty
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="container__order-complete-order-details-main-flex">
+          <div class="container__order-complete-order-details-flex">
+            <span class="container__order-complete-order-details-title"
+              >Order code:</span
+            >
+            <span class="container__order-complete-order-details-text"
+              >#{{ orderId }}</span
+            >
+          </div>
+          <div class="container__order-complete-order-details-flex">
+            <span class="container__order-complete-order-details-title"
+              >Date:</span
+            >
+            <span class="container__order-complete-order-details-text">{{
+              formattedDate
+            }}</span>
+          </div>
+          <div class="container__order-complete-order-details-flex">
+            <span class="container__order-complete-order-details-title"
+              >Total:</span
+            >
+            <span class="container__order-complete-order-details-text"
+              >${{ total }}</span
+            >
+          </div>
+          <div class="container__order-complete-order-details-flex">
+            <span class="container__order-complete-order-details-title"
+              >Payment method:</span
+            >
+            <span class="container__order-complete-order-details-text">{{
+              payment
+            }}</span>
+          </div>
+        </div>
+        <button
+          class="container__order-complete-order-details-purchase-history-btn"
+        >
+          Purchase history
+        </button>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import CartList from "../UI/CartList.vue";
 import SummaryList from "../UI/SummaryList.vue";
 export default {
@@ -398,17 +528,28 @@ export default {
         { value: "Poland" },
         { value: "Germany" },
       ],
-      selectedShipping: "free-shipping",
+      selectedShipping: "Free",
       subTotal: 0,
       total: 0,
       isShoppingCartVisible: true,
       isCheckoutDetailsVisible: false,
       isOrderCompleteVisible: false,
+      couponCode: "Minecraft25",
+      userCouponeCode: "",
+      discount: "",
+      discountSubTotal: "",
+      isCouponeActivated: false,
+      orderId: Date.now(),
       payment: "Pay by Card Credit",
+      formattedDate: "",
+      deliveryStatus: "In process",
       cardNumber: "",
       expiryDate: "",
       cvcCode: "",
     };
+  },
+  computed: {
+    ...mapState(["totalQtyOfCartProducts"]),
   },
   methods: {
     goBack() {
@@ -431,12 +572,37 @@ export default {
           parseFloat(product.currentPrice.replace("$", "")) * product.qty
         );
       });
-      const deliveryCost =
-        this.selectedShipping === "express-shipping" ? 15 : 0;
+      if (this.couponCode === this.userCouponeCode) {
+        this.discount =
+          (this.total / 100) * this.couponCode.match(/\d+/g).join("");
+        this.discountSubTotal =
+          (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("");
+        this.subTotal =
+          this.subTotal -
+          (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("");
+        this.total =
+          this.total -
+          (this.total / 100) * this.couponCode.match(/\d+/g).join("");
+      }
+      const deliveryCost = this.selectedShipping === "$15.00" ? 15 : 0;
       this.subTotal += deliveryCost;
       this.total += deliveryCost;
     },
+    ...mapMutations(["updateTotalQty"]),
+    updateTotalQtyOfCartProducts() {
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      if (products !== null) {
+        products.forEach((product) => {
+          totalQty += Number(product.qty);
+        });
+        this.updateTotalQty(totalQty);
+      }
+    },
     showShoppingCart() {
+      this.products = JSON.parse(localStorage.getItem("cart"));
+      this.calculateTotals();
+      this.updateTotalQtyOfCartProducts();
       this.titleSection = "Cart";
       this.isShoppingCartVisible = true;
       this.isCheckoutDetailsVisible = false;
@@ -558,67 +724,119 @@ export default {
       }
     },
     showOrderComplete() {
-      window.scrollTo(0, 0);
-      this.titleSection = "Complete!";
-      this.isShoppingCartVisible = false;
-      this.isCheckoutDetailsVisible = false;
-      this.isOrderCompleteVisible = true;
-      document
-        .querySelector(".container__shopping-cart-stage-circle")
-        .classList.add("container__stage-green-circle");
-      document.querySelector(
-        ".container__shopping-cart-stage-circle-num"
-      ).style.display = "none";
-      document.querySelector(
-        ".container__shopping-cart-stage-tick"
-      ).style.display = "block";
-      document
-        .querySelector(".container__shopping-cart-stage-text")
-        .classList.add("container__stage-green-text");
-      document
-        .querySelector(".container__shopping-cart-stage-flex")
-        .classList.add("container__border-bottom-green-stage-flex");
-      document
-        .querySelector(".container__checkout-details-stage-circle")
-        .classList.add("container__stage-green-circle");
-      document.querySelector(
-        ".container__checkout-details-stage-circle-num"
-      ).style.display = "none";
-      document.querySelector(
-        ".container__checkout-details-stage-tick"
-      ).style.display = "block";
-      document
-        .querySelector(".container__checkout-details-stage-text")
-        .classList.add("container__stage-green-text");
-      document
-        .querySelector(".container__checkout-details-stage-flex")
-        .classList.add("container__border-bottom-green-stage-flex");
-      document
-        .querySelector(".container__order-complete-stage-circle")
-        .classList.remove("container__stage-gray-circle");
-      document
-        .querySelector(".container__order-complete-stage-text")
-        .classList.remove("container__stage-gray-text");
-      document
-        .querySelector(".container__order-complete-stage-flex")
-        .classList.remove("container__border-bottom-transparent-stage-flex");
-      document
-        .querySelector(".container__order-complete-stage-circle")
-        .classList.add("container__stage-black-circle");
-      document
-        .querySelector(".container__order-complete-stage-text")
-        .classList.add("container__stage-black-text");
-      document
-        .querySelector(".container__order-complete-stage-flex")
-        .classList.add("container__border-bottom-black-stage-flex");
-      this.$nextTick(() => {
-        this.removeEventListenersRadioBtns();
-        this.removeEventListenersRadioBtns();
-      });
-      if (window.innerWidth < 1024) {
-        let sliderTrack = document.querySelector(".container__stages-flex");
-        sliderTrack.style.transform = `translateX(${-576}px)`;
+      if (this.products.length > 0) {
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        const currentDate = new Date();
+        const month = months[currentDate.getMonth()];
+        const day = currentDate.getDate();
+        const year = currentDate.getFullYear();
+
+        this.formattedDate = `${month} ${day}, ${year}`;
+        localStorage.setItem("cart", JSON.stringify([]));
+        window.scrollTo(0, 0);
+        let orders = localStorage.getItem("orders");
+
+        let newOrder = [
+          {
+            orderId: this.orderId,
+            date: this.formattedDate,
+            deliveryStatus: this.deliveryStatus,
+            total: this.total,
+            payment: this.payment,
+          },
+        ];
+        if (!orders) {
+          localStorage.setItem("orders", JSON.stringify(newOrder));
+        } else {
+          orders = JSON.parse(orders);
+
+          Array.prototype.push.apply(orders, newOrder);
+          localStorage.setItem("orders", JSON.stringify(orders));
+        }
+        this.titleSection = "Complete!";
+        this.isShoppingCartVisible = false;
+        this.isCheckoutDetailsVisible = false;
+        this.isOrderCompleteVisible = true;
+        document
+          .querySelector(".container__shopping-cart-stage-circle")
+          .classList.add("container__stage-green-circle");
+        document.querySelector(
+          ".container__shopping-cart-stage-circle-num"
+        ).style.display = "none";
+        document.querySelector(
+          ".container__shopping-cart-stage-tick"
+        ).style.display = "block";
+        document
+          .querySelector(".container__shopping-cart-stage-text")
+          .classList.add("container__stage-green-text");
+        document
+          .querySelector(".container__shopping-cart-stage-flex")
+          .classList.add("container__border-bottom-green-stage-flex");
+        document
+          .querySelector(".container__checkout-details-stage-circle")
+          .classList.add("container__stage-green-circle");
+        document.querySelector(
+          ".container__checkout-details-stage-circle-num"
+        ).style.display = "none";
+        document.querySelector(
+          ".container__checkout-details-stage-tick"
+        ).style.display = "block";
+        document
+          .querySelector(".container__checkout-details-stage-text")
+          .classList.add("container__stage-green-text");
+        document
+          .querySelector(".container__checkout-details-stage-flex")
+          .classList.add("container__border-bottom-green-stage-flex");
+        document
+          .querySelector(".container__order-complete-stage-circle")
+          .classList.remove("container__stage-gray-circle");
+        document
+          .querySelector(".container__order-complete-stage-text")
+          .classList.remove("container__stage-gray-text");
+        document
+          .querySelector(".container__order-complete-stage-flex")
+          .classList.remove("container__border-bottom-transparent-stage-flex");
+        document
+          .querySelector(".container__order-complete-stage-circle")
+          .classList.add("container__stage-black-circle");
+        document
+          .querySelector(".container__order-complete-stage-text")
+          .classList.add("container__stage-black-text");
+        document
+          .querySelector(".container__order-complete-stage-flex")
+          .classList.add("container__border-bottom-black-stage-flex");
+        this.$nextTick(() => {
+          this.removeEventListenersRadioBtns();
+          this.removeEventListenersRadioBtns();
+        });
+        if (window.innerWidth < 1024) {
+          let sliderTrack = document.querySelector(".container__stages-flex");
+          sliderTrack.style.transform = `translateX(${-576}px)`;
+        }
       }
+    },
+    applyCoupone() {
+      this.calculateTotals();
+      if (this.couponCode === this.userCouponeCode) {
+        this.isCouponeActivated = true;
+      } else {
+        this.isCouponeActivated = false;
+      }
+      console.log(this.isCouponeActivated);
     },
     addEventListenersRadioBtns() {
       const freeShippingDiv = document.querySelector(
@@ -637,7 +855,7 @@ export default {
         document.querySelector(
           ".container__cart-summary-express-shipping-input"
         ).checked = false;
-        this.selectedShipping = "free-shipping";
+        this.selectedShipping = "Free";
         this.calculateTotals();
       };
 
@@ -650,14 +868,14 @@ export default {
         document.querySelector(
           ".container__cart-summary-free-shipping-input"
         ).checked = false;
-        this.selectedShipping = "express-shipping";
+        this.selectedShipping = "$15.00";
         this.calculateTotals();
       };
 
       freeShippingDiv.addEventListener("click", freeShippingClickHandler);
       expressShippingDiv.addEventListener("click", expressShippingClickHandler);
 
-      if (this.selectedShipping === "free-shipping") {
+      if (this.selectedShipping === "Free") {
         freeShippingDiv.style.background = "#f3f5f7";
         expressShippingDiv.style.background = "transparent";
         document.querySelector(
@@ -666,7 +884,7 @@ export default {
         document.querySelector(
           ".container__cart-summary-express-shipping-input"
         ).checked = false;
-      } else if (this.selectedShipping === "express-shipping") {
+      } else if (this.selectedShipping === "$15.00") {
         expressShippingDiv.style.background = "#f3f5f7";
         freeShippingDiv.style.background = "transparent";
         document.querySelector(
@@ -898,7 +1116,7 @@ export default {
         document.querySelector(
           ".container__checkout-details-paypal-card-input"
         ).checked = false;
-        this.selectedShipping = "free-shipping";
+        this.payment = "Pay by Card Credit";
         this.calculateTotals();
       };
 
@@ -911,33 +1129,33 @@ export default {
         document.querySelector(
           ".container__checkout-details-pay-by-card-input"
         ).checked = false;
-        this.selectedShipping = "express-shipping";
+        this.payment = "Paypal";
         this.calculateTotals();
       };
 
       if (CardPaymentDiv) {
         CardPaymentDiv.addEventListener("click", CardPaymentClickHandler);
         PaypallPaymentDiv.addEventListener("click", PaypallPaymentClickHandler);
-      }
 
-      if (this.payment === "free-shipping") {
-        CardPaymentDiv.style.background = "#f3f5f7";
-        PaypallPaymentDiv.style.background = "transparent";
-        document.querySelector(
-          ".container__checkout-details-pay-by-card-input"
-        ).checked = true;
-        document.querySelector(
-          ".container__checkout-details-paypal-card-input"
-        ).checked = false;
-      } else if (this.payment === "express-shipping") {
-        PaypallPaymentDiv.style.background = "#f3f5f7";
-        CardPaymentDiv.style.background = "transparent";
-        document.querySelector(
-          ".container__checkout-details-paypal-card-input"
-        ).checked = true;
-        document.querySelector(
-          ".container__checkout-details-pay-by-card-input"
-        ).checked = false;
+        if (this.payment === "Pay by Card Credit") {
+          CardPaymentDiv.style.background = "#f3f5f7";
+          PaypallPaymentDiv.style.background = "transparent";
+          document.querySelector(
+            ".container__checkout-details-pay-by-card-input"
+          ).checked = true;
+          document.querySelector(
+            ".container__checkout-details-paypal-card-input"
+          ).checked = false;
+        } else if (this.payment === "Paypal") {
+          PaypallPaymentDiv.style.background = "#f3f5f7";
+          CardPaymentDiv.style.background = "transparent";
+          document.querySelector(
+            ".container__checkout-details-paypal-card-input"
+          ).checked = true;
+          document.querySelector(
+            ".container__checkout-details-pay-by-card-input"
+          ).checked = false;
+        }
       }
     },
     removeEventListenersPaymentRadioBtns() {
@@ -1023,7 +1241,9 @@ export default {
 .container__stages-flex {
   display: flex;
   gap: 2rem;
-  width: 100%;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 6.5rem;
   height: 100px;
   transition: transform 0.67s ease;
@@ -1267,6 +1487,16 @@ export default {
   font-weight: 700;
   color: $black;
 }
+.container__cart-summary-total-disount-and-cost-flex {
+  display: flex;
+  gap: 0.5rem;
+}
+.container__cart-summary-total-disount {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #38cb89;
+}
 .container__cart-summary-btn {
   @include button;
   width: 100%;
@@ -1283,6 +1513,11 @@ export default {
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 5rem;
+}
+.container__forms-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 .container__checkout-details-contact-info-form {
   position: relative;
@@ -1437,16 +1672,68 @@ export default {
   font-weight: 600;
   color: $black;
 }
-.container__checkout-details-order-summary-section {
-  padding: 1rem;
-  border: 1px solid #6c7275;
-  border-radius: 0.375rem;
-}
 .container__checkout-details-order-summary-details-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 1.625rem;
+}
+.container__checkout-details-order-summary-details-coupone-main-flex {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+.container__checkout-details-order-summary-details-coupone-main-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ebf0f3;
+  margin-top: 2rem;
+}
+.container__checkout-details-order-summary-details-coupone-icon-and-text-flex {
+  display: flex;
+  gap: 0.5rem;
+}
+.container__checkout-details-order-summary-details-coupone-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: $black;
+}
+.container__checkout-details-order-summary-details-coupone-coupone-price {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #38cb89;
+}
+.container__checkout-details-order-summary-details-text-and-price-flex {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+.container__checkout-details-order-summary-details-text-and-price-shipping-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ebf0f3;
+  margin-top: 2rem;
 }
 .container__checkout-details-order-summary-details-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: $black;
+}
+.container__checkout-details-order-summary-details-paypall-text {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: $black;
 }
 .container__checkout-details-order-summary-details-price {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $black;
 }
 .container__checkout-details-order-summary-place-order-btn {
   @include button;
@@ -1458,6 +1745,118 @@ export default {
   font-size: 1rem;
   font-weight: 500;
   color: #fff;
+}
+.container__order-complete-section {
+  margin-top: -4rem;
+}
+.container__order-complete-order {
+  padding: 1rem;
+  border: 1px solid #e8ecef;
+  border-radius: 0.25rem;
+  margin-bottom: 5rem;
+  box-shadow: 0px 0px 24px -10px #121212;
+}
+.container__order-complete-order-title-and-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container__order-complete-order-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c7275;
+}
+.container__order-complete-order-text {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.125rem;
+  font-weight: 500;
+  color: #23262f;
+  line-height: 2.375rem;
+}
+.container__order-complete-order-items-flex {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+.container__order-complete-order-item {
+  width: fit-content;
+}
+.container__order-complete-order-items-hero {
+  width: 80px;
+  height: 96px;
+  object-fit: cover;
+}
+.container__order-complete-order-items-qty-back {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $black;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -7rem;
+  margin-left: 4.4rem;
+}
+.container__order-complete-order-items-qty {
+  font-family: "Inter", sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #fcfcfd;
+}
+.container__order-complete-order-details-main-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+.container__order-complete-order-details-flex {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.container__order-complete-order-details-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ebf0f3;
+  margin-top: 3.55rem;
+}
+.container__order-complete-order-details-title {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c7275;
+}
+.container__order-complete-order-details-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $black;
+}
+.container__order-complete-order-details-purchase-history-btn {
+  @include button;
+  background: $black;
+  width: 100%;
+  border-radius: 5rem;
+  padding: 0.75rem 2.5rem;
+  margin-top: 3.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+}
+/* 350px = 21.875em */
+@media (min-width: 21.875em) {
+  .container__checkout-details-order-summary-section {
+    padding: 1rem;
+    border: 1px solid #6c7275;
+    border-radius: 0.375rem;
+    width: 100%;
+  }
 }
 /* 768px = 48em */
 @media (min-width: 48em) {
@@ -1488,6 +1887,28 @@ export default {
   .container__stages {
     justify-content: center;
   }
+  .container__order-complete-order {
+    width: 738px;
+    padding: 5rem 5.938rem;
+    margin: 0rem auto 5rem auto;
+  }
+  .container__order-complete-order-title,
+  .container__order-complete-order-text {
+    display: block;
+    text-align: center;
+  }
+  .container__order-complete-order-items-flex {
+    width: fit-content;
+    margin: 2.5rem auto 0rem auto;
+  }
+  .container__order-complete-order-details-main-flex {
+    width: 310px;
+    margin: 2.5rem auto 0rem auto;
+  }
+  .container__order-complete-order-details-purchase-history-btn {
+    width: 213px;
+    margin: 3.5rem auto 0rem auto;
+  }
 }
 /* 1440px = 90em */
 @media (min-width: 90em) {
@@ -1507,6 +1928,31 @@ export default {
   }
   .container__cart-summary-section {
     width: 413px;
+  }
+  .container__title-form {
+    font-size: 1.25rem;
+  }
+  .container__forms-and-items-list-and-place-order-btn-flex {
+    flex-direction: row;
+    gap: 4rem;
+    margin-bottom: 0rem;
+  }
+  .container__checkout-details-contact-info-form,
+  .container__shipping-address-form,
+  .container__checkout-details-payment-form {
+    width: 643px;
+  }
+  .container__forms-flex {
+    margin-bottom: 14.75rem;
+  }
+  .container__checkout-details-order-summary-section {
+    height: fit-content;
+    margin-top: -4rem;
+  }
+  .container__checkout-details-order-summary-place-order-btn {
+    position: absolute;
+    width: 643px;
+    margin-top: 78.2rem;
   }
 }
 
