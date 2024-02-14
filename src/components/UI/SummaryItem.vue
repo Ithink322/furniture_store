@@ -72,10 +72,6 @@ export default {
       type: Array,
       required: true,
     },
-    removeProduct: {
-      type: Function,
-      required: true,
-    },
     calculateTotals: {
       type: Function,
       required: true,
@@ -98,40 +94,37 @@ export default {
       this.$router.push("/CurrentProductPage");
       window.scrollTo(0, 0);
     },
-    ...mapMutations(["updateTotalQty"]),
-    updateTotalQtyOfCartProducts() {
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    updateTotalQtyOfProducts() {
       let totalQty = 0;
       let products = JSON.parse(localStorage.getItem("cart"));
-      if (products !== null) {
-        products.forEach((product) => {
-          totalQty += Number(product.qty);
-        });
-        this.updateTotalQty(totalQty);
-      }
+      products.forEach((product) => {
+        totalQty += Number(product.qty);
+      });
+      this.updateTotalQtyOfCartProducts(totalQty);
     },
     decreaseQty(product) {
       if (product.qty > 1) {
         product.qty--;
       }
       localStorage.setItem("cart", JSON.stringify(this.products));
-      this.updateTotalQtyOfCartProducts();
+      this.updateTotalQtyOfProducts();
       this.calculateTotals();
     },
     increaseQty(product) {
       product.qty++;
       localStorage.setItem("cart", JSON.stringify(this.products));
-      this.updateTotalQtyOfCartProducts();
+      this.updateTotalQtyOfProducts();
       this.calculateTotals();
     },
     removeProduct(id) {
-      this.removeProduct(id);
       this.$emit("productRemoved", id);
       this.updateTotalQtyOfCartProducts();
       this.calculateTotals();
+      this.updateTotalQtyOfProducts();
     },
   },
   mounted() {
-    this.updateTotalQtyOfCartProducts();
     this.calculateTotals();
   },
 };

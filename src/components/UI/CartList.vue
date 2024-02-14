@@ -6,7 +6,6 @@
         :product="product"
         :products="products"
         :key="product.id"
-        :remove-product="removeProduct"
         @productRemoved="removeProduct"
         :calculateTotals="calculateTotals"
       ></cart-item>

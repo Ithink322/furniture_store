@@ -9,6 +9,7 @@ import CurrentBlogPage from "../components/pages/CurrentBlogPage.vue";
 import CurrentProductPage from "../components/pages/CurrentProductPage.vue";
 import CartPage from "../components/pages/CartPage.vue";
 import WishlistPage from "../components/pages/WishlistPage.vue";
+import MyAccountPage from "@/components/pages/MyAccountPage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -53,6 +54,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/WishlistPage",
     component: WishlistPage,
+  },
+  {
+    path: "/MyAccountPage",
+    component: MyAccountPage,
   },
 ];
 

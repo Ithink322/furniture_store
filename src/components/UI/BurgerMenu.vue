@@ -41,7 +41,10 @@
       </div>
       <div class="burger-menu__btns-and-social-media">
         <div class="burger-menu__users-profile-and-cart-and-savings-btns">
-          <button class="burger-menu__users-profile-btn">
+          <button
+            @click="goToMyAccountPage"
+            class="burger-menu__users-profile-btn"
+          >
             <span>My account</span>
             <img src="imgs/users-profile-icon.svg" alt="" />
           </button>
@@ -123,6 +126,11 @@ export default {
     },
     goToWishlistPage() {
       this.$router.push("/WishlistPage");
+      window.scrollTo(0, 0);
+      document.querySelector(".burger-menu__shadow").style.display = "none";
+    },
+    goToMyAccountPage() {
+      this.$router.push("/MyAccountPage");
       window.scrollTo(0, 0);
       document.querySelector(".burger-menu__shadow").style.display = "none";
     },

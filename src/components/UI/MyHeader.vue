@@ -36,7 +36,10 @@
         </div>
       </nav>
       <div class="header__icons-flex">
-        <div class="header__search-icon-btn-and-users-profile-btn-flex-1440px">
+        <div
+          @click="goToMyAccountPage"
+          class="header__search-icon-btn-and-users-profile-btn-flex-1440px"
+        >
           <button class="header__search-icon-btn-1440px">
             <img src="imgs/search-icon.svg" alt="" />
           </button>
@@ -115,6 +118,10 @@ export default {
     },
     goToWishlistPage() {
       this.$router.push("/WishlistPage");
+      window.scrollTo(0, 0);
+    },
+    goToMyAccountPage() {
+      this.$router.push("/MyAccountPage");
       window.scrollTo(0, 0);
     },
   },

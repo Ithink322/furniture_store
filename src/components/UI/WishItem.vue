@@ -1,5 +1,6 @@
 <template>
   <div
+    @click="goToCurrentProductPage"
     class="container__items-list-remove-btn-and-hero-and-details-and-add-to-cart-btn-flex"
   >
     <div class="container__items-list-remove-btn-and-hero-and-details-flex">
@@ -11,7 +12,11 @@
       </button>
       <img :src="item.hero" alt="" class="container__items-list-hero" />
       <div class="container__items-list-details-flex">
-        <span class="container__items-list-title">{{ item.title }}</span>
+        <span
+          @click="goToCurrentProductPage"
+          class="container__items-list-title"
+          >{{ item.title }}</span
+        >
         <span class="container__items-list-color"
           >Color: {{ item.selectedColor }}</span
         >
@@ -38,6 +43,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
     removeFromFavorites(item) {
       let favorites = localStorage.getItem("favorites");
 
@@ -45,6 +51,11 @@ export default {
         favorites = JSON.parse(favorites);
         favorites = favorites.filter((favorite) => favorite.id !== item.id);
         localStorage.setItem("favorites", JSON.stringify(favorites));
+        let length = 0;
+        favorites.forEach((favorite) => {
+          length += Number(favorite.qty);
+        });
+        this.updateTotalQtyOfFavorites(length);
       }
       this.$emit("remove-from-favorites", this.item);
     },
@@ -87,6 +98,12 @@ export default {
         totalQty += Number(product.qty);
       });
       this.updateTotalQtyOfCartProducts(totalQty);
+    },
+    ...mapActions(["selectProduct"]),
+    goToCurrentProductPage() {
+      this.selectProduct(this.item);
+      this.$router.push("/CurrentProductPage");
+      window.scrollTo(0, 0);
     },
   },
 };
@@ -131,6 +148,10 @@ export default {
   font-size: 0.875rem;
   font-weight: 600;
   color: $black;
+  cursor: pointer;
+}
+.container__items-list-title:hover {
+  color: rgb(212, 40, 204);
 }
 .container__items-list-color {
   font-family: "Inter", sans-serif;

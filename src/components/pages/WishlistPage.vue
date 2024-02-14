@@ -65,6 +65,17 @@ export default {
   color: #000;
   margin-bottom: 2.5rem;
 }
+.container__items-list-empty-text {
+  display: block;
+  text-align: center;
+  height: 120px;
+  margin-top: 1rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
+  margin-bottom: 2.5rem;
+}
 .container__items-list-title-from1024px {
   display: none;
 }
@@ -80,8 +91,12 @@ export default {
   .container {
     padding: 0rem 2.5rem;
   }
+  .container__items-list-empty-text {
+    height: 700px;
+  }
   .container__items-list-title-and-items-list-section {
     padding: 0rem 8rem;
+    height: 550px;
   }
 }
 /* 1024px = 64em */
@@ -111,6 +126,9 @@ export default {
   }
   .container__items-list-title-and-items-list-section {
     padding: 0rem 15.938rem;
+  }
+  .container__items-list-empty-text {
+    height: 550px;
   }
 }
 /* 1920px = 120em */
