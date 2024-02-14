@@ -139,15 +139,24 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/App.scss";
-.container__checkout-details-summary-item {
-}
 .container__checkout-details-summary-item-flex {
+  position: relative;
   display: flex;
   gap: 1rem;
+}
+.container__checkout-details-summary-item-flex::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ebf0f3;
+  margin-top: 7.4rem;
 }
 .container__checkout-details-summary-item-hero {
   width: 80px;
   height: 96px;
+  flex-shrink: 0;
+  object-fit: cover;
+  cursor: pointer;
 }
 .container__checkout-details-summary-item-title-and-color-and-counter-and-prices-flex {
   display: flex;
@@ -164,6 +173,10 @@ export default {
   font-size: 0.875rem;
   font-weight: 600;
   color: $black;
+  cursor: pointer;
+}
+.container__checkout-details-summary-item-title:hover {
+  color: rgb(212, 40, 204);
 }
 .container__checkout-details-summary-item-color {
   font-family: "Inter", sans-serif;
@@ -173,11 +186,13 @@ export default {
 }
 .container__checkout-details-summary-item-counter {
   display: flex;
+  align-items: center;
   gap: 0.75rem;
   border: 1px solid #6c7275;
   border-radius: 0.25rem;
   padding: 0.75rem 0.5rem;
   width: fit-content;
+  height: 32px;
 }
 .container__checkout-details-summary-item-minus-btn,
 .container__checkout-details-summary-item-plus-btn {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container__new-arrivals-card">
+  <div @click="goToCurrentProductPage" class="container__new-arrivals-card">
     <div class="container__new-arrivals-card-new-div">
       <span class="container__new-arrivals-card-new-text">NEW</span>
     </div>
@@ -7,14 +7,14 @@
       <span class="container__new-arrivals-card-sale-text">-50%</span>
     </div>
     <button
-      @click="toggleIconWishList"
+      @click.stop="addToWishlist(product)"
       class="container__new-arrivals-card-wishlist-btn"
     >
       <img :src="currentIcon" alt="" />
     </button>
     <img :src="product.hero" alt="" class="container__new-arrivals-card-hero" />
     <button
-      @click="addToCart(product)"
+      @click.stop="addToCart(product)"
       class="container__new-arrivals-card-add-to-cart-btn"
       :data-productId="product.id"
     >
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapActions } from "vuex";
 export default {
   name: "MoreProductsItem",
   props: {
@@ -60,13 +60,19 @@ export default {
   },
   data() {
     return {
-      WhishListIconDisabled: "/imgs/whishlist-icon.svg",
-      WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
-      currentIcon: "/imgs/whishlist-icon.svg",
+      WhishListIconDisabled: "imgs/whishlist-icon.svg",
+      WhishListIconActivated: "imgs/whishlist-icon-activated.svg",
+      currentIcon: "imgs/whishlist-icon.svg",
     };
   },
   methods: {
-    ...mapMutations(["updateTotalQty"]),
+    ...mapActions(["selectProduct"]),
+    goToCurrentProductPage() {
+      this.selectProduct(this.product);
+      this.$router.push("/CurrentProductPage");
+      window.scrollTo(0, 0);
+    },
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
     addToCart(product) {
       let cart = localStorage.getItem("cart");
 
@@ -106,7 +112,7 @@ export default {
       products.forEach((product) => {
         totalQty += Number(product.qty);
       });
-      this.updateTotalQty(totalQty);
+      this.updateTotalQtyOfCartProducts(totalQty);
       this.updateAddToCartButtons();
     },
     updateAddToCartButtons() {
@@ -135,6 +141,82 @@ export default {
         }
       });
     },
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
+    addToWishlist(product) {
+      if (this.currentIcon === this.WhishListIconDisabled) {
+        let favorites = localStorage.getItem("favorites");
+
+        let newFavorite = [
+          {
+            id: product.id,
+            hero: product.hero,
+            title: product.title,
+            selectedColor: this.product.startColor,
+            currentPrice: product.currentPrice,
+            category: product.category,
+            previousPrice: product.previousPrice,
+            qty: 1,
+            description: product.description,
+            colors: product.colors,
+            measurements: product.measurements,
+          },
+        ];
+
+        if (!favorites) {
+          localStorage.setItem("favorites", JSON.stringify(newFavorite));
+        } else {
+          favorites = JSON.parse(favorites);
+
+          if (
+            !favorites.some((favorite) => favorite.id === newFavorite[0].id)
+          ) {
+            favorites.push(newFavorite[0]);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          }
+        }
+
+        this.currentIcon = this.WhishListIconActivated;
+      } else {
+        this.currentIcon = this.WhishListIconDisabled;
+
+        this.removeFromFavorites(product);
+      }
+      let length = 0,
+        favorites = JSON.parse(localStorage.getItem("favorites"));
+      favorites.forEach((favorite) => {
+        length += Number(favorite.qty);
+      });
+      this.updateTotalQtyOfFavorites(length);
+    },
+    removeFromFavorites(product) {
+      let favorites = localStorage.getItem("favorites");
+
+      if (favorites) {
+        favorites = JSON.parse(favorites);
+        favorites = favorites.filter((favorite) => favorite.id !== product.id);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      }
+      this.$emit("remove-from-favorites", this.product);
+    },
+    checkFavoriteHeartStatus(product) {
+      let favorites = localStorage.getItem("favorites");
+      if (favorites) {
+        favorites = JSON.parse(favorites);
+        return favorites.some((favorite) => favorite.id === product.id);
+      }
+      return false;
+    },
+    updateFavoriteHeartStatus(product) {
+      this.currentIcon = this.checkFavoriteHeartStatus(product)
+        ? this.WhishListIconActivated
+        : this.WhishListIconDisabled;
+    },
+  },
+  created() {
+    this.updateFavoriteHeartStatus(this.product);
+  },
+  mounted() {
+    this.updateAddToCartButtons();
   },
 };
 </script>
@@ -187,6 +269,10 @@ export default {
   margin-left: 11.5rem;
   margin-top: -4.2rem;
   z-index: 2;
+}
+.container__item-card-wishlist-icon {
+  width: 21px;
+  height: 17px;
 }
 .container__new-arrivals-card-hero {
   margin-top: -2.8rem;

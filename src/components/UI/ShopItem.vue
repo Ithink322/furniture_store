@@ -22,8 +22,15 @@
         ></star-rating>
         <div class="container__item-card-title-and-whishlist-btn-flex">
           <span class="container__item-card-title">{{ item.title }}</span>
-          <button class="container__item-card-wishlist-btn">
-            <img src="imgs/whishlist-icon.svg" alt="" />
+          <button
+            @click.stop="addToWishlist(item)"
+            class="container__item-card-wishlist-btn"
+          >
+            <img
+              class="container__item-card-wishlist-icon"
+              :src="currentIcon"
+              alt=""
+            />
           </button>
         </div>
         <div class="container__item-card-prices-flex">
@@ -71,6 +78,10 @@ export default {
   data() {
     return {
       averageRatings: {},
+      WhishListIconDisabled: "/imgs/whishlist-icon.svg",
+      WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
+      currentIcon: "/imgs/whishlist-icon.svg",
+      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
     };
   },
   methods: {
@@ -80,7 +91,7 @@ export default {
       this.$router.push("/CurrentProductPage");
       window.scrollTo(0, 0);
     },
-    ...mapMutations(["updateTotalQty"]),
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
     addToCart(item) {
       let cart = JSON.parse(localStorage.getItem("cart"));
 
@@ -118,7 +129,7 @@ export default {
       products.forEach((product) => {
         totalQty += Number(product.qty);
       });
-      this.updateTotalQty(totalQty);
+      this.updateTotalQtyOfCartProducts(totalQty);
       this.updateAddToCartButtons();
     },
     updateAddToCartButtons() {
@@ -163,6 +174,75 @@ export default {
 
       const averageRating = totalRating / filteredReviews.length;
       return averageRating;
+    },
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
+    addToWishlist(item) {
+      if (this.currentIcon === this.WhishListIconDisabled) {
+        let favorites = localStorage.getItem("favorites");
+
+        let newFavorite = [
+          {
+            id: item.id,
+            hero: item.hero,
+            title: item.title,
+            selectedColor: this.item.startColor,
+            currentPrice: item.currentPrice,
+            category: item.category,
+            previousPrice: item.previousPrice,
+            qty: 1,
+            description: item.description,
+            colors: item.colors,
+            measurements: item.measurements,
+          },
+        ];
+
+        if (!favorites) {
+          localStorage.setItem("favorites", JSON.stringify(newFavorite));
+        } else {
+          favorites = JSON.parse(favorites);
+
+          if (
+            !favorites.some((favorite) => favorite.id === newFavorite[0].id)
+          ) {
+            favorites.push(newFavorite[0]);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          }
+        }
+
+        this.currentIcon = this.WhishListIconActivated;
+      } else {
+        this.currentIcon = this.WhishListIconDisabled;
+        this.removeFromFavorites(item);
+      }
+      let length = 0,
+        favorites = JSON.parse(localStorage.getItem("favorites"));
+      favorites.forEach((favorite) => {
+        length += Number(favorite.qty);
+      });
+      this.updateTotalQtyOfFavorites(length);
+    },
+    removeFromFavorites(item) {
+      let favorites = localStorage.getItem("favorites");
+
+      if (favorites) {
+        favorites = JSON.parse(favorites);
+        favorites = favorites.filter((favorite) => favorite.id !== item.id);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      }
+      this.$emit("remove-from-favorites", this.item);
+    },
+    checkFavoriteHeartStatus(item) {
+      let favorites = localStorage.getItem("favorites");
+      if (favorites) {
+        favorites = JSON.parse(favorites);
+        return favorites.some((favorite) => favorite.id === item.id);
+      }
+      return false;
+    },
+    updateFavoriteHeartStatus(item) {
+      this.currentIcon = this.checkFavoriteHeartStatus(item)
+        ? this.WhishListIconActivated
+        : this.WhishListIconDisabled;
     },
   },
   computed: {
@@ -209,6 +289,9 @@ export default {
       );
       return totalRating / this.filteredReviews.length;
     }, */
+  },
+  created() {
+    this.updateFavoriteHeartStatus(this.item);
   },
   mounted() {
     this.updateAddToCartButtons();
@@ -279,6 +362,10 @@ export default {
 .container__item-card-wishlist-btn {
   @include button;
   padding: 0.375rem;
+}
+.container__item-card-wishlist-icon {
+  width: 21px;
+  height: 17px;
 }
 .container__item-card-styles-for-wishlist-btn-in-2-cols-grid {
   position: absolute;

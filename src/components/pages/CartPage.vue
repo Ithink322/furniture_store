@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <button @click="goBack" class="container__go-back-btn">
-      <img src="imgs/go-back-btn.svg" alt="" />back
-    </button>
+    <go-back-btn></go-back-btn>
     <h1 class="container__title">{{ titleSection }}</h1>
     <section class="container__stages-overflow">
       <div class="container__stages-flex">
@@ -158,7 +156,11 @@
                   <span
                     v-if="this.isCouponeActivated"
                     class="container__cart-summary-total-disount"
-                    >-${{ discountSubTotal }} [Remove]</span
+                    >-${{ discountSubTotal
+                    }}<br
+                      class="container__cart-summary-total-disount-br-to-375px"
+                    />
+                    [Remove]</span
                   >
                   <span
                     class="container__cart-summary-total-cost container__cart-summary-subtotal-cost"
@@ -174,7 +176,11 @@
                   <span
                     v-if="this.isCouponeActivated"
                     class="container__cart-summary-total-disount"
-                    >-${{ discount }} [Remove]</span
+                    >-${{ discount
+                    }}<br
+                      class="container__cart-summary-total-disount-br-to-375px"
+                    />
+                    [Remove]</span
                   >
                   <span
                     class="container__cart-summary-total-cost container__cart-summary-total-cost"
@@ -389,7 +395,11 @@
               </div>
               <span
                 class="container__checkout-details-order-summary-details-coupone-coupone-price"
-                >-${{ discount }} [Remove]</span
+                >-${{ discount
+                }}<br
+                  class="container__checkout-details-order-summary-details-coupone-coupone-price-br-to-375px"
+                />
+                [Remove]</span
               >
             </div>
             <div
@@ -416,7 +426,7 @@
                 <div
                   class="container__checkout-details-order-summary-details-price"
                 >
-                  {{ total.toFixed(2) }}
+                  ${{ total.toFixed(2) }}
                 </div>
               </div>
             </div>
@@ -483,7 +493,7 @@
               >Total:</span
             >
             <span class="container__order-complete-order-details-text"
-              >${{ total }}</span
+              >${{ total.toFixed(2) }}</span
             >
           </div>
           <div class="container__order-complete-order-details-flex">
@@ -507,11 +517,12 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import GoBackBtn from "../UI/GoBackBtn.vue";
 import CartList from "../UI/CartList.vue";
 import SummaryList from "../UI/SummaryList.vue";
 export default {
   name: "CartPage",
-  components: { CartList, SummaryList },
+  components: { GoBackBtn, CartList, SummaryList },
   data() {
     return {
       products: JSON.parse(localStorage.getItem("cart")) || [],
@@ -536,8 +547,8 @@ export default {
       isOrderCompleteVisible: false,
       couponCode: "Minecraft25",
       userCouponeCode: "",
-      discount: "",
-      discountSubTotal: "",
+      discount: 0,
+      discountSubTotal: 0,
       isCouponeActivated: false,
       orderId: Date.now(),
       payment: "Pay by Card Credit",
@@ -552,9 +563,6 @@ export default {
     ...mapState(["totalQtyOfCartProducts"]),
   },
   methods: {
-    goBack() {
-      window.history.back();
-    },
     removeProduct(id) {
       this.products = this.products.filter((product) => {
         return product.id !== id;
@@ -573,16 +581,20 @@ export default {
         );
       });
       if (this.couponCode === this.userCouponeCode) {
-        this.discount =
-          (this.total / 100) * this.couponCode.match(/\d+/g).join("");
-        this.discountSubTotal =
-          (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("");
-        this.subTotal =
+        this.discount = parseFloat(
+          (this.total / 100) * this.couponCode.match(/\d+/g).join("")
+        ).toFixed(2);
+        this.discountSubTotal = parseFloat(
+          (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("")
+        ).toFixed(2);
+        this.subTotal = parseFloat(
           this.subTotal -
-          (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("");
-        this.total =
+            (this.subTotal / 100) * this.couponCode.match(/\d+/g).join("")
+        );
+        this.total = parseFloat(
           this.total -
-          (this.total / 100) * this.couponCode.match(/\d+/g).join("");
+            (this.total / 100) * this.couponCode.match(/\d+/g).join("")
+        );
       }
       const deliveryCost = this.selectedShipping === "$15.00" ? 15 : 0;
       this.subTotal += deliveryCost;
@@ -1217,15 +1229,6 @@ export default {
 .container {
   padding: 0rem 2rem;
 }
-.container__go-back-btn {
-  @include button;
-  gap: 0.375rem;
-  margin-top: 1rem;
-  font-family: "Inter", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #605f5f;
-}
 .container__title {
   display: block;
   text-align: center;
@@ -1263,7 +1266,10 @@ export default {
   border: 1px solid $black;
   margin-top: 5.9rem;
 }
-
+.container__shopping-cart-stage-flex,
+.container__checkout-details-stage-flex {
+  cursor: pointer;
+}
 .container__border-bottom-black-stage-flex::after {
   content: "";
   position: absolute;
@@ -1496,6 +1502,7 @@ export default {
   font-size: 0.875rem;
   font-weight: 600;
   color: #38cb89;
+  width: fit-content;
 }
 .container__cart-summary-btn {
   @include button;
@@ -1681,16 +1688,18 @@ export default {
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .container__checkout-details-order-summary-details-coupone-main-flex::after {
   content: "";
   position: absolute;
   width: 100%;
   border: 1px solid #ebf0f3;
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 .container__checkout-details-order-summary-details-coupone-icon-and-text-flex {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 .container__checkout-details-order-summary-details-coupone-text {
@@ -1856,6 +1865,15 @@ export default {
     border: 1px solid #6c7275;
     border-radius: 0.375rem;
     width: 100%;
+  }
+}
+/* 375px = 23.438em */
+@media (min-width: 23.438em) {
+  .container__checkout-details-order-summary-details-coupone-coupone-price-br-to-375px {
+    display: none;
+  }
+  .container__cart-summary-total-disount-br-to-375px {
+    display: none;
   }
 }
 /* 768px = 48em */

@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <button @click="goBack" class="container__go-back-btn">
-      <img src="imgs/go-back-btn.svg" alt="" />back
-    </button>
+    <go-back-btn></go-back-btn>
     <span class="container__article-title"></span>
     <h1 class="container__title">{{ item.title }}</h1>
     <div
@@ -106,21 +104,16 @@
 
 <script>
 import { mapGetters } from "vuex";
+import GoBackBtn from "../UI/GoBackBtn.vue";
 import NewsLetter from "../UI/NewsLetter.vue";
 import CurrentBlogList from "../UI/CurrentBlogList.vue";
 export default {
-  components: { NewsLetter, CurrentBlogList },
+  components: { GoBackBtn, NewsLetter, CurrentBlogList, GoBackBtn },
   name: "CurrentBlogPage",
   computed: {
     ...mapGetters(["getSelectedItem"]),
     item() {
       return JSON.parse(localStorage.getItem("CurrentBlog"));
-    },
-  },
-  methods: {
-    goBack() {
-      this.$router.push("/BlogPage");
-      window.scrollTo(0, 0);
     },
   },
 };

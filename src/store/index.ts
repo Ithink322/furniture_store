@@ -3,6 +3,7 @@ import CurrentBlog from "./CurrentBlog";
 import CurrentProduct from "./CurrentProduct";
 import ProductQuestions from "./ProductQuestions";
 import totalQtyOfCartProducts from "./totalQtyOfCartProducts";
+import totalQtyOfFavorites from "./totalQtyOfFavorites";
 
 export default createStore({
   modules: {
@@ -10,5 +11,6 @@ export default createStore({
     CurrentProduct,
     ProductQuestions,
     totalQtyOfCartProducts,
+    totalQtyOfFavorites,
   },
 });

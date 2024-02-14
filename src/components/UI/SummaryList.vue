@@ -55,6 +55,6 @@ export default {
   flex-direction: column;
   gap: 3.5rem;
   margin-top: 2rem;
-  margin-bottom: 1.875rem;
+  margin-bottom: 3.875rem;
 }
 </style>

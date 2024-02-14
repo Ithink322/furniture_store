@@ -42,7 +42,7 @@
       <div class="burger-menu__btns-and-social-media">
         <div class="burger-menu__users-profile-and-cart-and-savings-btns">
           <button class="burger-menu__users-profile-btn">
-            <span>User's profile</span>
+            <span>My account</span>
             <img src="imgs/users-profile-icon.svg" alt="" />
           </button>
           <button @click="goToCartPage" class="burger-menu__cart-btn">
@@ -50,18 +50,20 @@
             <div class="burger-menu__cart-icon-and-items-counter-circle-flex">
               <img src="imgs/cart-icon.svg" alt="" />
               <div class="burger-menu__cart-items-counter-circle">
-                <span>0</span>
+                <span>{{
+                  this.totalQtyOfCartProducts.totalQtyOfCartProducts
+                }}</span>
               </div>
             </div>
           </button>
-          <button class="burger-menu__savings-btn">
-            <span>Whishlist</span>
+          <button @click="goToWishlistPage" class="burger-menu__savings-btn">
+            <span>Wishlist</span>
             <div
               class="burger-menu__savings-icon-and-savings-items-counter-circle-flex"
             >
               <img src="imgs/savings-icon.svg" alt="" />
               <div class="burger-menu__savings-items-counter-circle">
-                <span>0</span>
+                <span>{{ this.totalQtyOfFavorites.totalQtyOfFavorites }}</span>
               </div>
             </div>
           </button>
@@ -83,19 +85,51 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 import $ from "jquery";
 import routesMixin from "@/mixins/routes.js";
 export default {
   name: "BurgerMenu",
+  data() {
+    return {
+      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+    };
+  },
   mixins: [routesMixin],
+  computed: {
+    ...mapState(["totalQtyOfCartProducts"]),
+    ...mapState(["totalQtyOfFavorites"]),
+  },
   methods: {
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    updateTotalQtyOfProducts() {
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      if (products !== null) {
+        products.forEach((product) => {
+          totalQty += Number(product.qty);
+        });
+        this.updateTotalQtyOfCartProducts(totalQty);
+      }
+    },
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
+    updateTotalQty() {
+      this.updateTotalQtyOfFavorites(this.favorites.length);
+    },
     goToCartPage() {
       this.$router.push("/CartPage");
       window.scrollTo(0, 0);
       document.querySelector(".burger-menu__shadow").style.display = "none";
     },
+    goToWishlistPage() {
+      this.$router.push("/WishlistPage");
+      window.scrollTo(0, 0);
+      document.querySelector(".burger-menu__shadow").style.display = "none";
+    },
   },
   mounted() {
+    this.updateTotalQtyOfProducts();
+    this.updateTotalQty();
     $(function () {
       $(".header__burger-btn").click(function () {
         $(".burger-menu__shadow").fadeIn(0);

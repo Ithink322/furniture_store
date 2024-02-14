@@ -9,7 +9,7 @@ const state: State = {
 };
 
 const mutations: MutationTree<State> = {
-  updateTotalQty(state, totalQty) {
+  updateTotalQtyOfCartProducts(state, totalQty) {
     state.totalQtyOfCartProducts = totalQty;
   },
 };
@@ -17,7 +17,7 @@ const mutations: MutationTree<State> = {
 const actions: ActionTree<State, any> = {
   updateTotalQtyOfCartProducts({ commit, state }) {
     const totalQtyOfCartProducts = state.totalQtyOfCartProducts;
-    commit("updateTotalQty", totalQtyOfCartProducts);
+    commit("updateTotalQtyOfCartProducts", totalQtyOfCartProducts);
   },
 };
 

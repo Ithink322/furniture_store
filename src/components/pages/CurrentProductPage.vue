@@ -222,7 +222,10 @@
                 <img src="imgs/plus-icon.svg" alt="" />
               </button>
             </div>
-            <button class="cotainer__wishlist-btn">
+            <button
+              @click="addToWishlist(product)"
+              class="cotainer__wishlist-btn"
+            >
               <img src="imgs/wishlist-black-icon.svg" alt="" /> Wishlist
             </button>
           </div>
@@ -362,7 +365,7 @@ export default {
   computed: {
     ...mapGetters(["getSelectedProduct"]),
     product() {
-      return JSON.parse(localStorage.getItem("CurrentProduct"));
+      return JSON.parse(localStorage.getItem("CurrentProduct")) || [];
     },
     questions() {
       return JSON.parse(localStorage.getItem("questions")) || [];
@@ -395,7 +398,7 @@ export default {
     this.reviews = JSON.parse(localStorage.getItem("reviews")) || [];
   },
   methods: {
-    ...mapMutations(["updateTotalQty"]),
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
     addToCart(product) {
       let cart = localStorage.getItem("cart");
 
@@ -437,7 +440,7 @@ export default {
       products.forEach((product) => {
         totalQty += Number(product.qty);
       });
-      this.updateTotalQty(totalQty);
+      this.updateTotalQtyOfCartProducts(totalQty);
       this.updateAddToCartButtons();
     },
     updateAddToCartButtons() {
@@ -467,6 +470,57 @@ export default {
           nonActiveBtn.style.display = "flex";
         }
       });
+    },
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
+    addToWishlist(product) {
+      if (this.currentIcon === this.WhishListIconDisabled) {
+        let favorites = localStorage.getItem("favorites");
+
+        let selectedColor =
+          localStorage.getItem(`selectedColor_${this.product.id}`) ||
+          this.product.startColor;
+
+        let newFavorite = [
+          {
+            id: product.id,
+            hero: product.hero,
+            title: product.title,
+            selectedColor: selectedColor,
+            currentPrice: product.currentPrice,
+            category: product.category,
+            previousPrice: product.previousPrice,
+            qty: 1,
+            description: product.description,
+            colors: product.colors,
+            measurements: product.measurements,
+          },
+        ];
+
+        if (!favorites) {
+          localStorage.setItem("favorites", JSON.stringify(newFavorite));
+        } else {
+          favorites = JSON.parse(favorites);
+
+          if (
+            !favorites.some((favorite) => favorite.id === newFavorite[0].id)
+          ) {
+            favorites.push(newFavorite[0]);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+          }
+        }
+
+        this.currentIcon = this.WhishListIconActivated;
+      } else {
+        this.currentIcon = this.WhishListIconDisabled;
+
+        this.removeFromFavorites(product);
+      }
+      let length = 0,
+        favorites = JSON.parse(localStorage.getItem("favorites"));
+      favorites.forEach((favorite) => {
+        length += Number(favorite.qty);
+      });
+      this.updateTotalQtyOfFavorites(length);
     },
     showDetails() {
       this.isQuestionsVisible = false;
@@ -688,12 +742,9 @@ export default {
       "rgb(245, 245, 220)": "Beige",
     };
 
-    let selectedColor = localStorage.getItem(
-      `selectedColor_${this.product.id}`
-    );
-    if (!selectedColor) {
-      selectedColor = this.product.startColor;
-    }
+    let selectedColor =
+      localStorage.getItem(`selectedColor_${this.product.id}`) ||
+      this.product.startColor;
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         buttons.forEach((btn) =>

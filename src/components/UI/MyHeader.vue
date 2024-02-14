@@ -48,13 +48,16 @@
           </button>
         </div>
         <div
+          @click="goToWishlistPage"
           class="header__savings-icon-btn-and-savings-items-counter-btn-flex"
         >
           <button class="header__savings-icon-btn">
             <img src="imgs/savings-icon.svg" alt="" />
           </button>
           <button class="header__savings-items-counter-circle-btn">
-            <span class="header__savings-items-counter-circle-btn-text">0</span>
+            <span class="header__savings-items-counter-circle-btn-text">{{
+              this.totalQtyOfFavorites.totalQtyOfFavorites
+            }}</span>
           </button>
         </div>
         <div
@@ -81,28 +84,43 @@ import routesMixin from "@/mixins/routes.js";
 export default {
   name: "MyHeader",
   mixins: [routesMixin],
+  data() {
+    return {
+      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+    };
+  },
   computed: {
     ...mapState(["totalQtyOfCartProducts"]),
+    ...mapState(["totalQtyOfFavorites"]),
   },
   methods: {
-    ...mapMutations(["updateTotalQty"]),
-    updateTotalQtyOfCartProducts() {
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    updateTotalQtyOfProducts() {
       let totalQty = 0;
       let products = JSON.parse(localStorage.getItem("cart"));
       if (products !== null) {
         products.forEach((product) => {
           totalQty += Number(product.qty);
         });
-        this.updateTotalQty(totalQty);
+        this.updateTotalQtyOfCartProducts(totalQty);
       }
+    },
+    ...mapMutations(["updateTotalQtyOfFavorites"]),
+    updateTotalQty() {
+      this.updateTotalQtyOfFavorites(this.favorites.length);
     },
     goToCartPage() {
       this.$router.push("/CartPage");
       window.scrollTo(0, 0);
     },
+    goToWishlistPage() {
+      this.$router.push("/WishlistPage");
+      window.scrollTo(0, 0);
+    },
   },
   mounted() {
-    this.updateTotalQtyOfCartProducts();
+    this.updateTotalQtyOfProducts();
+    this.updateTotalQty();
   },
 };
 </script>

@@ -177,6 +177,7 @@ export default {
 .container__item-card-hero {
   width: 80px;
   height: 96px;
+  flex-shrink: 0;
   object-fit: cover;
   cursor: pointer;
 }
@@ -265,8 +266,8 @@ export default {
     color: #6c7275;
   }
   .container__item-card-remove-btn {
-    gap: 0.25rem;
-    left: 7.3rem;
+    gap: 0.563rem;
+    left: 8.05rem;
     margin-top: 3.1rem;
   }
   .container__item-card-counter {
