@@ -1,172 +1,188 @@
 <template>
-  <div class="add-event-listener">
-    <nav class="registered-user" v-if="isUserRegistered">
-      <div class="logo-and-hero-flex">
-        <span class="logo">3legant.</span>
-        <img
-          class="hero-from320px"
-          src="imgs/login-or-register-hero-from320px.svg"
-          alt=""
-        />
-        <img
-          class="hero-from1024px"
-          src="imgs/login-or-register-hero-from1024px.svg"
-          alt=""
-        />
-      </div>
-      <div class="container">
-        <span class="container__title">Sign In</span>
-        <div class="container__main-flex">
-          <div class="container__prescription-and-sign-up-or-sign-in-btn-flex">
-            <div class="container__prescription">Don’t have an accout yet?</div>
-            <button
-              @click="updatePageToSignUp"
-              class="container__sign-in-or-sing-up-btn--green"
-            >
-              Sign up
-            </button>
-          </div>
-          <form class="container__input-form">
-            <input
-              placeholder="Your username or email address"
-              class="container__input"
-              type="text"
-            />
-          </form>
-          <form class="container__input-form">
-            <input
-              type="password"
-              placeholder="Password"
-              class="container__input container__input-password"
-            />
-          </form>
+  <nav class="authorization" v-if="isUserRegistered">
+    <div class="logo-and-hero-flex">
+      <span class="logo">3legant.</span>
+      <img
+        class="hero-from320px"
+        src="imgs/login-or-register-hero-from320px.svg"
+        alt=""
+      />
+      <img
+        class="hero-from1024px"
+        src="imgs/login-or-register-hero-from1024px.svg"
+        alt=""
+      />
+    </div>
+    <div class="container">
+      <span class="container__title">Sign In</span>
+      <div class="container__main-flex">
+        <div class="container__prescription-and-sign-up-or-sign-in-btn-flex">
+          <div class="container__prescription">Don’t have an accout yet?</div>
           <button
-            class="container__password-toggle-btn container__password-toggle-registered-user-btn"
+            @click="updatePageToSignUp"
+            class="container__sign-in-or-sing-up-btn--green"
           >
-            <img
-              src="imgs/opened-eye.png"
-              alt=""
-              class="container__password-opened-eye-icon"
-            />
-            <img
-              src="imgs/closed-eye.png"
-              alt=""
-              class="container__password-closed-eye-icon"
-            />
+            Sign up
           </button>
-          <div class="container__checkbox-and-forgot-password-btn-flex">
-            <div class="container__checkbox-and-text-flex">
-              <input class="container__checkbox" type="checkbox" />
-              <span class="container__checkbox-text">Remember me</span>
-            </div>
-            <button class="container__forgot-password-btn">
-              Forgot password?
-            </button>
+        </div>
+        <form @submit.prevent class="container__input-form">
+          <input
+            placeholder="Your username"
+            class="container__input"
+            type="text"
+            v-model="username"
+          />
+        </form>
+        <form @submit.prevent class="container__input-form">
+          <input
+            type="password"
+            placeholder="Password"
+            class="container__input container__input-password"
+            v-model="password"
+          />
+        </form>
+        <button
+          class="container__password-toggle-btn container__password-toggle-authorization-btn"
+        >
+          <img
+            src="imgs/opened-eye.png"
+            alt=""
+            class="container__password-opened-eye-icon container__password-opened-eye-icon-auth"
+          />
+          <img
+            src="imgs/closed-eye.png"
+            alt=""
+            class="container__password-closed-eye-icon container__password-closed-eye-icon-auth"
+          />
+        </button>
+        <div class="container__checkbox-and-forgot-password-btn-flex">
+          <div class="container__checkbox-and-text-flex">
+            <input
+              class="container__checkbox container__checkbox-sign-in"
+              type="checkbox"
+            />
+            <span class="container__checkbox-text">Remember me</span>
           </div>
-          <div class="container__sign-in-or-sign-up-btn">Sign in</div>
+          <button class="container__forgot-password-btn">
+            Forgot password?
+          </button>
+        </div>
+        <div @click="signIn" class="container__sign-in-or-sign-up-btn">
+          Sign in
         </div>
       </div>
-    </nav>
-    <nav class="non-registered-user" v-else>
-      <div class="logo-and-hero-flex">
-        <span class="logo">3legant.</span>
-        <img
-          class="hero-from320px"
-          src="imgs/login-or-register-hero-from320px.svg"
-          alt=""
-        />
-        <img
-          class="hero-from1024px"
-          src="imgs/login-or-register-hero-from1024px.svg"
-          alt=""
-        />
-      </div>
-      <div class="container">
-        <span class="container__title">Sign Up</span>
-        <div class="container__main-flex">
-          <div class="container__prescription-and-sign-up-or-sign-in-btn-flex">
-            <div class="container__prescription">Already have an account?</div>
-            <button
-              @click="updatePageToSignIn"
-              class="container__sign-in-or-sing-up-btn--green"
+    </div>
+  </nav>
+  <nav class="registration" v-else>
+    <div class="logo-and-hero-flex">
+      <span class="logo">3legant.</span>
+      <img
+        class="hero-from320px"
+        src="imgs/login-or-register-hero-from320px.svg"
+        alt=""
+      />
+      <img
+        class="hero-from1024px"
+        src="imgs/login-or-register-hero-from1024px.svg"
+        alt=""
+      />
+    </div>
+    <div class="container">
+      <span class="container__title">Sign Up</span>
+      <div class="container__main-flex">
+        <div class="container__prescription-and-sign-up-or-sign-in-btn-flex">
+          <div class="container__prescription">Already have an account?</div>
+          <button
+            @click="updatePageToSignIn"
+            class="container__sign-in-or-sing-up-btn--green"
+          >
+            Sign In
+          </button>
+        </div>
+        <form @submit.prevent class="container__input-form">
+          <input
+            placeholder="Your name"
+            class="container__input"
+            type="text"
+            v-model="name"
+          />
+        </form>
+        <form @submit.prevent class="container__input-form">
+          <input
+            placeholder="Username"
+            class="container__input"
+            type="text"
+            v-model="username"
+          />
+        </form>
+        <form @submit.prevent class="container__input-form">
+          <input
+            placeholder="Email address"
+            class="container__input"
+            type="text"
+            v-model="email"
+          />
+        </form>
+        <form @submit.prevent class="container__input-form">
+          <input
+            type="password"
+            placeholder="Password"
+            class="container__input container__input-password"
+            v-model="password"
+          />
+        </form>
+        <button class="container__password-toggle-btn">
+          <img
+            src="imgs/opened-eye.png"
+            alt=""
+            class="container__password-opened-eye-icon"
+          />
+          <img
+            src="imgs/closed-eye.png"
+            alt=""
+            class="container__password-closed-eye-icon"
+          />
+        </button>
+        <div class="container__checkbox-and-forgot-password-btn-flex">
+          <div class="container__checkbox-and-text-flex">
+            <input
+              class="container__checkbox container__checkbox-sign-up"
+              type="checkbox"
+            />
+            <span class="container__checkbox-text"
+              >I agree with
+              <span class="container__checkbox-text-span">Privacy Policy</span>
+              and
+              <span class="container__checkbox-text-span"
+                >Terms of Use</span
+              ></span
             >
-              Sign In
-            </button>
           </div>
-          <form class="container__input-form">
-            <input
-              placeholder="Your name"
-              class="container__input"
-              type="text"
-            />
-          </form>
-          <form class="container__input-form">
-            <input
-              placeholder="Username"
-              class="container__input"
-              type="text"
-            />
-          </form>
-          <form class="container__input-form">
-            <input
-              placeholder="Email address"
-              class="container__input"
-              type="text"
-            />
-          </form>
-          <form class="container__input-form">
-            <input
-              type="password"
-              placeholder="Password"
-              class="container__input container__input-password"
-            />
-          </form>
-          <button class="container__password-toggle-btn">
-            <img
-              src="imgs/opened-eye.png"
-              alt=""
-              class="container__password-opened-eye-icon"
-            />
-            <img
-              src="imgs/closed-eye.png"
-              alt=""
-              class="container__password-closed-eye-icon"
-            />
-          </button>
-          <div class="container__checkbox-and-forgot-password-btn-flex">
-            <div class="container__checkbox-and-text-flex">
-              <input class="container__checkbox" type="checkbox" />
-              <span class="container__checkbox-text"
-                >I agree with
-                <span class="container__checkbox-text-span"
-                  >Privacy Policy</span
-                >
-                and
-                <span class="container__checkbox-text-span"
-                  >Terms of Use</span
-                ></span
-              >
-            </div>
-          </div>
-          <div class="container__sign-in-or-sign-up-btn">Sign up</div>
+        </div>
+        <div @click="signUp" class="container__sign-in-or-sign-up-btn">
+          Sign up
         </div>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "LoginOrRegistrationPage",
   data() {
     return {
-      isUserRegistered: false,
+      isUserRegistered: true,
+      name: "",
+      email: "",
+      username: "",
+      password: "",
     };
   },
   mounted() {
-    document
-      .querySelector(".add-event-listener")
-      .addEventListener("click", (e) => {
+    this.$nextTick(() => {
+      window.addEventListener("click", (e) => {
         if (e.target.closest(".container__password-toggle-btn")) {
           const passwordInput = document.querySelector(
               ".container__input-password"
@@ -179,15 +195,16 @@ export default {
             );
           if (passwordInput.getAttribute("type") === "password") {
             passwordInput.setAttribute("type", "text");
-            eyeOpenIcon.style.display = "none";
-            eyeClosedIcon.style.display = "block";
-          } else {
-            passwordInput.setAttribute("type", "password");
             eyeOpenIcon.style.display = "block";
             eyeClosedIcon.style.display = "none";
+          } else {
+            passwordInput.setAttribute("type", "password");
+            eyeOpenIcon.style.display = "none";
+            eyeClosedIcon.style.display = "block";
           }
         }
       });
+    });
   },
   methods: {
     updatePageToSignUp() {
@@ -195,6 +212,120 @@ export default {
     },
     updatePageToSignIn() {
       this.isUserRegistered = !this.isUserRegistered;
+    },
+    async registerUser(name, email, username, password) {
+      try {
+        if (!name) {
+          console.log("Please enter name.");
+        }
+        if (!email) {
+          console.log("Please enter email.");
+        }
+        if (!username) {
+          console.log("Please enter username.");
+        }
+        if (!password) {
+          console.log("Please enter password.");
+        }
+        const response = await axios.post(
+          "http://localhost:5000/auth/registration",
+          {
+            name: name,
+            email: email,
+            username: username,
+            password: password,
+          }
+        );
+        if (response) {
+          this.isUserRegistered = !this.isUserRegistered;
+        }
+        console.log(response.data.message);
+      } catch (error) {
+        if (error.response.status === 400) {
+          if (
+            error.response.data.message ===
+            "Password must be between 4 and 21 characters"
+          ) {
+            console.log("Password must be between 4 and 21 characters.");
+          }
+          if (
+            error.response.data.message === "User with this name already exists"
+          ) {
+            console.log("User with this name already exists.");
+          }
+          console.log(
+            "error.response.data.message:",
+            error.response.data.message
+          );
+        } else {
+          console.error("Error in registerUser() method:", error);
+        }
+      }
+    },
+    async loginUser(username, password) {
+      try {
+        if (!username) {
+          console.log("Please enter username.");
+        }
+        if (!password) {
+          console.log("Please enter password.");
+        }
+        const response = await axios.post("http://localhost:5000/auth/login", {
+          username: username,
+          password: password,
+        });
+        if (response.data.token) {
+          this.$router.push("/");
+          window.scrollTo(0, 0);
+        }
+        // console.log(response.data.token);
+      } catch (error) {
+        if (error.response.status === 400) {
+          if (error.response.data.message === "Invalid password") {
+            console.log("Invalid password.");
+          }
+          if (
+            error.response.data.message === `User ${username} not found` &&
+            username
+          ) {
+            console.log("User not found.");
+          }
+          if (
+            error.response.data.message ===
+            "Password must be between 4 and 21 characters"
+          ) {
+            console.log("Password must be between 4 and 21 characters.");
+          }
+        } else {
+          console.error("Error in loginUser() method:", error);
+        }
+      }
+    },
+    async signIn() {
+      try {
+        await this.loginUser(this.username, this.password);
+        localStorage.setItem("name", this.name);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async signUp() {
+      const checkbox = document.querySelector(".container__checkbox-sign-up");
+      if (!checkbox.checked) {
+        console.log(
+          "Please agree with privacy policy and terms of use before proceeding."
+        );
+      }
+      try {
+        await this.registerUser(
+          this.name,
+          this.email,
+          this.username,
+          this.password
+        );
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };
@@ -226,7 +357,7 @@ export default {
 }
 .container {
   padding: 2.5rem 2rem;
-  margin-top: -0.5rem;
+  margin-top: -4.2rem;
 }
 .container__title {
   font-family: "Poppins", sans-serif;
@@ -280,7 +411,7 @@ export default {
   margin-top: 14.9rem;
   right: 2rem;
 }
-.container__password-toggle-registered-user-btn {
+.container__password-toggle-authorization-btn {
   margin-top: 8rem;
 }
 .container__password-opened-eye-icon {
@@ -354,9 +485,9 @@ export default {
     width: 24px;
     height: 24px;
   }
-  .container__password-closed-eye-icon {
-    width: 24px;
-    height: 24px;
+  .container__password-closed-eye-icon-auth,
+  .container__password-opened-eye-icon-auth {
+    margin-top: -12.4rem;
   }
   .container__checkbox-and-forgot-password-btn-flex {
     display: flex;

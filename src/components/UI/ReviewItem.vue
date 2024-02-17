@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container__description-and-rating-and-user-name-flex">
-      <span class="container__user-name">User Name</span>
+      <span class="container__user-name">{{ review.name }}</span>
       <star-rating
         :star-size="16"
         :show-rating="false"

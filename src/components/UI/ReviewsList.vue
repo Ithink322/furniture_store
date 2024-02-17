@@ -20,8 +20,11 @@ export default {
     },
   },
   computed: {
-    reviews() {
+    /* reviews() {
       return JSON.parse(localStorage.getItem("reviews")) || [];
+    }, */
+    reviews() {
+      return this.$store.state.reviews || [];
     },
     filteredReviews() {
       return this.reviews.filter((review) => review.id === this.productId);

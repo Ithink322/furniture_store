@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       question: {
+        name: localStorage.getItem("name"),
         description: "",
       },
     };
@@ -45,6 +46,7 @@ export default {
         this.addQuestion(this.question);
         this.$emit("askQuestion", this.question);
         this.question = {
+          name: "",
           description: "",
         };
       }

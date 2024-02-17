@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import StarRating from "vue-star-rating/src/star-rating.vue";
 
 export default {
@@ -37,12 +38,14 @@ export default {
   data() {
     return {
       review: {
+        name: localStorage.getItem("name"),
         selectedRating: 0,
         description: "",
       },
     };
   },
   methods: {
+    ...mapMutations(["addReview"]),
     makeReview() {
       if (
         this.review.description.trim() !== "" &&
@@ -50,7 +53,9 @@ export default {
       ) {
         this.review.id = this.productId;
         this.$emit("makeReview", this.review);
+        this.addReview(this.review);
         this.review = {
+          name: "",
           selectedRating: 0,
           description: "",
         };

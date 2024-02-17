@@ -6,18 +6,15 @@
       <nav class="container__account-nav">
         <div class="container__account-avatar-and-icon-and-name-flex">
           <div class="container__account-avatar-and-icon-flex">
-            <img
-              src="imgs/Vitaliy.jpg"
-              alt=""
-              class="container__account-avatar"
-            />
+            <img :src="userAvatar" alt="" class="container__account-avatar" />
             <img
               src="imgs/add-an-avatar-icon.svg"
               alt=""
               class="container__account-add-avatar-icon"
+              @click="uploadAvatar"
             />
           </div>
-          <span class="container__account-name">Vitaliy Nelubov</span>
+          <span class="container__account-name">{{ name }}</span>
         </div>
         <div class="dropdown">
           <button class="dropdown__button">
@@ -34,6 +31,7 @@
               v-for="option in options"
               :key="option.value"
               :value="option.value"
+              @click="selectOption(option)"
             >
               {{ option.value }}
             </li>
@@ -152,22 +150,102 @@
       <section
         v-if="isAddressesSectonVisible"
         class="container__addresses-section"
-      ></section>
-      <section
-        v-if="isOrdersSectonVisible"
-        class="container__orders-section"
-      ></section>
+      >
+        <div class="container__addresses-section-title-and-addresses-divs">
+          <span class="container__addresses-section-title">Addresses</span>
+          <div
+            class="container__addresses-section-address-divs-flex-from1024px"
+          >
+            <div class="container__addresses-section-address-div">
+              <div
+                class="container__addresses-section-address-div-title-and-edit-btn-flex"
+              >
+                <span class="container__addresses-section-address-div-title"
+                  >Billing Address</span
+                >
+                <button
+                  class="container__addresses-section-address-div-edit-btn container__addresses-section-address-div-billing-address-edit-btn"
+                  @click="focusOnBillingTextarea"
+                >
+                  <img src="imgs/edit-icon.svg" alt="" />Edit
+                </button>
+              </div>
+              <div
+                class="container__addresses-section-address-div-textarea-and-name-flex"
+              >
+                <span class="container__addresses-section-address-div-name"
+                  >Vitaliy Nelubov</span
+                >
+                <textarea
+                  class="container__addresses-section-address-div-textarea container__addresses-section-address-div-billing-address-textarea"
+                  ref="billingTextarea"
+                  v-model="billingTextareaContent"
+                  @input="adjustBillingTextareaHeight"
+                ></textarea>
+              </div>
+            </div>
+            <div class="container__addresses-section-address-div">
+              <div
+                class="container__addresses-section-address-div-title-and-edit-btn-flex"
+              >
+                <span class="container__addresses-section-address-div-title"
+                  >Shipping Address</span
+                >
+                <button
+                  class="container__addresses-section-address-div-edit-btn container__addresses-section-address-div-shipping-address-edit-btn"
+                  @click="focusOnShippingTextarea"
+                >
+                  <img src="imgs/edit-icon.svg" alt="" />Edit
+                </button>
+              </div>
+              <div
+                class="container__addresses-section-address-div-textarea-and-name-flex"
+              >
+                <span class="container__addresses-section-address-div-name"
+                  >Vitaliy Nelubov</span
+                >
+                <textarea
+                  class="container__addresses-section-address-div-textarea container__addresses-section-address-div-shipping-address-textarea"
+                  ref="shippingTextarea"
+                  v-model="shippingTextareaContent"
+                  @input="adjustShippingTextareaHeight"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section v-if="isOrdersSectonVisible" class="container__orders-section">
+        <span class="container__orders-title">Orders History</span>
+        <div class="container__orders-list-titles-flex-from1024px">
+          <span class="container__orders-list-title">Number ID</span>
+          <span class="container__orders-list-title">Dates</span>
+          <span
+            class="container__orders-list-title container__orders-list-title-status"
+            >Status</span
+          >
+          <span
+            class="container__orders-list-title container__orders-list-title-price"
+            >Price</span
+          >
+        </div>
+        <orders-list></orders-list>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import goBackBtn from "../UI/GoBackBtn.vue";
+import OrdersList from "../UI/OrdersList.vue";
 export default {
   name: "MyAccountPage",
-  components: { goBackBtn },
+  components: { goBackBtn, OrdersList },
   data() {
     return {
+      userAvatar: "imgs/plus-on-black-back.png",
+      name: localStorage.getItem("name"),
       options: [
         { value: "Account" },
         { value: "Address" },
@@ -177,9 +255,52 @@ export default {
       isAccountSectonVisible: true,
       isAddressesSectonVisible: false,
       isOrdersSectonVisible: false,
+      billingTextareaContent:
+        localStorage.getItem("billingTextareaContent") || "",
+      shippingTextareaContent:
+        localStorage.getItem("shippingTextareaContent") || "",
     };
   },
   methods: {
+    uploadAvatar() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = (event) => {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append("avatar", file);
+
+        axios
+          .post("/upload-avatar", formData)
+          .then((response) => {
+            console.log("Avatar uploaded successfully");
+            this.userAvatar = response.data.avatarUrl;
+          })
+          .catch((error) => {
+            console.error("Error uploading avatar:", error);
+          });
+      };
+      input.click();
+    },
+    selectOption(option) {
+      if (option.value === "Account") {
+        this.isAccountSectonVisible = true;
+        this.isAddressesSectonVisible = false;
+        this.isOrdersSectonVisible = false;
+      } else if (option.value === "Address") {
+        this.isAddressesSectonVisible = true;
+        this.isAccountSectonVisible = false;
+        this.isOrdersSectonVisible = false;
+      } else if (option.value === "Orders") {
+        this.isOrdersSectonVisible = true;
+        this.isAddressesSectonVisible = false;
+        this.isAccountSectonVisible = false;
+      } else if (option.value === "Log Out") {
+        this.$router.push("/LoginOrRegistrationPage");
+        window.scrollTo(0, 0);
+      }
+    },
     addBorder(header) {
       const headers = document.querySelectorAll(".container__account-title");
       headers.forEach((element) => {
@@ -189,6 +310,54 @@ export default {
           element.classList.remove("container__account-account-title-border");
         }
       });
+      if (header === "account") {
+        this.isAccountSectonVisible = true;
+        this.isAddressesSectonVisible = false;
+        this.isOrdersSectonVisible = false;
+      } else if (header === "address") {
+        this.isAddressesSectonVisible = true;
+        this.isAccountSectonVisible = false;
+        this.isOrdersSectonVisible = false;
+      } else if (header === "orders") {
+        this.isOrdersSectonVisible = true;
+        this.isAddressesSectonVisible = false;
+        this.isAccountSectonVisible = false;
+      } else if (header === "log out") {
+        this.$router.push("/LoginOrRegistrationPage");
+        window.scrollTo(0, 0);
+      }
+    },
+    adjustBillingTextareaHeight() {
+      this.$refs.billingTextarea.style.height = "auto";
+      this.$refs.billingTextarea.style.height =
+        this.$refs.billingTextarea.scrollHeight + "px";
+      localStorage.setItem(
+        "billingTextareaContent",
+        this.billingTextareaContent
+      );
+    },
+    adjustShippingTextareaHeight() {
+      this.$refs.shippingTextarea.style.height = "auto";
+      this.$refs.shippingTextarea.style.height =
+        this.$refs.shippingTextarea.scrollHeight + "px";
+      localStorage.setItem(
+        "shippingTextareaContent",
+        this.shippingTextareaContent
+      );
+    },
+    focusOnBillingTextarea() {
+      document
+        .querySelector(
+          ".container__addresses-section-address-div-billing-address-textarea"
+        )
+        .focus();
+    },
+    focusOnShippingTextarea() {
+      document
+        .querySelector(
+          ".container__addresses-section-address-div-shipping-address-textarea"
+        )
+        .focus();
     },
   },
   mounted() {
@@ -326,6 +495,7 @@ export default {
 }
 .container__account-section {
   margin-bottom: 5rem;
+  width: 100%;
 }
 .container__account-section-title {
   font-family: "Inter", sans-serif;
@@ -378,6 +548,90 @@ export default {
   font-weight: 500;
   color: #fff;
 }
+.container__addresses-section {
+  width: 100%;
+  margin-top: 2.5rem;
+  margin-bottom: 5rem;
+}
+.container__addresses-section-title-and-addresses-divs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.438rem;
+}
+.container__addresses-section-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+}
+.container__addresses-section-address-divs-flex-from1024px {
+  display: flex;
+  flex-direction: column;
+  gap: 1.438rem;
+}
+.container__addresses-section-address-div {
+  padding: 1rem;
+  border: 1px solid #6c7275;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: fit-content;
+}
+.container__addresses-section-address-div-title-and-edit-btn-flex {
+  display: flex;
+  justify-content: space-between;
+}
+.container__addresses-section-address-div-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000;
+}
+.container__addresses-section-address-div-edit-btn {
+  @include button;
+  gap: 0.25rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c7275;
+}
+.container__addresses-section-address-div-textarea-and-name-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.container__addresses-section-address-div-textarea {
+  height: auto;
+  resize: none;
+  overflow-y: hidden;
+  border: none;
+  outline: none;
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #000000;
+}
+.container__addresses-section-address-div-name {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #000000;
+}
+.container__orders-section {
+  margin-top: 2.5rem;
+  margin-bottom: 5rem;
+  width: 100%;
+}
+.container__orders-title {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000000;
+}
+.container__orders-list-titles-flex-from1024px {
+  display: none;
+}
 /* 768px = 48em */
 @media (min-width: 48em) {
   .container {
@@ -394,6 +648,7 @@ export default {
   .container__account-nav {
     width: 262px;
     height: 420px;
+    flex-shrink: 0;
   }
   .dropdown {
     display: none;
@@ -415,14 +670,6 @@ export default {
   .container__account-account-title {
     color: $black;
   }
-  /* .container__account-account-title::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    border: 1px solid $black;
-    left: 0rem;
-    margin-top: 2.1rem;
-  } */
   .container__account-account-title-border::after {
     content: "";
     position: absolute;
@@ -434,19 +681,65 @@ export default {
   .container__account-section-input-titles-and-inputs-flex-margintop-from1024px {
     margin-top: 0rem;
   }
+  .container__addresses-section {
+    margin-top: 0rem;
+    margin-bottom: 17rem;
+  }
+  .container__addresses-section-address-divs-flex-from1024px {
+    flex-direction: row;
+  }
+  .container__addresses-section-address-div {
+    width: 293px;
+  }
+  .container__orders-section {
+    margin-top: 0rem;
+    margin-bottom: 18rem;
+  }
+  .container__orders-list-titles-flex-from1024px {
+    position: relative;
+    display: flex;
+    gap: 8rem;
+    margin-top: 2.5rem;
+  }
+  .container__orders-list-titles-flex-from1024px::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ebf0f3;
+    left: 0rem;
+    margin-top: 1.6rem;
+  }
+  .container__orders-list-title {
+    font-family: "Inter", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #6c7275;
+  }
+  .container__orders-list-title-status {
+    margin-left: 2.1rem;
+  }
+  .container__orders-list-title-price {
+    margin-left: -1.4rem;
+  }
 }
 
 /* 1440px = 90em */
 @media (min-width: 90em) {
   .container {
-    padding: 0 10rem;
+    padding: 0rem 10rem;
+  }
+  .container__addresses-section {
+    margin-bottom: 18.3rem;
+  }
+  .container__addresses-section-address-div {
+    width: 342px;
   }
 }
 
 /* 1920px = 120em */
 @media (min-width: 120em) {
   .container {
-    padding: 0 15.938rem;
+    padding: 0rem 15.938rem;
   }
 }
 </style>

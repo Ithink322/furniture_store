@@ -629,7 +629,7 @@ export default {
     makeReview(review) {
       this.reviews.push(review);
       localStorage.setItem("reviews", JSON.stringify(this.reviews));
-      setTimeout(() => window.location.reload(), 1000);
+      // setTimeout(() => window.location.reload(), 1000);
     },
     showReviews() {
       this.isReviewsVisible = true;

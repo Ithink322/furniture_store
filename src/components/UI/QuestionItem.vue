@@ -1,7 +1,7 @@
 <template>
   <div class="container__description-and-user-name-flex">
     <span class="container__description">{{ question.description }}</span>
-    <span class="container__user-name">User Name</span>
+    <span class="container__user-name">{{ question.name }}</span>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      username: localStorage.getItem("username"),
+    };
   },
 };
 </script>
