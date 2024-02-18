@@ -56,7 +56,9 @@
           <span
             @click="addBorder('log out')"
             class="container__account-title container__account-logout-title"
-            >Log Out</span
+          >
+            <span v-if="this.name === 'Log In please'">Log In</span>
+            <span v-else>Log Out</span></span
           >
         </div>
       </nav>
@@ -245,13 +247,7 @@ export default {
   data() {
     return {
       userAvatar: "imgs/plus-on-black-back.png",
-      name: localStorage.getItem("name"),
-      options: [
-        { value: "Account" },
-        { value: "Address" },
-        { value: "Orders" },
-        { value: "Log Out" },
-      ],
+      name: localStorage.getItem("name") || "Log In please",
       isAccountSectonVisible: true,
       isAddressesSectonVisible: false,
       isOrdersSectonVisible: false,
@@ -260,6 +256,16 @@ export default {
       shippingTextareaContent:
         localStorage.getItem("shippingTextareaContent") || "",
     };
+  },
+  computed: {
+    options() {
+      return [
+        { value: "Account" },
+        { value: "Address" },
+        { value: "Orders" },
+        { value: this.name === "Log In please" ? "Log In" : "Log Out" },
+      ];
+    },
   },
   methods: {
     uploadAvatar() {
@@ -272,10 +278,14 @@ export default {
         formData.append("avatar", file);
 
         axios
-          .post("/upload-avatar", formData)
+          .post("http://localhost:5000/auth/upload-avatar", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
           .then((response) => {
             console.log("Avatar uploaded successfully");
-            this.userAvatar = response.data.avatarUrl;
+            this.userAvatar = response.data.avatar.data;
           })
           .catch((error) => {
             console.error("Error uploading avatar:", error);
@@ -296,7 +306,7 @@ export default {
         this.isOrdersSectonVisible = true;
         this.isAddressesSectonVisible = false;
         this.isAccountSectonVisible = false;
-      } else if (option.value === "Log Out") {
+      } else if (option.value === "Log Out" || option.value === "Log In") {
         this.$router.push("/LoginOrRegistrationPage");
         window.scrollTo(0, 0);
       }

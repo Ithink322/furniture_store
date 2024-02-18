@@ -1,7 +1,6 @@
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { validationResult } = require("express-validator");
 const { secret } = require("./config");
 
 const generateAccessToken = (id, roles) => {
@@ -21,6 +20,12 @@ class authController {
         return res
           .status(400)
           .json({ message: "Password must be between 4 and 21 characters" });
+      }
+      const incorrectEmail = await User.findOne({ email });
+      if (incorrectEmail) {
+        return res
+          .status(400)
+          .json({ message: "User with this email already registered" });
       }
 
       const candidate = await User.findOne({ username });
@@ -61,10 +66,41 @@ class authController {
         return res.status(400).json({ message: "Invalid password" });
       }
       const token = generateAccessToken(user._id, user.roles);
-      return res.json({ token });
+      const name = user.name;
+      return res.json({ token, name });
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: "Login error" });
+    }
+  }
+
+  async uploadAvatar(req, res) {
+    try {
+      const user = await User.findById(req._id);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).json({ message: "No files were uploaded" });
+      }
+
+      const avatar = req.files.avatar;
+      const avatarData = avatar.data.toString("base64");
+      const avatarContentType = avatar.mimetype;
+
+      user.avatar = {
+        data: Buffer.from(avatarData, "base64"),
+        contentType: avatarContentType,
+      };
+
+      await user.save();
+
+      return res.json({ message: "Avatar uploaded successfully" });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ message: "Error uploading avatar" });
     }
   }
 }

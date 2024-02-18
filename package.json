@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "node src/index.js",
+    "start-frontend": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -30,6 +32,7 @@
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "concurrently": "^8.2.2",
     "sass": "^1.70.0",
     "sass-loader": "^14.0.0",
     "ts-node": "^10.9.2",

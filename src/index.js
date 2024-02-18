@@ -1,4 +1,5 @@
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const authRouter = require("./authRouter");
 const PORT = process.env.PORT || 5000;
@@ -13,6 +14,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(fileUpload()); // Middleware для обработки файлов
 app.use("/auth", authRouter);
 
 const start = async () => {

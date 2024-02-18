@@ -561,6 +561,7 @@ export default {
       isCouponeActivated: false,
       orderId: Date.now(),
       payment: "Pay by Card Credit",
+      name: localStorage.getItem("name"),
       formattedDate: "",
       deliveryStatus: "In process",
       cardNumber: "",
@@ -732,7 +733,7 @@ export default {
       }
     },
     showOrderComplete() {
-      if (this.products.length > 0) {
+      if (this.products.length > 0 && this.name !== null) {
         const months = [
           "January",
           "February",
@@ -765,6 +766,7 @@ export default {
             deliveryStatus: this.deliveryStatus,
             total: this.total,
             payment: this.payment,
+            name: this.name,
           },
         ];
         if (!orders) {
@@ -1210,6 +1212,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.name);
     this.calculateTotals();
     this.sliderStages();
     this.removeEventListenersRadioBtns();

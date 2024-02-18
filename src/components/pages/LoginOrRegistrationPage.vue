@@ -244,6 +244,14 @@ export default {
         if (error.response.status === 400) {
           if (
             error.response.data.message ===
+            "User with this email already registered"
+          ) {
+            console.log("User with this email already registered.");
+          } else if (error.response.data.errors[0].msg === "Invalid email") {
+            console.log("Invalid email.");
+          }
+          if (
+            error.response.data.message ===
             "Password must be between 4 and 21 characters"
           ) {
             console.log("Password must be between 4 and 21 characters.");
@@ -253,10 +261,6 @@ export default {
           ) {
             console.log("User with this name already exists.");
           }
-          console.log(
-            "error.response.data.message:",
-            error.response.data.message
-          );
         } else {
           console.error("Error in registerUser() method:", error);
         }
@@ -274,11 +278,14 @@ export default {
           username: username,
           password: password,
         });
-        if (response.data.token) {
+        const { token, name } = response.data;
+        if (name) {
+          localStorage.setItem("name", name);
+        }
+        if (token) {
           this.$router.push("/");
           window.scrollTo(0, 0);
         }
-        // console.log(response.data.token);
       } catch (error) {
         if (error.response.status === 400) {
           if (error.response.data.message === "Invalid password") {
@@ -304,7 +311,6 @@ export default {
     async signIn() {
       try {
         await this.loginUser(this.username, this.password);
-        localStorage.setItem("name", this.name);
       } catch (error) {
         console.error(error);
       }
