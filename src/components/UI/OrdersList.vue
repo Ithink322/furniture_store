@@ -1,5 +1,13 @@
 <template>
-  <div class="container__orders-flex">
+  <span v-if="!userId" class="container__orders-non-authorized-user-text"
+    >Please log In to see your orders.</span
+  >
+  <span
+    v-if="userId && this.orders.length === 0"
+    class="container__orders-empty-text"
+    >Order something cool!</span
+  >
+  <div v-else class="container__orders-flex">
     <orders-item
       v-for="order in orders"
       :key="order.orderId"
@@ -14,13 +22,9 @@ import OrdersItem from "../UI/OrdersItem.vue";
 export default {
   components: { OrdersItem },
   name: "OrdersList",
-  /* computed: {
-    orders() {
-      return JSON.parse(localStorage.getItem("orders")) || [];
-    },
-  }, */
   data() {
     return {
+      userId: localStorage.getItem("userId"),
       orders: [],
     };
   },
@@ -54,6 +58,16 @@ export default {
   gap: 2rem;
   margin-top: 3.5rem;
 }
+.container__orders-non-authorized-user-text,
+.container__orders-empty-text {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
+}
 /* 1024px = 64em */
 @media (min-width: 64em) {
   .container__orders-flex {
@@ -61,6 +75,10 @@ export default {
   }
   .container__orders-flex {
     margin-top: 2rem;
+  }
+  .container__orders-non-authorized-user-text,
+  .container__orders-empty-text {
+    margin-top: 2.5rem;
   }
 }
 </style>
