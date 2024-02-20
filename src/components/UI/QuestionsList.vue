@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import QuestionItem from "./QuestionItem.vue";
 export default {
   name: "QuestionsList",
@@ -21,36 +21,13 @@ export default {
     },
   },
   computed: {
-    questions() {
-      return JSON.parse(localStorage.getItem("questions")) || [];
-    },
+    ...mapGetters(["questions"]),
     filteredQuestions() {
       return this.questions.filter(
         (question) => question.id === this.productId
       );
     },
   },
-  /* computed: {
-    ...mapState(["questions"]),
-    filteredQuestions() {
-      return this.questions.filter(
-        (question) => question.id === this.productId
-      );
-    },
-  },
-  created() {
-    this.$store.commit("loadQuestions");
-  },
-  watch: {
-    questions: {
-      handler() {
-        if (this.questions) {
-          this.$store.commit("loadQuestions");
-        }
-      },
-      deep: true,
-    },
-  }, */
 };
 </script>
 

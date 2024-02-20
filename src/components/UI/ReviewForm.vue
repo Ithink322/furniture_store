@@ -1,5 +1,9 @@
 <template>
-  <form @submit.prevent="makeReview" class="container__questions-form">
+  <form
+    v-if="name"
+    @submit.prevent="makeReview"
+    class="container__questions-form"
+  >
     <span class="container__review-form-title">Make your own review</span>
     <div class="container__review-form-rating-text-and-rating-fle">
       <span class="container__review-form-rating-text">Rate the product</span>
@@ -21,10 +25,12 @@
       Write Review
     </button>
   </form>
+  <span v-else class="container__reviews-non-authorized-user-text"
+    >Please log In to make a review.</span
+  >
 </template>
 
 <script>
-import { mapMutations } from "vuex";
 import StarRating from "vue-star-rating/src/star-rating.vue";
 
 export default {
@@ -37,25 +43,27 @@ export default {
   },
   data() {
     return {
+      name: localStorage.getItem("name"),
       review: {
-        name: localStorage.getItem("name"),
+        name: "",
         selectedRating: 0,
         description: "",
       },
+      reviewsAdded: 0,
     };
   },
   methods: {
-    ...mapMutations(["addReview"]),
     makeReview() {
       if (
         this.review.description.trim() !== "" &&
         this.review.selectedRating !== 0
       ) {
         this.review.id = this.productId;
+        this.review.name = localStorage.getItem("name");
         this.$emit("makeReview", this.review);
-        this.addReview(this.review);
+        this.reviewsAdded++;
+        this.$emit("reviewsAdded", this.reviewsAdded);
         this.review = {
-          name: "",
           selectedRating: 0,
           description: "",
         };
@@ -111,6 +119,14 @@ export default {
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
+}
+.container__reviews-non-authorized-user-text {
+  display: block;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
 }
 /* 1024px = 64em */
 @media (min-width: 64em) {

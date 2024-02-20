@@ -278,7 +278,7 @@
       >
         <span
           class="container__dropdown-title container__dropdown-title-questions"
-          >Questions({{ this.filteredQuestions.length }})</span
+          >Questions({{ this.questionsAdded }})</span
         >
         <button class="container__dropdown-btn">
           <img
@@ -294,7 +294,7 @@
       >
         <span
           class="container__dropdown-title container__dropdown-title-reviews"
-          >Reviews({{ this.filteredReviews.length }})</span
+          >Reviews({{ this.reviewsAdded }})</span
         >
         <button class="container__dropdown-btn">
           <img
@@ -318,6 +318,7 @@
       <question-form
         :productId="product.id"
         @askQuestion="askQuestion"
+        @questionsAdded="increaseQuestionsAdded"
       ></question-form>
       <questions-list :productId="product.id"></questions-list>
     </section>
@@ -325,6 +326,7 @@
       <review-form
         :productId="product.id"
         @makeReview="makeReview"
+        @reviewsAdded="increaseReviewsAdded"
       ></review-form>
       <reviews-list :productId="product.id"></reviews-list>
     </section>
@@ -360,6 +362,8 @@ export default {
       isDetailsFrom1024pxVisible: false,
       isQuestionsVisible: false,
       isReviewsVisible: false,
+      reviewsAdded: 0,
+      questionsAdded: 0,
     };
   },
   computed: {
@@ -393,12 +397,14 @@ export default {
       return totalRating / this.filteredReviews.length;
     },
   },
-  created() {
-    this.questions = JSON.parse(localStorage.getItem("questions")) || [];
-    this.reviews = JSON.parse(localStorage.getItem("reviews")) || [];
-  },
   methods: {
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    increaseReviewsAdded(reviewsAdded) {
+      this.reviewsAdded = reviewsAdded + this.filteredReviews.length;
+    },
+    increaseQuestionsAdded(questionsAdded) {
+      this.questionsAdded = questionsAdded + this.filteredQuestions.length;
+    },
     addToCart(product) {
       let cart = localStorage.getItem("cart");
 
@@ -533,7 +539,6 @@ export default {
           this.isDetailsFrom320pxVisible = false;
         } else if (window.innerWidth >= 1024) {
           this.isDetailsFrom1024pxVisible = false;
-          console.log("1024px", this.isDetailsFrom1024pxVisible);
         }
         document.querySelector(
           ".container__dropdown-title-details"
@@ -548,7 +553,6 @@ export default {
           this.isDetailsFrom320pxVisible = true;
         } else if (window.innerWidth >= 1024) {
           this.isDetailsFrom1024pxVisible = true;
-          console.log("1024px", this.isDetailsFrom1024pxVisible);
         }
         document.querySelector(
           ".container__dropdown-title-details"
@@ -621,15 +625,17 @@ export default {
           .classList.remove("container__border-bottom");
       }
     },
+    ...mapMutations(["addQuestion"]),
     askQuestion(question) {
       this.questions.push(question);
+      this.addQuestion(question);
       localStorage.setItem("questions", JSON.stringify(this.questions));
-      setTimeout(() => window.location.reload(), 1000);
     },
+    ...mapMutations(["addReview"]),
     makeReview(review) {
       this.reviews.push(review);
+      this.addReview(review);
       localStorage.setItem("reviews", JSON.stringify(this.reviews));
-      // setTimeout(() => window.location.reload(), 1000);
     },
     showReviews() {
       this.isReviewsVisible = true;
@@ -678,6 +684,8 @@ export default {
     },
   },
   mounted() {
+    this.increaseReviewsAdded(this.reviewsAdded);
+    this.increaseQuestionsAdded(this.questionsAdded);
     /* carousel with arrows for .container__carousel-flex starts */
     let carouselContainer = document.querySelector(".container__carousel-flex"),
       carouselMiniContainer = document.querySelector(
@@ -1071,6 +1079,7 @@ export default {
   position: relative;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 .container__dropdown-flex::after {
   content: "";
@@ -1267,6 +1276,12 @@ export default {
   .container__carousel-next-btn {
     margin-top: 21.4rem;
     margin-left: 16.5rem;
+  }
+  .container__dropdown-details-title {
+    font-size: 1rem;
+  }
+  .container__dropdown-details-description {
+    font-size: 0.875rem;
   }
 }
 /* 1920px = 120em */

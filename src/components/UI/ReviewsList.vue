@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import ReviewsItem from "../UI/ReviewItem.vue";
 export default {
   name: "ReviewsList",
@@ -20,12 +21,7 @@ export default {
     },
   },
   computed: {
-    /* reviews() {
-      return JSON.parse(localStorage.getItem("reviews")) || [];
-    }, */
-    reviews() {
-      return this.$store.state.reviews || [];
-    },
+    ...mapGetters(["reviews"]),
     filteredReviews() {
       return this.reviews.filter((review) => review.id === this.productId);
     },

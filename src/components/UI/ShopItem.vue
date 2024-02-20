@@ -61,6 +61,7 @@
 
 <script>
 import { mapActions, mapMutations } from "vuex";
+import axios from "axios";
 import StarRating from "vue-star-rating/src/star-rating.vue";
 export default {
   name: "ShopItem",
@@ -92,7 +93,29 @@ export default {
       window.scrollTo(0, 0);
     },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    addToCart(item) {
+    async addToCart(item) {
+      /* try {
+        const response = await axios.post(
+          "http://localhost:5000/cart/addCartProduct",
+          {
+            userId: localStorage.getItem("userId"),
+            id: this.item.id,
+            hero: this.item.hero,
+            title: this.item.title,
+            currentPrice: this.item.currentPrice,
+            previousPrice: this.item.previousPrice,
+            description: this.item.description,
+            category: this.item.category,
+            measurements: this.item.measurements,
+            startColor: this.item.startColor,
+            colors: this.item.colors,
+          }
+        );
+        console.log("Product added to cart successfully:", response.data);
+      } catch (error) {
+        console.error("Error adding product to cart client:", error);
+      } */
+
       let cart = JSON.parse(localStorage.getItem("cart"));
 
       let newItem = [

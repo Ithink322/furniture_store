@@ -11,13 +11,12 @@ interface State {
 }
 
 const state: State = {
-  reviews: [],
+  reviews: JSON.parse(localStorage.getItem("reviews") || "[]") || [],
 };
 
 const mutations: MutationTree<State> = {
   addReview(state, review: Review) {
     state.reviews.push(review);
-    localStorage.setItem("reviews", JSON.stringify(state.reviews));
   },
 };
 
@@ -27,8 +26,13 @@ const actions: ActionTree<State, any> = {
   },
 };
 
+const getters = {
+  reviews: (state: State) => state.reviews,
+};
+
 export default {
   state,
   mutations,
   actions,
+  getters,
 };

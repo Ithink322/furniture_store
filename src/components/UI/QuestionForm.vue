@@ -1,5 +1,9 @@
 <template>
-  <form @submit.prevent="askQuestion" class="container__questions-form">
+  <form
+    v-if="name"
+    @submit.prevent="askQuestion"
+    class="container__questions-form"
+  >
     <span class="container__questions-form-title"
       >Ask a question about the product</span
     >
@@ -18,6 +22,9 @@
       Ask a Question
     </button>
   </form>
+  <span v-else class="container__questions-non-authorized-user-text"
+    >Please log In to ask a question.</span
+  >
 </template>
 
 <script>
@@ -32,19 +39,22 @@ export default {
   },
   data() {
     return {
+      name: localStorage.getItem("name"),
       question: {
-        name: localStorage.getItem("name"),
+        name: "",
         description: "",
       },
+      questoinsAdded: 0,
     };
   },
   methods: {
-    ...mapMutations(["addQuestion"]),
     askQuestion() {
       if (this.question.description.trim() !== "") {
         this.question.id = this.productId;
-        this.addQuestion(this.question);
+        this.question.name = localStorage.getItem("name");
         this.$emit("askQuestion", this.question);
+        this.questoinsAdded++;
+        this.$emit("questionsAdded", this.questoinsAdded);
         this.question = {
           name: "",
           description: "",
@@ -88,6 +98,14 @@ export default {
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
+}
+.container__questions-non-authorized-user-text {
+  display: block;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #000;
 }
 /* 1024px = 64em */
 @media (min-width: 64em) {

@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree } from "vuex";
+
 interface Question {
-  id: number;
+  name: string;
   description: string;
 }
 
@@ -9,30 +10,28 @@ interface State {
 }
 
 const state: State = {
-  questions: [],
+  questions: JSON.parse(localStorage.getItem("questions") || "[]") || [],
 };
 
 const mutations: MutationTree<State> = {
-  addQuestion(state: State, question: Question) {
+  addQuestion(state, question: Question) {
     state.questions.push(question);
-    localStorage.setItem("questions", JSON.stringify(state.questions));
-  },
-  loadQuestions(state: State) {
-    const storedQuestions = localStorage.getItem("questions");
-    if (storedQuestions) {
-      state.questions = JSON.parse(storedQuestions);
-    }
   },
 };
 
 const actions: ActionTree<State, any> = {
-  askQuestion({ commit }, question: Question) {
+  addQuestion({ commit }, question: Question) {
     commit("addQuestion", question);
   },
+};
+
+const getters = {
+  questions: (state: State) => state.questions,
 };
 
 export default {
   state,
   mutations,
   actions,
+  getters,
 };
