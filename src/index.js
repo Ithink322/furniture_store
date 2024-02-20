@@ -2,10 +2,13 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const authRouter = require("./authRouter");
+const ordersRouter = require("./ordersRouter");
+const cors = require("cors");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+app.use(cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -14,8 +17,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(fileUpload()); // Middleware для обработки файлов
+app.use(fileUpload());
 app.use("/auth", authRouter);
+app.use("/orders", ordersRouter);
 
 const start = async () => {
   try {

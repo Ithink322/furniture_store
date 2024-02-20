@@ -526,9 +526,11 @@
 </template>
 
 <script>
+import axios from "axios";
 import GoBackBtn from "../UI/GoBackBtn.vue";
 import CartList from "../UI/CartList.vue";
 import SummaryList from "../UI/SummaryList.vue";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "CartPage",
   components: { GoBackBtn, CartList, SummaryList },
@@ -569,6 +571,9 @@ export default {
       cvcCode: "",
     };
   },
+  computed: {
+    ...mapState(["totalQtyOfCartProducts"]),
+  },
   methods: {
     removeProduct(id) {
       this.products = this.products.filter((product) => {
@@ -607,7 +612,19 @@ export default {
       this.subTotal += deliveryCost;
       this.total += deliveryCost;
     },
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    updateTotalQtyOfProducts() {
+      let totalQty = 0;
+      let products = JSON.parse(localStorage.getItem("cart"));
+      if (products !== null) {
+        products.forEach((product) => {
+          totalQty += Number(product.qty);
+        });
+        this.updateTotalQtyOfCartProducts(totalQty);
+      }
+    },
     showShoppingCart() {
+      this.updateTotalQtyOfProducts();
       this.products = JSON.parse(localStorage.getItem("cart"));
       this.calculateTotals();
       this.titleSection = "Cart";
@@ -669,6 +686,8 @@ export default {
     },
     showCheckoutDetails() {
       if (this.products.length > 0) {
+        this.products = JSON.parse(localStorage.getItem("cart"));
+        this.updateTotalQtyOfProducts();
         window.scrollTo(0, 0);
         this.titleSection = "Check Out";
         this.isShoppingCartVisible = false;
@@ -732,7 +751,7 @@ export default {
         }
       }
     },
-    showOrderComplete() {
+    async showOrderComplete() {
       if (this.products.length > 0 && this.name !== null) {
         const months = [
           "January",
@@ -753,29 +772,26 @@ export default {
         const month = months[currentDate.getMonth()];
         const day = currentDate.getDate();
         const year = currentDate.getFullYear();
-
         this.formattedDate = `${month} ${day}, ${year}`;
         localStorage.setItem("cart", JSON.stringify([]));
         window.scrollTo(0, 0);
-        let orders = localStorage.getItem("orders");
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/orders/create",
+            {
+              userId: localStorage.getItem("userId"),
+              orderId: this.orderId,
+              date: this.formattedDate,
+              deliveryStatus: this.deliveryStatus,
+              total: this.total,
+              payment: this.payment,
+              name: this.name,
+            }
+          );
 
-        let newOrder = [
-          {
-            orderId: this.orderId,
-            date: this.formattedDate,
-            deliveryStatus: this.deliveryStatus,
-            total: this.total,
-            payment: this.payment,
-            name: this.name,
-          },
-        ];
-        if (!orders) {
-          localStorage.setItem("orders", JSON.stringify(newOrder));
-        } else {
-          orders = JSON.parse(orders);
-
-          Array.prototype.push.apply(orders, newOrder);
-          localStorage.setItem("orders", JSON.stringify(orders));
+          console.log("Order created successfully:", response.data);
+        } catch (error) {
+          console.error("Error creating order:", error);
         }
         this.titleSection = "Complete!";
         this.isShoppingCartVisible = false;
@@ -1212,7 +1228,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.name);
+    this.updateTotalQtyOfProducts();
     this.calculateTotals();
     this.sliderStages();
     this.removeEventListenersRadioBtns();

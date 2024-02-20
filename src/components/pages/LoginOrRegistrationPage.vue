@@ -278,13 +278,16 @@ export default {
           username: username,
           password: password,
         });
-        const { token, name } = response.data;
+        const { token, name, userId } = response.data;
         if (name) {
           localStorage.setItem("name", name);
         }
         if (token) {
           this.$router.push("/");
           window.scrollTo(0, 0);
+        }
+        if (userId) {
+          localStorage.setItem("userId", userId);
         }
       } catch (error) {
         if (error.response.status === 400) {

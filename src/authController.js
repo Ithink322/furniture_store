@@ -41,6 +41,7 @@ class authController {
         username,
         password: hashPassword,
       });
+      console.log("User successfully registered:", user);
       await user.save();
       return res.json({ message: "User was successfully registered" });
     } catch (e) {
@@ -65,9 +66,8 @@ class authController {
       if (!validPassword) {
         return res.status(400).json({ message: "Invalid password" });
       }
-      const token = generateAccessToken(user._id, user.roles);
-      const name = user.name;
-      return res.json({ token, name });
+      const token = generateAccessToken(user._id);
+      return res.json({ token, name: user.name, userId: user._id });
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: "Login error" });
@@ -77,10 +77,6 @@ class authController {
   async uploadAvatar(req, res) {
     try {
       const user = await User.findById(req._id);
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
 
       if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).json({ message: "No files were uploaded" });
