@@ -11,5 +11,17 @@ router.post("/login", async (req, res) => {
 router.post("/upload-avatar", async (req, res) => {
   await controller.uploadAvatar(req, res);
 });
+router.post("/update-billing-address", async (req, res) => {
+  await controller.updateBillingAddress(req, res);
+});
+router.get("/get-billing-address", async (req, res) => {
+  await controller.getBillingAddress(req, res);
+});
+router.post("/update-shipping-address", async (req, res) => {
+  await controller.updateShippingAddress(req, res);
+});
+router.get("/get-shipping-address", async (req, res) => {
+  await controller.getShippingAddress(req, res);
+});
 
 module.exports = router;

@@ -9,6 +9,8 @@ const User = new Schema({
     data: Buffer,
     contentType: String,
   },
+  billingAddress: { type: String },
+  shippingAddress: { type: String },
 });
 
 module.exports = model("User", User);

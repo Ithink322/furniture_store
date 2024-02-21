@@ -175,9 +175,9 @@
               <div
                 class="container__addresses-section-address-div-textarea-and-name-flex"
               >
-                <span class="container__addresses-section-address-div-name"
-                  >Vitaliy Nelubov</span
-                >
+                <span class="container__addresses-section-address-div-name">{{
+                  this.name
+                }}</span>
                 <textarea
                   class="container__addresses-section-address-div-textarea container__addresses-section-address-div-billing-address-textarea"
                   ref="billingTextarea"
@@ -185,6 +185,12 @@
                   @input="adjustBillingTextareaHeight"
                 ></textarea>
               </div>
+              <button
+                @click="saveBillingAddress"
+                class="container__addresses-section-save-address-btn"
+              >
+                Save
+              </button>
             </div>
             <div class="container__addresses-section-address-div">
               <div
@@ -203,9 +209,9 @@
               <div
                 class="container__addresses-section-address-div-textarea-and-name-flex"
               >
-                <span class="container__addresses-section-address-div-name"
-                  >Vitaliy Nelubov</span
-                >
+                <span class="container__addresses-section-address-div-name">{{
+                  this.name
+                }}</span>
                 <textarea
                   class="container__addresses-section-address-div-textarea container__addresses-section-address-div-shipping-address-textarea"
                   ref="shippingTextarea"
@@ -213,6 +219,12 @@
                   @input="adjustShippingTextareaHeight"
                 ></textarea>
               </div>
+              <button
+                @click="saveShippingAddress"
+                class="container__addresses-section-save-address-btn"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -288,7 +300,7 @@ export default {
             this.userAvatar = response.data.avatar.data;
           })
           .catch((error) => {
-            console.error("Error uploading avatar:", error);
+            console.error("Error uploading avatar client:", error);
           });
       };
       input.click();
@@ -337,23 +349,70 @@ export default {
         window.scrollTo(0, 0);
       }
     },
-    adjustBillingTextareaHeight() {
+    async adjustBillingTextareaHeight() {
       this.$refs.billingTextarea.style.height = "auto";
       this.$refs.billingTextarea.style.height =
         this.$refs.billingTextarea.scrollHeight + "px";
-      localStorage.setItem(
-        "billingTextareaContent",
-        this.billingTextareaContent
-      );
     },
     adjustShippingTextareaHeight() {
       this.$refs.shippingTextarea.style.height = "auto";
       this.$refs.shippingTextarea.style.height =
         this.$refs.shippingTextarea.scrollHeight + "px";
-      localStorage.setItem(
-        "shippingTextareaContent",
-        this.shippingTextareaContent
-      );
+    },
+    async saveBillingAddress() {
+      const userId = localStorage.getItem("userId");
+      axios
+        .post("http://localhost:5000/auth/update-billing-address", {
+          userId: userId,
+          billingAddress: this.billingTextareaContent,
+        })
+        .then((response) => {
+          console.log(
+            "Billing address was updated successfully client:",
+            response.data
+          );
+        })
+        .catch((error) => {
+          console.error("Error updating billing address client:", error);
+        });
+    },
+    saveShippingAddress() {
+      const userId = localStorage.getItem("userId");
+      axios
+        .post("http://localhost:5000/auth/update-shipping-address", {
+          userId: userId,
+          shippingAddress: this.shippingTextareaContent,
+        })
+        .then((response) => {
+          console.log(
+            "Shipping address was updated successfully client:",
+            response.data
+          );
+        })
+        .catch((error) => {
+          console.error("Error updating shipping address client:", error);
+        });
+    },
+    async fetchAddresses() {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) {
+          console.log("You're not authorized");
+          return;
+        } else {
+          const billingResponse = await axios.get(
+            `http://localhost:5000/auth/get-billing-address?userId=${userId}`
+          );
+          this.billingTextareaContent = billingResponse.data;
+
+          const shippingResponse = await axios.get(
+            `http://localhost:5000/auth/get-shipping-address?userId=${userId}`
+          );
+          this.shippingTextareaContent = shippingResponse.data;
+        }
+      } catch (error) {
+        console.error("Error getting addresses:", error);
+      }
     },
     focusOnBillingTextarea() {
       document
@@ -390,6 +449,7 @@ export default {
         dropDownList.classList.remove("dropdown__list--visible");
       }
     });
+    this.fetchAddresses();
   },
 };
 </script>
@@ -621,6 +681,17 @@ export default {
   font-size: 0.875rem;
   font-weight: 400;
   color: #000000;
+}
+.container__addresses-section-save-address-btn {
+  @include button;
+  border: 1px solid #6c7275;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: auto;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c7275;
 }
 .container__addresses-section-address-div-name {
   font-family: "Inter", sans-serif;
