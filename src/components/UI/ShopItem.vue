@@ -17,7 +17,7 @@
           :star-size="16"
           :show-rating="false"
           :activeColor="'#343839'"
-          :rating="getAverageRating(item.id)"
+          :rating="getAverageRating(item)"
           :read-only="true"
         ></star-rating>
         <div class="container__item-card-title-and-whishlist-btn-flex">
@@ -61,7 +61,6 @@
 
 <script>
 import { mapActions, mapMutations } from "vuex";
-import axios from "axios";
 import StarRating from "vue-star-rating/src/star-rating.vue";
 export default {
   name: "ShopItem",
@@ -78,7 +77,6 @@ export default {
   },
   data() {
     return {
-      averageRatings: {},
       WhishListIconDisabled: "/imgs/whishlist-icon.svg",
       WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
       currentIcon: "/imgs/whishlist-icon.svg",
@@ -94,28 +92,6 @@ export default {
     },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
     async addToCart(item) {
-      /* try {
-        const response = await axios.post(
-          "http://localhost:5000/cart/addCartProduct",
-          {
-            userId: localStorage.getItem("userId"),
-            id: this.item.id,
-            hero: this.item.hero,
-            title: this.item.title,
-            currentPrice: this.item.currentPrice,
-            previousPrice: this.item.previousPrice,
-            description: this.item.description,
-            category: this.item.category,
-            measurements: this.item.measurements,
-            startColor: this.item.startColor,
-            colors: this.item.colors,
-          }
-        );
-        console.log("Product added to cart successfully:", response.data);
-      } catch (error) {
-        console.error("Error adding product to cart client:", error);
-      } */
-
       let cart = JSON.parse(localStorage.getItem("cart"));
 
       let newItem = [
@@ -180,23 +156,6 @@ export default {
           nonActiveBtn.style.display = "flex";
         }
       });
-    },
-    getAverageRating(productId) {
-      const filteredReviews = this.reviews.filter(
-        (review) => review.productId === productId
-      );
-
-      if (filteredReviews.length === 0) {
-        return 0;
-      }
-
-      const totalRating = filteredReviews.reduce(
-        (acc, review) => acc + review.rating,
-        0
-      );
-
-      const averageRating = totalRating / filteredReviews.length;
-      return averageRating;
     },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
     addToWishlist(item) {
@@ -278,40 +237,22 @@ export default {
     filteredReviews() {
       return this.reviews.filter((review) => review.id === this.product.id);
     },
-    /* averageRatings() {
-      const averageRatings = [];
-
-      for (const product of this.sortedItems) {
-        const filteredReviews = this.reviews.filter(
-          (review) => review.productId === product.id
+    getAverageRating() {
+      return (item) => {
+        const itemReviews = this.reviews.filter(
+          (review) => review.id === item.id
         );
-
-        if (filteredReviews.length === 0) {
-          averageRatings.push({ productId: product.id, averageRating: 0 });
+        if (itemReviews.length === 0) {
+          return 0;
         } else {
-          const totalRating = filteredReviews.reduce(
-            (acc, review) => acc + review.rating,
+          const totalRating = itemReviews.reduce(
+            (acc, review) => acc + review.selectedRating,
             0
           );
-
-          const averageRating = totalRating / filteredReviews.length;
-          averageRatings.push({ productId: product.id, averageRating });
+          return totalRating / itemReviews.length;
         }
-      }
-
-      return averageRatings;
-    }, */
-    /* averageRating() {
-      if (this.filteredReviews.length === 0) {
-        return 0;
-      }
-
-      const totalRating = this.filteredReviews.reduce(
-        (acc, review) => acc + review.selectedRating,
-        0
-      );
-      return totalRating / this.filteredReviews.length;
-    }, */
+      };
+    },
   },
   created() {
     this.updateFavoriteHeartStatus(this.item);

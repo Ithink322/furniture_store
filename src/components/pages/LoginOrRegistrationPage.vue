@@ -247,7 +247,7 @@ export default {
             "User with this email already registered"
           ) {
             console.log("User with this email already registered.");
-          } else if (error.response.data.errors[0].msg === "Invalid email") {
+          } else if (error.response.data.message === "Invalid email") {
             console.log("Invalid email.");
           }
           if (

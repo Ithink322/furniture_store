@@ -30,6 +30,11 @@ class authController {
           .json({ message: "User with this email already registered" });
       }
 
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        return res.status(400).json({ message: "Invalid email" });
+      }
+
       const candidate = await User.findOne({ username });
       if (candidate) {
         return res
@@ -76,27 +81,84 @@ class authController {
     }
   }
 
-  async uploadAvatar(req, res) {
+  /* async uploadAvatar(req, res) {
     try {
-      const username = req.body;
-      const user = await User.findOne({ username });
-
-      if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).json({ message: "No files were uploaded" });
+      const userId = req.get("userId");
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid userId" });
+      }
+      const userIdObjectId = new ObjectId(String(userId));
+      const user = await User.findOne({ _id: userIdObjectId });
+      if (
+        !req.files ||
+        !req.files.avatar ||
+        Object.keys(req.files).length === 0
+      ) {
+        return res.status(400).json({ message: "Avatar file is missing" });
       }
 
-      const avatar = req.files.avatar;
-      const avatarData = avatar.data.toString("base64");
-      const avatarContentType = avatar.mimetype;
+      const avatar = req.file;
+      if (!avatar) {
+        console.log("Avatar not found");
+        return res.status(400).json({ message: "Avatar not found" });
+      } else {
+        console.log("Avatar exists:", avatar);
+        // const avatarData = avatar.data;
+        const fs = require("fs");
+        const avatarData = fs.readFileSync(avatar.path);
+        if (!avatarData) {
+          console.log("Avatar data is empty");
+          return res.status(400).json({ message: "Avatar data is empty" });
+        }
+        const avatarDataBase64 = avatarData.toString("base64");
+        // console.log("Avatar data in base64:", avatarDataBase64);
 
+        user.avatar = {
+          data: avatarData,
+          contentType: avatar.mimetype,
+        };
+        console.log("user.avatar:", user.avatar);
+        console.log("Saved avatar data as Buffer:", user.avatar.data);
+
+        await user.save();
+
+        return res.json({
+          message: "Avatar uploaded successfully",
+          avatar: user.avatar,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ message: "Error uploading avatar" });
+    }
+  } */
+  async uploadAvatar(req, res) {
+    try {
+      const userId = req.get("userId");
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid userId" });
+      }
+      const userIdObjectId = new ObjectId(String(userId));
+      const user = await User.findOne({ _id: userIdObjectId });
+      console.log("user:", user);
+
+      const avatar = req.file;
+      if (!avatar) {
+        return res.status(400).json({ message: "Avatar not found" });
+      }
+
+      const avatarData = avatar.buffer.toString("base64");
       user.avatar = {
-        data: Buffer.from(avatarData, "base64"),
-        contentType: avatarContentType,
+        data: avatarData,
+        contentType: avatar.mimetype,
       };
 
       await user.save();
 
-      return res.json({ message: "Avatar uploaded successfully" });
+      return res.json({
+        message: "Avatar uploaded successfully",
+        avatar: user.avatar,
+      });
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: "Error uploading avatar" });
@@ -139,8 +201,7 @@ class authController {
       const user = await User.findOne({ _id: userIdObjectId });
       if (!user) {
         return res.status(404).json({ message: "Address not found" });
-      } else {
-        console.log("billingAddress:", user.billingAddress);
+      } else if (user && user.billingAddress) {
         return res.json(user.billingAddress);
       }
     } catch (error) {
@@ -166,7 +227,7 @@ class authController {
         user.shippingAddress = shippingAddress;
         await user.save();
         return res.json({ message: "Shipping address updated successfully" });
-      } else {
+      } else if (user && user.shippingAddress) {
         console.log("Billing address is the same, no need to update");
       }
     } catch (error) {
@@ -186,7 +247,6 @@ class authController {
       if (!user) {
         return res.status(404).json({ message: "Address not found" });
       } else {
-        console.log("shippingAddress:", user.shippingAddress);
         return res.json(user.shippingAddress);
       }
     } catch (error) {

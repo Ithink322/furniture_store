@@ -263,10 +263,8 @@ export default {
       isAccountSectonVisible: true,
       isAddressesSectonVisible: false,
       isOrdersSectonVisible: false,
-      billingTextareaContent:
-        localStorage.getItem("billingTextareaContent") || "",
-      shippingTextareaContent:
-        localStorage.getItem("shippingTextareaContent") || "",
+      billingTextareaContent: "",
+      shippingTextareaContent: "",
     };
   },
   computed: {
@@ -293,6 +291,7 @@ export default {
           .post("http://localhost:5000/auth/upload-avatar", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
+              userId: localStorage.getItem("userId"),
             },
           })
           .then((response) => {

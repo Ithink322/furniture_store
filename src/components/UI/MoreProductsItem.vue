@@ -26,13 +26,13 @@
       >
     </button>
     <div class="container__new-arrivals-card-rating-and-title-and-prices-flex">
-      <div class="container__new-arrivals-card-rating-flex">
-        <img src="imgs/Star-icon.svg" alt="" />
-        <img src="imgs/Star-icon.svg" alt="" />
-        <img src="imgs/Star-icon.svg" alt="" />
-        <img src="imgs/Star-icon.svg" alt="" />
-        <img src="imgs/Star-icon.svg" alt="" />
-      </div>
+      <star-rating
+        :star-size="16"
+        :show-rating="false"
+        :activeColor="'#343839'"
+        :rating="getAverageRating(product)"
+        :read-only="true"
+      ></star-rating>
       <span class="container__new-arrivals-card-title">{{
         product.title
       }}</span>
@@ -50,8 +50,10 @@
 
 <script>
 import { mapMutations, mapActions } from "vuex";
+import StarRating from "vue-star-rating/src/star-rating.vue";
 export default {
   name: "MoreProductsItem",
+  components: { StarRating },
   props: {
     product: {
       type: Object,
@@ -212,6 +214,27 @@ export default {
         : this.WhishListIconDisabled;
     },
   },
+  computed: {
+    reviews() {
+      return JSON.parse(localStorage.getItem("reviews")) || [];
+    },
+    getAverageRating() {
+      return (product) => {
+        const itemReviews = this.reviews.filter(
+          (review) => review.id === product.id
+        );
+        if (itemReviews.length === 0) {
+          return 0;
+        } else {
+          const totalRating = itemReviews.reduce(
+            (acc, review) => acc + review.selectedRating,
+            0
+          );
+          return totalRating / itemReviews.length;
+        }
+      };
+    },
+  },
   created() {
     this.updateFavoriteHeartStatus(this.product);
   },
@@ -301,11 +324,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-}
-.container__new-arrivals-card-rating-flex {
-  display: flex;
-  gap: 0.125rem;
-  margin-top: 1.63rem;
+  margin-top: 1.45rem;
 }
 .container__new-arrivals-card-title {
   font-family: "Inter", sans-serif;
