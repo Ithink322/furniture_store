@@ -4,7 +4,7 @@ Stack:
 
 Frontend:
 - HTML
-- CSS
+- SCSS
 - JS
 - TS
 - Vue 3
