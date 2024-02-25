@@ -1,4 +1,4 @@
-# Trainers shop - online fitness equipment store.
+# Furniture store - online furniture store.
 
 Stack:
 
