@@ -111,7 +111,7 @@ export default {
           console.error("Error fetching products:", error);
         }
       } else {
-        console.log("You're not authorized");
+        this.updateTotalQtyOfCartProducts(0);
       }
     },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
@@ -127,6 +127,8 @@ export default {
           totalQty += Number(favorite.qty);
         });
         this.updateTotalQtyOfFavorites(totalQty);
+      } else {
+        this.updateTotalQtyOfFavorites(0);
       }
     },
     goToCartPage() {

@@ -471,7 +471,7 @@
         <div class="container__order-complete-order-items-flex">
           <div
             v-for="product in products"
-            :key="product.id"
+            :key="product.productId"
             class="container__order-complete-order-item"
           >
             <img
@@ -593,8 +593,6 @@ export default {
           console.error("Error fetching products:", error);
         }
         this.updateTotalQtyOfProducts();
-      } else {
-        console.log("You're not authorized");
       }
     },
     removeProduct(productId) {
@@ -791,7 +789,6 @@ export default {
         const day = currentDate.getDate();
         const year = currentDate.getFullYear();
         this.formattedDate = `${month} ${day}, ${year}`;
-        this.products = [];
         window.scrollTo(0, 0);
         try {
           const response = await axios.post(
@@ -1244,8 +1241,10 @@ export default {
       this.cvcCode = formattedCode;
     },
   },
-  mounted() {
-    this.fetchProducts();
+  async mounted() {
+    await this.fetchProducts();
+    this.products = Array.from(this.products);
+    console.log("this.products:", this.products);
     this.updateTotalQtyOfProducts();
     this.calculateTotals();
     this.sliderStages();

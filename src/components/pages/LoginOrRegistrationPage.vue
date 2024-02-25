@@ -169,6 +169,8 @@
 
 <script>
 import axios from "axios";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.css";
 export default {
   name: "LoginOrRegistrationPage",
   data() {
@@ -215,16 +217,35 @@ export default {
     },
     async registerUser(name, email, username, password) {
       try {
+        iziToast.settings({
+          position: "bottomRight",
+        });
         if (!name) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter name.",
+          });
           console.log("Please enter name.");
         }
         if (!email) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter email.",
+          });
           console.log("Please enter email.");
         }
         if (!username) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter username.",
+          });
           console.log("Please enter username.");
         }
         if (!password) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter password.",
+          });
           console.log("Please enter password.");
         }
         const response = await axios.post(
@@ -246,19 +267,35 @@ export default {
             error.response.data.message ===
             "User with this email already registered"
           ) {
+            iziToast.warning({
+              title: "Important message",
+              message: "User with this email already registered.",
+            });
             console.log("User with this email already registered.");
           } else if (error.response.data.message === "Invalid email") {
+            iziToast.warning({
+              title: "Important message",
+              message: "Invalid email.",
+            });
             console.log("Invalid email.");
           }
           if (
             error.response.data.message ===
             "Password must be between 4 and 21 characters"
           ) {
+            iziToast.warning({
+              title: "Important message",
+              message: "Password must be between 4 and 21 characters.",
+            });
             console.log("Password must be between 4 and 21 characters.");
           }
           if (
             error.response.data.message === "User with this name already exists"
           ) {
+            iziToast.warning({
+              title: "Important message",
+              message: "User with this name already exists.",
+            });
             console.log("User with this name already exists.");
           }
         } else {
@@ -268,10 +305,21 @@ export default {
     },
     async loginUser(username, password) {
       try {
+        iziToast.settings({
+          position: "bottomRight",
+        });
         if (!username) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter username.",
+          });
           console.log("Please enter username.");
         }
         if (!password) {
+          iziToast.warning({
+            title: "Important message",
+            message: "Please enter password.",
+          });
           console.log("Please enter password.");
         }
         const response = await axios.post("http://localhost:5000/auth/login", {
@@ -292,18 +340,30 @@ export default {
       } catch (error) {
         if (error.response.status === 400) {
           if (error.response.data.message === "Invalid password") {
+            iziToast.warning({
+              title: "Important message",
+              message: "Invalid password.",
+            });
             console.log("Invalid password.");
           }
           if (
             error.response.data.message === `User ${username} not found` &&
             username
           ) {
+            iziToast.warning({
+              title: "Important message",
+              message: "User not found.",
+            });
             console.log("User not found.");
           }
           if (
             error.response.data.message ===
             "Password must be between 4 and 21 characters"
           ) {
+            iziToast.warning({
+              title: "Important message",
+              message: "Invalid password.",
+            });
             console.log("Password must be between 4 and 21 characters.");
           }
         } else {

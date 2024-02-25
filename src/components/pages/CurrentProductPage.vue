@@ -232,7 +232,7 @@
           <button
             @click="addToCart(product)"
             class="container__add-to-cart-btn"
-            :data-productId="product.id"
+            :data-productId="product.productId"
           >
             <span class="container__add-to-cart-btn-non-active"
               >Add to Cart</span
@@ -452,9 +452,21 @@ export default {
       }
       this.updateAddToCartButtons();
     },
-    updateAddToCartButtons() {
-      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      let cartItemIds = cartItems.map((item) => item.id);
+    async updateAddToCartButtons() {
+      let products = [];
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          products = response.data;
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
+      let cartItems = products;
+      let cartItemIds = cartItems.map((item) => item.productId);
       let addToCartBtns = document.querySelectorAll(
         ".container__add-to-cart-btn"
       );

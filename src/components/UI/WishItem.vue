@@ -86,7 +86,7 @@ export default {
         try {
           await axios.post("http://localhost:5000/cart/add", {
             userId: localStorage.getItem("userId"),
-            productId: item.id,
+            productId: item.productId,
             hero: item.hero,
             title: item.title,
             category: item.category,

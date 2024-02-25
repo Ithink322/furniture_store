@@ -148,8 +148,6 @@ export default {
         } catch (error) {
           console.error("Error fetching products:", error);
         }
-      } else {
-        console.log("You're not authorized");
       }
       let cartItems = products;
       let cartItemIds = cartItems.map((item) => item.productId);
