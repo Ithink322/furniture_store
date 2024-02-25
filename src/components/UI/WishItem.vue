@@ -5,7 +5,7 @@
   >
     <div class="container__items-list-remove-btn-and-hero-and-details-flex">
       <button
-        @click="removeFromFavorites(item)"
+        @click.stop="removeFromFavorites(item.productId)"
         class="container__items-list-remove-btn"
       >
         <img src="imgs/x-icon-gray.svg" alt="" />
@@ -24,7 +24,7 @@
       </div>
     </div>
     <button
-      @click="addToCart(item)"
+      @click.stop="addToCart(item)"
       class="container__items-list-add-to-cart-btn"
     >
       Add to cart
@@ -33,6 +33,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.css";
 import { mapActions, mapMutations } from "vuex";
 export default {
   name: "WishItem",
@@ -44,60 +47,80 @@ export default {
   },
   methods: {
     ...mapMutations(["updateTotalQtyOfFavorites"]),
-    removeFromFavorites(item) {
-      let favorites = localStorage.getItem("favorites");
-
-      if (favorites) {
-        favorites = JSON.parse(favorites);
-        favorites = favorites.filter((favorite) => favorite.id !== item.id);
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-        let length = 0;
-        favorites.forEach((favorite) => {
-          length += Number(favorite.qty);
-        });
-        this.updateTotalQtyOfFavorites(length);
+    async removeFromFavorites(productId) {
+      const userId = localStorage.getItem("userId");
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/wishlist/delete/${productId}/${userId}`
+        );
+        console.log(
+          "Product deleted successfully from wishlist:",
+          response.data
+        );
+        this.$emit("remove-from-favorites", productId);
+        this.updateTotalQty();
+      } catch (error) {
+        console.error("Error deleting product:", error);
       }
-      this.$emit("remove-from-favorites", this.item);
     },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    addToCart(item) {
-      let cart = JSON.parse(localStorage.getItem("cart"));
-
-      let newItem = [
-        {
-          id: item.id,
-          hero: item.hero,
-          title: item.title,
-          category: item.category,
-          startColor: item.startColor,
-          currentPrice: item.currentPrice,
-          previousPrice: item.previousPrice,
-          qty: 1,
-          description: item.description,
-          colors: item.colors,
-          measurements: item.measurements,
-        },
-      ];
-
-      if (!cart) {
-        localStorage.setItem("cart", JSON.stringify(newItem));
+    async updateTotalQty() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/wishlist/get?userId=${userId}`
+          );
+          let favorites = response.data;
+          this.updateTotalQtyOfFavorites(favorites.length);
+        } catch (error) {
+          console.error("Error fetching wishlist products:", error);
+        }
       } else {
-        cart.forEach((itemInCart) => {
-          if (itemInCart.id === item.id) {
-            itemInCart.qty = Number(itemInCart.qty) + Number(1);
-            newItem = null;
-          }
-        });
-
-        Array.prototype.push.apply(cart, newItem);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        console.log("You're not authorized");
       }
-      let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      products.forEach((product) => {
-        totalQty += Number(product.qty);
-      });
-      this.updateTotalQtyOfCartProducts(totalQty);
+    },
+    async addToCart(item) {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          await axios.post("http://localhost:5000/cart/add", {
+            userId: localStorage.getItem("userId"),
+            productId: item.id,
+            hero: item.hero,
+            title: item.title,
+            category: item.category,
+            startColor: item.selectedColor,
+            currentPrice: item.currentPrice,
+            previousPrice: item.previousPrice,
+            qty: 1,
+            description: item.description,
+            colors: item.colors,
+            measurements: item.measurements,
+          });
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          let products = response.data;
+          let totalQty = 0;
+          products.forEach((product) => {
+            totalQty += Number(product.qty);
+          });
+          this.updateTotalQtyOfCartProducts(totalQty);
+          console.log("Product added to cart successfully");
+        } catch (error) {
+          console.error("Error adding product to cart:", error);
+        }
+      } else {
+        iziToast.settings({
+          position: "bottomRight",
+        });
+        iziToast.info({
+          title: "Important message",
+          message:
+            "You must be authorized in order to add products in your cart!",
+        });
+      }
     },
     ...mapActions(["selectProduct"]),
     goToCurrentProductPage() {

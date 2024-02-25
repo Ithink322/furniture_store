@@ -3,7 +3,7 @@
     <go-back-btn></go-back-btn>
     <h1 class="container__title">Your Wishlist</h1>
     <section
-      v-if="this.totalQtyOfFavorites.totalQtyOfFavorites > 0"
+      v-if="this.totalQtyOfFavorites.totalQtyOfFavorites > 0 && this.userId"
       class="container__items-list-title-and-items-list-section"
     >
       <div class="container__items-list-titles-flex">
@@ -19,15 +19,24 @@
           >Action</span
         >
       </div>
-      <wish-list></wish-list>
+      <wish-list
+        :favorites="favorites"
+        @remove-from-favorites="removeFromFavorites"
+      ></wish-list>
     </section>
-    <span v-else class="container__items-list-empty-text"
+    <span
+      v-if="this.userId && this.totalQtyOfFavorites.totalQtyOfFavorites === 0"
+      class="container__items-list-empty-text"
       >Your wishlist is empty.</span
+    >
+    <span v-if="!this.userId" class="container__items-list-non-authorized-user"
+      >Your can't add products to your whishlist without authorization.</span
     >
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 import GoBackBtn from "../UI/GoBackBtn.vue";
 import WishList from "../UI/WishList.vue";
@@ -36,20 +45,55 @@ export default {
   components: { GoBackBtn, WishList },
   data() {
     return {
-      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+      userId: localStorage.getItem("userId"),
+      favorites: [],
     };
   },
   computed: {
     ...mapState(["totalQtyOfFavorites"]),
   },
   methods: {
+    async fetchProducts() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/wishlist/get?userId=${userId}`
+          );
+          this.favorites = response.data;
+        } catch (error) {
+          console.error("Error fetching wishlist products:", error);
+        }
+        this.updateTotalQty();
+      } else {
+        console.log("You're not authorized");
+      }
+    },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
-    updateTotalQty() {
-      this.updateTotalQtyOfFavorites(this.favorites.length);
+    async updateTotalQty() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/wishlist/get?userId=${userId}`
+          );
+          let favorites = response.data;
+          this.updateTotalQtyOfFavorites(favorites.length);
+        } catch (error) {
+          console.error("Error fetching wishlist products:", error);
+        }
+      } else {
+        console.log("You're not authorized");
+      }
+    },
+    removeFromFavorites(productId) {
+      this.favorites = this.favorites.filter(
+        (favorite) => favorite.productId !== productId
+      );
     },
   },
   mounted() {
-    this.updateTotalQty();
+    this.fetchProducts();
   },
 };
 </script>
@@ -65,7 +109,8 @@ export default {
   color: #000;
   margin-bottom: 2.5rem;
 }
-.container__items-list-empty-text {
+.container__items-list-empty-text,
+.container__items-list-non-authorized-user {
   display: block;
   text-align: center;
   height: 120px;
@@ -91,12 +136,13 @@ export default {
   .container {
     padding: 0rem 2.5rem;
   }
-  .container__items-list-empty-text {
+  .container__items-list-empty-text,
+  .container__items-list-non-authorized-user {
     height: 700px;
   }
   .container__items-list-title-and-items-list-section {
     padding: 0rem 8rem;
-    height: 550px;
+    min-height: 600px;
   }
 }
 /* 1024px = 64em */
@@ -127,7 +173,8 @@ export default {
   .container__items-list-title-and-items-list-section {
     padding: 0rem 15.938rem;
   }
-  .container__items-list-empty-text {
+  .container__items-list-empty-text,
+  .container__items-list-non-authorized-user {
     height: 550px;
   }
 }

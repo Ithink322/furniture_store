@@ -37,7 +37,7 @@
           </div>
         </div>
         <button
-          @click="removeProduct(product.id)"
+          @click="removeProduct(product.productId)"
           class="container__item-card-remove-btn"
         >
           <img src="imgs/x-icon-gray.svg" alt="" />
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "CartItem",
@@ -119,30 +120,77 @@ export default {
       window.scrollTo(0, 0);
     },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    updateTotalQtyOfProducts() {
+    async updateTotalQtyOfProducts() {
       let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      products.forEach((product) => {
-        totalQty += Number(product.qty);
-      });
-      this.updateTotalQtyOfCartProducts(totalQty);
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          let products = response.data;
+          products.forEach((product) => {
+            totalQty += Number(product.qty);
+          });
+          this.updateTotalQtyOfCartProducts(totalQty);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
     },
     decreaseQty(product) {
       if (product.qty > 1) {
         product.qty--;
       }
-      localStorage.setItem("cart", JSON.stringify(this.products));
+      axios
+        .post("http://localhost:5000/cart/changeCounter", {
+          userId: localStorage.getItem("userId"),
+          productId: product.productId,
+          qty: product.qty,
+        })
+        .then((response) => {
+          console.log(
+            "Product counter was changed successfully:",
+            response.data
+          );
+        })
+        .catch((error) => {
+          console.error("Error in changing product counter:", error);
+        });
       this.updateTotalQtyOfProducts();
       this.calculateTotals();
     },
     increaseQty(product) {
       product.qty++;
-      localStorage.setItem("cart", JSON.stringify(this.products));
+      axios
+        .post("http://localhost:5000/cart/changeCounter", {
+          userId: localStorage.getItem("userId"),
+          productId: product.productId,
+          qty: product.qty,
+        })
+        .then((response) => {
+          console.log(
+            "Product counter was changed successfully:",
+            response.data
+          );
+        })
+        .catch((error) => {
+          console.error("Error in changing product counter:", error);
+        });
       this.updateTotalQtyOfProducts();
       this.calculateTotals();
     },
-    removeProduct(id) {
-      this.$emit("productRemoved", id);
+    async removeProduct(productId) {
+      const userId = localStorage.getItem("userId");
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/cart/delete/${productId}/${userId}`
+        );
+        console.log("Product deleted successfully:", response.data);
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+      this.$emit("productRemoved", productId);
       this.updateTotalQtyOfProducts();
       this.calculateTotals();
     },

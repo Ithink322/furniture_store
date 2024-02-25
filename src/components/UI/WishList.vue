@@ -3,7 +3,7 @@
     <transition-group name="items-list">
       <wish-item
         v-for="item in favorites"
-        :key="item.id"
+        :key="item.productId"
         :item="item"
         @remove-from-favorites="removeFromFavorites"
       ></wish-item>
@@ -16,17 +16,15 @@ import WishItem from "../UI/WishItem.vue";
 export default {
   name: "WishList",
   components: { WishItem },
-  data() {
-    return {
-      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
-    };
+  props: {
+    favorites: {
+      type: Array,
+      required: true,
+    },
   },
   methods: {
-    removeFromFavorites(item) {
-      this.favorites = this.favorites.filter(
-        (favorite) => favorite.id !== item.id
-      );
-      localStorage.setItem("favorites", JSON.stringify(this.favorites));
+    removeFromFavorites(productId) {
+      this.$emit("remove-from-favorites", productId);
     },
   },
 };

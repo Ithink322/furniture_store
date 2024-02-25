@@ -60,6 +60,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.css";
 import { mapActions, mapMutations } from "vuex";
 import StarRating from "vue-star-rating/src/star-rating.vue";
 export default {
@@ -80,7 +83,6 @@ export default {
       WhishListIconDisabled: "/imgs/whishlist-icon.svg",
       WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
       currentIcon: "/imgs/whishlist-icon.svg",
-      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
     };
   },
   methods: {
@@ -92,48 +94,65 @@ export default {
     },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
     async addToCart(item) {
-      let cart = JSON.parse(localStorage.getItem("cart"));
-
-      let newItem = [
-        {
-          id: item.id,
-          hero: item.hero,
-          title: item.title,
-          category: item.category,
-          startColor: item.startColor,
-          currentPrice: item.currentPrice,
-          previousPrice: item.previousPrice,
-          qty: 1,
-          description: item.description,
-          colors: item.colors,
-          measurements: item.measurements,
-        },
-      ];
-
-      if (!cart) {
-        localStorage.setItem("cart", JSON.stringify(newItem));
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          await axios.post("http://localhost:5000/cart/add", {
+            userId: userId,
+            productId: item.id,
+            hero: item.hero,
+            title: item.title,
+            category: item.category,
+            startColor: item.startColor,
+            currentPrice: item.currentPrice,
+            previousPrice: item.previousPrice,
+            qty: 1,
+            description: item.description,
+            colors: item.colors,
+            measurements: item.measurements,
+          });
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          let products = response.data;
+          let totalQty = 0;
+          products.forEach((product) => {
+            totalQty += Number(product.qty);
+          });
+          this.updateTotalQtyOfCartProducts(totalQty);
+          console.log("Product added to cart successfully");
+        } catch (error) {
+          console.error("Error adding product to cart:", error);
+        }
       } else {
-        cart.forEach((itemInCart) => {
-          if (itemInCart.id === item.id) {
-            itemInCart.qty = Number(itemInCart.qty) + Number(1);
-            newItem = null;
-          }
+        iziToast.settings({
+          position: "bottomRight",
         });
-
-        Array.prototype.push.apply(cart, newItem);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        iziToast.info({
+          title: "Important message",
+          message:
+            "You must be authorized in order to add products in your cart!",
+        });
       }
-      let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      products.forEach((product) => {
-        totalQty += Number(product.qty);
-      });
-      this.updateTotalQtyOfCartProducts(totalQty);
       this.updateAddToCartButtons();
     },
-    updateAddToCartButtons() {
-      let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      let cartItemIds = cartItems.map((item) => item.id);
+    async updateAddToCartButtons() {
+      let products = [];
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          products = response.data;
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      } else {
+        console.log("You're not authorized");
+      }
+      let cartItems = products;
+      let cartItemIds = cartItems.map((item) => item.productId);
       let addToCartBtns = document.querySelectorAll(
         ".container__item-card-add-to-cart-btn"
       );
@@ -158,71 +177,98 @@ export default {
       });
     },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
-    addToWishlist(item) {
+    async updateTotalQtyOfWhishlist() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:5000/wishlist/get?userId=${userId}`
+        );
+        let favorites = response.data;
+        let totalQty = 0;
+        favorites.forEach((favorite) => {
+          totalQty += Number(favorite.qty);
+        });
+        this.updateTotalQtyOfFavorites(totalQty);
+      }
+    },
+    async addToWishlist(item) {
+      const userId = localStorage.getItem("userId");
       if (this.currentIcon === this.WhishListIconDisabled) {
-        let favorites = localStorage.getItem("favorites");
-
-        let newFavorite = [
-          {
-            id: item.id,
-            hero: item.hero,
-            title: item.title,
-            selectedColor: this.item.startColor,
-            currentPrice: item.currentPrice,
-            category: item.category,
-            previousPrice: item.previousPrice,
-            qty: 1,
-            description: item.description,
-            colors: item.colors,
-            measurements: item.measurements,
-          },
-        ];
-
-        if (!favorites) {
-          localStorage.setItem("favorites", JSON.stringify(newFavorite));
-        } else {
-          favorites = JSON.parse(favorites);
-
-          if (
-            !favorites.some((favorite) => favorite.id === newFavorite[0].id)
-          ) {
-            favorites.push(newFavorite[0]);
-            localStorage.setItem("favorites", JSON.stringify(favorites));
+        if (userId) {
+          try {
+            await axios.post("http://localhost:5000/wishlist/add", {
+              userId: userId,
+              productId: item.id,
+              hero: item.hero,
+              title: item.title,
+              category: item.category,
+              startColor: item.startColor,
+              currentPrice: item.currentPrice,
+              previousPrice: item.previousPrice,
+              qty: 1,
+              description: item.description,
+              colors: item.colors,
+              measurements: item.measurements,
+            });
+            this.updateTotalQtyOfWhishlist();
+            const response = await axios.get(
+              `http://localhost:5000/wishlist/get?userId=${userId}`
+            );
+            console.log(
+              "Product added to wishlist successfully:",
+              response.data
+            );
+          } catch (error) {
+            console.error("Error adding product to wishlist:", error);
           }
+          this.currentIcon = this.WhishListIconActivated;
+        } else {
+          iziToast.settings({
+            position: "bottomRight",
+          });
+          iziToast.info({
+            title: "Important message",
+            message:
+              "You must be authorized in order to add products in your wishlist!",
+          });
         }
-
-        this.currentIcon = this.WhishListIconActivated;
       } else {
         this.currentIcon = this.WhishListIconDisabled;
         this.removeFromFavorites(item);
+        this.updateTotalQtyOfWhishlist();
       }
-      let length = 0,
-        favorites = JSON.parse(localStorage.getItem("favorites"));
-      favorites.forEach((favorite) => {
-        length += Number(favorite.qty);
-      });
-      this.updateTotalQtyOfFavorites(length);
+      this.updateTotalQtyOfWhishlist();
     },
-    removeFromFavorites(item) {
-      let favorites = localStorage.getItem("favorites");
-
-      if (favorites) {
-        favorites = JSON.parse(favorites);
-        favorites = favorites.filter((favorite) => favorite.id !== item.id);
-        localStorage.setItem("favorites", JSON.stringify(favorites));
+    async removeFromFavorites(item) {
+      const productId = item.id;
+      const userId = localStorage.getItem("userId");
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/wishlist/delete/${productId}/${userId}`
+        );
+        console.log(
+          "Product deleted successfully from wishlist:",
+          response.data
+        );
+      } catch (error) {
+        console.error("Error deleting product:", error);
       }
-      this.$emit("remove-from-favorites", this.item);
     },
-    checkFavoriteHeartStatus(item) {
-      let favorites = localStorage.getItem("favorites");
-      if (favorites) {
-        favorites = JSON.parse(favorites);
-        return favorites.some((favorite) => favorite.id === item.id);
+    async checkFavoriteHeartStatus(item) {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:5000/wishlist/get?userId=${userId}`
+        );
+        let favorites = response.data;
+        if (favorites) {
+          return favorites.some((favorite) => favorite.productId === item.id);
+        }
+        return false;
       }
-      return false;
     },
-    updateFavoriteHeartStatus(item) {
-      this.currentIcon = this.checkFavoriteHeartStatus(item)
+    async updateFavoriteHeartStatus(item) {
+      this.currentIcon = (await this.checkFavoriteHeartStatus(item))
         ? this.WhishListIconActivated
         : this.WhishListIconDisabled;
     },

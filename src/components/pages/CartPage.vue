@@ -75,9 +75,14 @@
         class="container__items-list-and-coupon-and-cart-summary-sections-flex"
       >
         <span
-          v-if="this.products.length === 0"
+          v-if="this.products.length === 0 && this.userId"
           class="container__items-list-empty"
           >Your cart is empty. Add something cool!</span
+        >
+        <span
+          v-if="!this.userId"
+          class="container__items-list-non-authorized-user"
+          >You can't add products to your cart without authorization!</span
         >
         <cart-list
           :products="products"
@@ -536,7 +541,8 @@ export default {
   components: { GoBackBtn, CartList, SummaryList },
   data() {
     return {
-      products: JSON.parse(localStorage.getItem("cart")) || [],
+      userId: localStorage.getItem("userId"),
+      products: [],
       titleSection: "Cart",
       options: [
         { value: "Canada" },
@@ -575,11 +581,26 @@ export default {
     ...mapState(["totalQtyOfCartProducts"]),
   },
   methods: {
-    removeProduct(id) {
+    async fetchProducts() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          this.products = response.data;
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+        this.updateTotalQtyOfProducts();
+      } else {
+        console.log("You're not authorized");
+      }
+    },
+    removeProduct(productId) {
       this.products = this.products.filter((product) => {
-        return product.id !== id;
+        return product.productId !== productId;
       });
-      localStorage.setItem("cart", JSON.stringify(this.products));
     },
     calculateTotals() {
       this.subTotal = 0;
@@ -615,9 +636,8 @@ export default {
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
     updateTotalQtyOfProducts() {
       let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      if (products !== null) {
-        products.forEach((product) => {
+      if (this.products !== null) {
+        this.products.forEach((product) => {
           totalQty += Number(product.qty);
         });
         this.updateTotalQtyOfCartProducts(totalQty);
@@ -625,7 +645,6 @@ export default {
     },
     showShoppingCart() {
       this.updateTotalQtyOfProducts();
-      this.products = JSON.parse(localStorage.getItem("cart"));
       this.calculateTotals();
       this.titleSection = "Cart";
       this.isShoppingCartVisible = true;
@@ -686,7 +705,6 @@ export default {
     },
     showCheckoutDetails() {
       if (this.products.length > 0) {
-        this.products = JSON.parse(localStorage.getItem("cart"));
         this.updateTotalQtyOfProducts();
         window.scrollTo(0, 0);
         this.titleSection = "Check Out";
@@ -773,7 +791,7 @@ export default {
         const day = currentDate.getDate();
         const year = currentDate.getFullYear();
         this.formattedDate = `${month} ${day}, ${year}`;
-        localStorage.setItem("cart", JSON.stringify([]));
+        this.products = [];
         window.scrollTo(0, 0);
         try {
           const response = await axios.post(
@@ -862,7 +880,6 @@ export default {
       } else {
         this.isCouponeActivated = false;
       }
-      console.log(this.isCouponeActivated);
     },
     addEventListenersRadioBtns() {
       const freeShippingDiv = document.querySelector(
@@ -1228,6 +1245,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchProducts();
     this.updateTotalQtyOfProducts();
     this.calculateTotals();
     this.sliderStages();
@@ -1254,7 +1272,8 @@ export default {
   margin-top: 2.5rem;
 }
 .container__items-list-empty,
-.container__checkout-details-order-summary-empty-text {
+.container__checkout-details-order-summary-empty-text,
+.container__items-list-non-authorized-user {
   display: block;
   text-align: center;
   margin-top: 1rem;
@@ -1890,6 +1909,7 @@ export default {
     border: 1px solid #6c7275;
     border-radius: 0.375rem;
     width: 100%;
+    margin-bottom: 5rem;
   }
 }
 /* 375px = 23.438em */
@@ -1963,6 +1983,11 @@ export default {
     margin-top: 6rem;
     margin-left: 10rem;
   }
+  .container__items-list-non-authorized-user {
+    position: absolute;
+    margin-top: 6rem;
+    margin-left: 6.5rem;
+  }
   .container__items-list-and-coupon-and-cart-summary-sections-flex {
     display: flex;
     gap: 4rem;
@@ -2008,6 +2033,9 @@ export default {
 @media (min-width: 120em) {
   .container {
     padding: 0rem 15.938rem;
+  }
+  .container__items-list-non-authorized-user {
+    margin-left: 15.5rem;
   }
 }
 </style>

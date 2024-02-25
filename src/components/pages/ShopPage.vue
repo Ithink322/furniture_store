@@ -2108,7 +2108,6 @@ export default {
         const itemPrice = parseFloat(item.currentPrice.replace("$", ""));
         return itemPrice >= minPrice && itemPrice <= maxPrice;
       });
-      console.log("this.sortedItems.length:", this.sortedItems.length);
       /* filter prices in priceSlider ends */
     },
   },
@@ -2116,7 +2115,6 @@ export default {
     this.originalItemsPriceSort = [...this.sortedItems];
   },
   mounted() {
-    console.log(this.sortedItems);
     if (window.innerWidth >= 768) {
       let grid = document.getElementById("list-grid");
       grid.classList.remove("container__items-list-grid-1-col");
@@ -2371,11 +2369,12 @@ export default {
   .container__nav {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: start;
   }
   .container__filter-btn-and-grid-cols-btns-and-sort-btns-flex {
     display: flex;
     gap: 1.875rem;
+    margin-top: 1.8rem;
   }
   .container__filter-btn-and-grid-cols-btns-flex {
     margin-top: 0rem;
@@ -2418,12 +2417,6 @@ export default {
     position: absolute;
     top: 38.3rem;
   }
-  .container__prices-slider-styles-from1440px {
-    margin-top: 29rem;
-  }
-  .container__apply-filters-btn-styles-from1440px {
-    margin-top: 36rem;
-  }
   .container__apply-filters-btn {
     display: block;
     position: absolute;
@@ -2436,6 +2429,12 @@ export default {
     font-size: 1rem;
     font-weight: 600;
     color: #121212;
+  }
+  .container__prices-slider-styles-from1440px {
+    margin-top: 29rem;
+  }
+  .container__apply-filters-btn-styles-from1440px {
+    margin-top: 36rem;
   }
   .container__show-this-div-if-sorted-items-is-empty {
     height: 400px;

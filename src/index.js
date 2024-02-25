@@ -1,13 +1,16 @@
 const express = require("express");
-const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const authRouter = require("./authRouter");
 const ordersRouter = require("./ordersRouter");
+const cartProductsRouter = require("./cartProductsRouter");
+const wishlistProductsRouter = require("./wishlistProductsRouter");
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+app.use(morgan("dev"));
 app.use(cors());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
@@ -17,9 +20,10 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(fileUpload());
 app.use("/auth", authRouter);
 app.use("/orders", ordersRouter);
+app.use("/cart", cartProductsRouter);
+app.use("/wishlist", wishlistProductsRouter);
 
 const start = async () => {
   try {

@@ -82,35 +82,52 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from "vuex";
 import routesMixin from "@/mixins/routes.js";
 export default {
   name: "MyHeader",
   mixins: [routesMixin],
-  data() {
-    return {
-      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
-    };
-  },
   computed: {
     ...mapState(["totalQtyOfCartProducts"]),
     ...mapState(["totalQtyOfFavorites"]),
   },
   methods: {
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    updateTotalQtyOfProducts() {
+    async updateTotalQtyOfProducts() {
       let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      if (products !== null) {
-        products.forEach((product) => {
-          totalQty += Number(product.qty);
-        });
-        this.updateTotalQtyOfCartProducts(totalQty);
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          let products = response.data;
+          products.forEach((product) => {
+            totalQty += Number(product.qty);
+          });
+          this.updateTotalQtyOfCartProducts(totalQty);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      } else {
+        console.log("You're not authorized");
       }
     },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
-    updateTotalQty() {
-      this.updateTotalQtyOfFavorites(this.favorites.length);
+    async updateTotalQty() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:5000/wishlist/get?userId=${userId}`
+        );
+        let favorites = response.data;
+        let totalQty = 0;
+        favorites.forEach((favorite) => {
+          totalQty += Number(favorite.qty);
+        });
+        this.updateTotalQtyOfFavorites(totalQty);
+      }
     },
     goToCartPage() {
       this.$router.push("/CartPage");

@@ -5,7 +5,7 @@
         v-for="product in products"
         :product="product"
         :products="products"
-        :key="product.id"
+        :key="product.productId"
         @productRemoved="removeProduct"
         :calculateTotals="calculateTotals"
       ></cart-item>
@@ -29,8 +29,8 @@ export default {
     },
   },
   methods: {
-    removeProduct(id) {
-      this.$emit("productRemoved", id);
+    removeProduct(productId) {
+      this.$emit("productRemoved", productId);
     },
   },
 };
