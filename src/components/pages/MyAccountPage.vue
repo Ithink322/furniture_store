@@ -251,6 +251,8 @@
 
 <script>
 import axios from "axios";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.css";
 import goBackBtn from "../UI/GoBackBtn.vue";
 import OrdersList from "../UI/OrdersList.vue";
 export default {
@@ -295,11 +297,18 @@ export default {
             },
           })
           .then((response) => {
-            console.log("Avatar uploaded successfully");
-            this.userAvatar = response.data.avatar.data;
+            iziToast.settings({
+              position: "bottomRight",
+            });
+            iziToast.info({
+              title: "Important message",
+              message: "Avatar has been uploaded successfully!",
+            });
+            console.log("Avatar has been uploaded successfully");
+            this.userAvatar = `data:image/jpeg;base64,${response.data.avatar}`;
           })
           .catch((error) => {
-            console.error("Error uploading avatar client:", error);
+            console.error("Error uploading avatar:", error);
           });
       };
       input.click();
@@ -366,8 +375,15 @@ export default {
           billingAddress: this.billingTextareaContent,
         })
         .then((response) => {
+          iziToast.settings({
+            position: "bottomRight",
+          });
+          iziToast.info({
+            title: "Important message",
+            message: "Billing address has been updated successfully!",
+          });
           console.log(
-            "Billing address was updated successfully client:",
+            "Billing address has been updated successfully client:",
             response.data
           );
         })
@@ -383,8 +399,15 @@ export default {
           shippingAddress: this.shippingTextareaContent,
         })
         .then((response) => {
+          iziToast.settings({
+            position: "bottomRight",
+          });
+          iziToast.info({
+            title: "Important message",
+            message: "Shipping address has been updated successfully!",
+          });
           console.log(
-            "Shipping address was updated successfully client:",
+            "Shipping address has been updated successfully client:",
             response.data
           );
         })
@@ -427,6 +450,19 @@ export default {
         )
         .focus();
     },
+  },
+  created() {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      axios
+        .get(`http://localhost:5000/auth/get-avatar?userId=${userId}`)
+        .then((response) => {
+          this.userAvatar = `data:image/jpeg;base64,${response.data.avatar}`;
+        })
+        .catch((error) => {
+          console.error("Error fetching avatar:", error);
+        });
+    }
   },
   mounted() {
     const dropDownBtn = document.querySelector(".dropdown__button"),

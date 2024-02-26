@@ -868,6 +868,13 @@ export default {
           let sliderTrack = document.querySelector(".container__stages-flex");
           sliderTrack.style.transform = `translateX(${-576}px)`;
         }
+        setTimeout(() => {
+          this.products = [];
+          this.titleSection = "Cart";
+          this.isShoppingCartVisible = true;
+          this.isCheckoutDetailsVisible = false;
+          this.isOrderCompleteVisible = false;
+        }, 15000);
       }
     },
     applyCoupone() {
@@ -1243,8 +1250,6 @@ export default {
   },
   async mounted() {
     await this.fetchProducts();
-    this.products = Array.from(this.products);
-    console.log("this.products:", this.products);
     this.updateTotalQtyOfProducts();
     this.calculateTotals();
     this.sliderStages();

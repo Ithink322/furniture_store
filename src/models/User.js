@@ -5,10 +5,7 @@ const User = new Schema({
   email: { type: String },
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  avatar: {
-    data: Buffer,
-    contentType: String,
-  },
+  avatar: { type: Buffer },
   billingAddress: { type: String },
   shippingAddress: { type: String },
 });

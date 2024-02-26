@@ -81,87 +81,42 @@ class authController {
     }
   }
 
-  /* async uploadAvatar(req, res) {
-    try {
-      const userId = req.get("userId");
-      if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: "Invalid userId" });
-      }
-      const userIdObjectId = new ObjectId(String(userId));
-      const user = await User.findOne({ _id: userIdObjectId });
-      if (
-        !req.files ||
-        !req.files.avatar ||
-        Object.keys(req.files).length === 0
-      ) {
-        return res.status(400).json({ message: "Avatar file is missing" });
-      }
-
-      const avatar = req.file;
-      if (!avatar) {
-        console.log("Avatar not found");
-        return res.status(400).json({ message: "Avatar not found" });
-      } else {
-        console.log("Avatar exists:", avatar);
-        // const avatarData = avatar.data;
-        const fs = require("fs");
-        const avatarData = fs.readFileSync(avatar.path);
-        if (!avatarData) {
-          console.log("Avatar data is empty");
-          return res.status(400).json({ message: "Avatar data is empty" });
-        }
-        const avatarDataBase64 = avatarData.toString("base64");
-        // console.log("Avatar data in base64:", avatarDataBase64);
-
-        user.avatar = {
-          data: avatarData,
-          contentType: avatar.mimetype,
-        };
-        console.log("user.avatar:", user.avatar);
-        console.log("Saved avatar data as Buffer:", user.avatar.data);
-
-        await user.save();
-
-        return res.json({
-          message: "Avatar uploaded successfully",
-          avatar: user.avatar,
-        });
-      }
-    } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: "Error uploading avatar" });
-    }
-  } */
   async uploadAvatar(req, res) {
     try {
-      const userId = req.get("userId");
+      const user = await User.findById(req.get("userId"));
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      user.avatar = req.file.buffer;
+      await user.save();
+
+      res.json({
+        message: "Avatar uploaded successfully",
+        avatar: user.avatar.toString("base64"),
+      });
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      res.status(400).json({ message: "Error uploading avatar" });
+    }
+  }
+
+  async getAvatar(req, res) {
+    try {
+      const userId = req.query.userId;
       if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: "Invalid userId" });
       }
       const userIdObjectId = new ObjectId(String(userId));
       const user = await User.findOne({ _id: userIdObjectId });
-      console.log("user:", user);
-
-      const avatar = req.file;
-      if (!avatar) {
-        return res.status(400).json({ message: "Avatar not found" });
+      if (!user) {
+        return res.status(404).json({ message: "Avatar not found" });
+      } else if (user.avatar) {
+        return res.json({ avatar: user.avatar.toString("base64") });
       }
-
-      const avatarData = avatar.buffer.toString("base64");
-      user.avatar = {
-        data: avatarData,
-        contentType: avatar.mimetype,
-      };
-
-      await user.save();
-
-      return res.json({
-        message: "Avatar uploaded successfully",
-        avatar: user.avatar,
-      });
-    } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: "Error uploading avatar" });
+    } catch (error) {
+      res.status(500).json({ message: "Error getting avatar", error });
     }
   }
 
