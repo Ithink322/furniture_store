@@ -44,7 +44,6 @@ export default {
           });
           if (this.reviews.length > 0) {
             console.log("Reviews were fetched succsessfully!", response.data);
-            // this.sortReviews();
           }
         })
         .catch((e) => {

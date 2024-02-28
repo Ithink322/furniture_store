@@ -809,7 +809,6 @@ export default {
   }
   .container__orders-section {
     margin-top: 0rem;
-    //margin-bottom: 20rem;
   }
   .container__account-nav {
     margin-bottom: 5rem;
