@@ -169,6 +169,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import dropDownScript from "@/mixins/dropDownScript.js";
 import columnsBtns from "@/mixins/columnsBtns.js";
 import PricesSlider from "../UI/PricesSlider.vue";
@@ -1882,6 +1883,7 @@ export default {
       sortState: false,
       ratingSortState: false,
       originalItemsPriceSort: [],
+      reviews: [],
     };
   },
   mixins: [dropDownScript, columnsBtns],
@@ -1897,13 +1899,10 @@ export default {
         );
       }
     },
-    reviews() {
-      return JSON.parse(localStorage.getItem("reviews")) || [];
-    },
     getAverageRating() {
       return (item) => {
         const itemReviews = this.reviews.filter(
-          (review) => review.id === item.id
+          (review) => review.productId === item.id
         );
         if (itemReviews.length === 0) {
           return 0;
@@ -1918,6 +1917,19 @@ export default {
     },
   },
   methods: {
+    fetchReviews() {
+      this.sortedItems.forEach((item) => {
+        axios
+          .get(`http://localhost:5000/reviews/collect?productId=${item.id}`)
+          .then((response) => {
+            this.reviews = response.data;
+            item.rating = this.getAverageRating(item);
+          })
+          .catch((e) => {
+            console.error("Error fetching reviews:", e);
+          });
+      });
+    },
     filterCategories(Category) {
       this.selectedCategory = Category;
     },
@@ -2090,12 +2102,12 @@ export default {
       if (this.ratingSortState) {
         sortByRatingArrow.style.rotate = "180deg";
         this.sortedItems = [...this.sortedItems].sort(
-          (a, b) => this.getAverageRating(a) - this.getAverageRating(b)
+          (a, b) => a.rating - b.rating
         );
       } else {
         sortByRatingArrow.style.rotate = "0deg";
         this.sortedItems = [...this.sortedItems].sort(
-          (a, b) => this.getAverageRating(b) - this.getAverageRating(a)
+          (a, b) => b.rating - a.rating
         );
       }
     },
@@ -2113,6 +2125,7 @@ export default {
   },
   created() {
     this.originalItemsPriceSort = [...this.sortedItems];
+    this.fetchReviews();
   },
   mounted() {
     if (window.innerWidth >= 768) {

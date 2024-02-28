@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const authRouter = require("./authRouter");
+const questionsRouter = require("./questionsRouter");
+const reviewsRouter = require("./reviewsRouter");
 const ordersRouter = require("./ordersRouter");
 const cartProductsRouter = require("./cartProductsRouter");
 const wishlistProductsRouter = require("./wishlistProductsRouter");
@@ -19,8 +21,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/auth", authRouter);
+app.use("/questions", questionsRouter);
+app.use("/reviews", reviewsRouter);
 app.use("/orders", ordersRouter);
 app.use("/cart", cartProductsRouter);
 app.use("/wishlist", wishlistProductsRouter);

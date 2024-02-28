@@ -83,9 +83,20 @@ export default {
       WhishListIconDisabled: "/imgs/whishlist-icon.svg",
       WhishListIconActivated: "/imgs/whishlist-icon-activated.svg",
       currentIcon: "/imgs/whishlist-icon.svg",
+      reviews: [],
     };
   },
   methods: {
+    fetchReviews() {
+      axios
+        .get(`http://localhost:5000/reviews/collect?productId=${this.item.id}`)
+        .then((response) => {
+          this.reviews = response.data;
+        })
+        .catch((e) => {
+          console.error("Error fetching reviews:", e);
+        });
+    },
     ...mapActions(["selectProduct"]),
     goToCurrentProductPage() {
       this.selectProduct(this.item);
@@ -272,19 +283,10 @@ export default {
     },
   },
   computed: {
-    product() {
-      return JSON.parse(localStorage.getItem("CurrentProduct"));
-    },
-    reviews() {
-      return JSON.parse(localStorage.getItem("reviews")) || [];
-    },
-    filteredReviews() {
-      return this.reviews.filter((review) => review.id === this.product.id);
-    },
     getAverageRating() {
       return (item) => {
         const itemReviews = this.reviews.filter(
-          (review) => review.id === item.id
+          (review) => review.productId === item.id
         );
         if (itemReviews.length === 0) {
           return 0;
@@ -299,6 +301,7 @@ export default {
     },
   },
   created() {
+    this.fetchReviews();
     this.updateFavoriteHeartStatus(this.item);
   },
   mounted() {

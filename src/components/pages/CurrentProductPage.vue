@@ -317,18 +317,28 @@
     <section class="container__questions-section" v-if="isQuestionsVisible">
       <question-form
         :productId="product.id"
-        @askQuestion="askQuestion"
         @questionsAdded="increaseQuestionsAdded"
+        @question-added="handleQuestionAdded"
+        @questionOption="handleQuestionOption"
       ></question-form>
-      <questions-list :productId="product.id"></questions-list>
+      <questions-list
+        :productId="product.id"
+        :questionOption="questionOption"
+        ref="questionsList"
+      ></questions-list>
     </section>
     <section v-if="isReviewsVisible" class="container__reviews-section">
       <review-form
         :productId="product.id"
-        @makeReview="makeReview"
         @reviewsAdded="increaseReviewsAdded"
+        @review-added="handleReviewAdded"
+        @reviewOption="handleReviewOption"
       ></review-form>
-      <reviews-list :productId="product.id"></reviews-list>
+      <reviews-list
+        :productId="product.id"
+        :reviewOption="reviewOption"
+        ref="reviewsList"
+      ></reviews-list>
     </section>
     <more-products></more-products>
     <div class="container__margin"></div>
@@ -367,6 +377,9 @@ export default {
       isReviewsVisible: false,
       reviewsAdded: 0,
       questionsAdded: 0,
+      reviews: [],
+      questionOption: "",
+      reviewOption: "",
     };
   },
   computed: {
@@ -374,39 +387,69 @@ export default {
     product() {
       return JSON.parse(localStorage.getItem("CurrentProduct")) || [];
     },
-    questions() {
-      return JSON.parse(localStorage.getItem("questions")) || [];
-    },
-    filteredQuestions() {
-      return this.questions.filter(
-        (question) => question.id === this.product.id
-      );
-    },
-    reviews() {
-      return JSON.parse(localStorage.getItem("reviews")) || [];
-    },
-    filteredReviews() {
-      return this.reviews.filter((review) => review.id === this.product.id);
-    },
     averageRating() {
-      if (this.filteredReviews.length === 0) {
+      if (this.reviews.length === 0) {
         return 0;
       }
 
-      const totalRating = this.filteredReviews.reduce(
+      const totalRating = this.reviews.reduce(
         (acc, review) => acc + review.selectedRating,
         0
       );
-      return totalRating / this.filteredReviews.length;
+      return totalRating / this.reviews.length;
     },
   },
   methods: {
-    ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    increaseReviewsAdded(reviewsAdded) {
-      this.reviewsAdded = reviewsAdded + this.filteredReviews.length;
+    handleQuestionOption(option) {
+      this.questionOption = option;
     },
-    increaseQuestionsAdded(questionsAdded) {
-      this.questionsAdded = questionsAdded + this.filteredQuestions.length;
+    handleReviewOption(option) {
+      this.reviewOption = option;
+    },
+    fetchReviews() {
+      axios
+        .get(
+          `http://localhost:5000/reviews/collect?productId=${this.product.id}`
+        )
+        .then((response) => {
+          this.reviews = response.data;
+        })
+        .catch((e) => {
+          console.error("Error fetching reviews:", e);
+        });
+    },
+    handleQuestionAdded() {
+      this.$refs.questionsList.fetchQuestions();
+    },
+    handleReviewAdded() {
+      this.$refs.reviewsList.fetchReviews();
+    },
+    ...mapMutations(["updateTotalQtyOfCartProducts"]),
+    increaseReviewsAdded() {
+      axios
+        .get(
+          `http://localhost:5000/reviews/collect?productId=${this.product.id}`
+        )
+        .then((response) => {
+          let reviews = response.data;
+          this.reviewsAdded = reviews.length;
+        })
+        .catch((e) => {
+          console.error("Error fetching reviews:", e);
+        });
+    },
+    increaseQuestionsAdded() {
+      axios
+        .get(
+          `http://localhost:5000/questions/collect?productId=${this.product.id}`
+        )
+        .then((response) => {
+          let questions = response.data;
+          this.questionsAdded = questions.length;
+        })
+        .catch((e) => {
+          console.error("Error fetching questions:", e);
+        });
     },
     async addToCart(product) {
       let qty = document.querySelector(".container__counter-text").innerText;
@@ -651,18 +694,6 @@ export default {
           .classList.remove("container__border-bottom");
       }
     },
-    ...mapMutations(["addQuestion"]),
-    askQuestion(question) {
-      this.questions.push(question);
-      this.addQuestion(question);
-      localStorage.setItem("questions", JSON.stringify(this.questions));
-    },
-    ...mapMutations(["addReview"]),
-    makeReview(review) {
-      this.reviews.push(review);
-      this.addReview(review);
-      localStorage.setItem("reviews", JSON.stringify(this.reviews));
-    },
     showReviews() {
       this.isReviewsVisible = true;
       this.isQuestionsVisible = false;
@@ -708,6 +739,9 @@ export default {
           .classList.remove("container__border-bottom");
       }
     },
+  },
+  created() {
+    this.fetchReviews();
   },
   mounted() {
     this.increaseReviewsAdded(this.reviewsAdded);

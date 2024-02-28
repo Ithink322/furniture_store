@@ -809,7 +809,10 @@ export default {
   }
   .container__orders-section {
     margin-top: 0rem;
-    margin-bottom: 18rem;
+    //margin-bottom: 20rem;
+  }
+  .container__account-nav {
+    margin-bottom: 5rem;
   }
   .container__orders-list-titles-flex-from1024px {
     position: relative;
