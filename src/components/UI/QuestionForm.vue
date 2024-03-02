@@ -76,7 +76,7 @@ export default {
           axios
             .get(`http://localhost:5000/auth/get-avatar?userId=${userId}`)
             .then((response) => {
-              /* const currentDate = new Date();
+              const currentDate = new Date();
               const options = {
                 year: "numeric",
                 month: "long",
@@ -85,8 +85,7 @@ export default {
               const formattedDate = currentDate.toLocaleDateString(
                 "en-US",
                 options
-              ); */
-              const formattedDate = "January 21, 2021";
+              );
 
               this.avatar = response.data.avatar;
 

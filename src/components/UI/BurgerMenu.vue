@@ -4,7 +4,7 @@
       <div class="burger-menu__main-flex">
         <div class="burger-menu__logo-and-cross-btn-flex">
           <span class="burger-menu__logo">3legant.</span>
-          <button class="burger-menu__cross-btn">
+          <button @click="hideBurgerMenu" class="burger-menu__cross-btn">
             <img src="imgs/x-icon.svg" alt="" />
           </button>
         </div>
@@ -88,36 +88,57 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from "vuex";
-import $ from "jquery";
 import routesMixin from "@/mixins/routes.js";
 export default {
   name: "BurgerMenu",
-  data() {
-    return {
-      favorites: JSON.parse(localStorage.getItem("favorites")) || [],
-    };
-  },
   mixins: [routesMixin],
   computed: {
     ...mapState(["totalQtyOfCartProducts"]),
     ...mapState(["totalQtyOfFavorites"]),
   },
   methods: {
+    hideBurgerMenu() {
+      document.querySelector(".burger-menu__shadow").style.display = "none";
+    },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
-    updateTotalQtyOfProducts() {
+    async updateTotalQtyOfProducts() {
       let totalQty = 0;
-      let products = JSON.parse(localStorage.getItem("cart"));
-      if (products !== null) {
-        products.forEach((product) => {
-          totalQty += Number(product.qty);
-        });
-        this.updateTotalQtyOfCartProducts(totalQty);
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/cart/get?userId=${userId}`
+          );
+          let products = response.data;
+          products.forEach((product) => {
+            totalQty += Number(product.qty);
+          });
+          this.updateTotalQtyOfCartProducts(totalQty);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      } else {
+        this.updateTotalQtyOfCartProducts(0);
       }
     },
     ...mapMutations(["updateTotalQtyOfFavorites"]),
-    updateTotalQty() {
-      this.updateTotalQtyOfFavorites(this.favorites.length);
+    async updateTotalQty() {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:5000/wishlist/get?userId=${userId}`
+        );
+        let favorites = response.data;
+        let totalQty = 0;
+        favorites.forEach((favorite) => {
+          totalQty += Number(favorite.qty);
+        });
+        this.updateTotalQtyOfFavorites(totalQty);
+      } else {
+        this.updateTotalQtyOfFavorites(0);
+      }
     },
     goToCartPage() {
       this.$router.push("/CartPage");
@@ -138,16 +159,6 @@ export default {
   mounted() {
     this.updateTotalQtyOfProducts();
     this.updateTotalQty();
-    $(function () {
-      $(".header__burger-btn").click(function () {
-        $(".burger-menu__shadow").fadeIn(0);
-      });
-    });
-    $(function () {
-      $(".burger-menu__cross-btn").click(function () {
-        $(".burger-menu__shadow").fadeOut(120);
-      });
-    });
   },
 };
 </script>

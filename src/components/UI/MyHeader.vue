@@ -2,7 +2,7 @@
   <header class="header">
     <div class="header__main-flex">
       <div class="header__burger-btn-and-logo-flex">
-        <button class="header__burger-btn">
+        <button @click="showBurgerMenu" class="header__burger-btn">
           <img src="imgs/burger-btn.svg" alt="" />
         </button>
         <span class="header__logo">3legant.</span>
@@ -93,6 +93,9 @@ export default {
     ...mapState(["totalQtyOfFavorites"]),
   },
   methods: {
+    showBurgerMenu() {
+      document.querySelector(".burger-menu__shadow").style.display = "block";
+    },
     ...mapMutations(["updateTotalQtyOfCartProducts"]),
     async updateTotalQtyOfProducts() {
       let totalQty = 0;
