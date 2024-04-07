@@ -422,6 +422,10 @@ export default {
     }
   },
   methods: {
+    goToShopPage() {
+      this.$router.push("/ShopPage");
+      window.scrollTo(0, 0);
+    },
     goToBlogPage() {
       this.$router.push("/BlogPage");
       window.scrollTo(0, 0);

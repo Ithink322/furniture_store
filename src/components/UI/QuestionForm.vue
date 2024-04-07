@@ -99,6 +99,7 @@ export default {
                   date: formattedDate,
                 })
                 .then((response) => {
+                  console.log("question avatar:", this.avatar);
                   this.$emit("questionsAdded");
                   this.$emit("question-added");
                   iziToast.settings({
