@@ -113,7 +113,6 @@ class authController {
       if (!user) {
         return res.status(404).json({ message: "Avatar not found" });
       } else if (user.avatar) {
-        console.log("user.avatar:", user.avatar);
         return res.json({ avatar: user.avatar.toString("base64") });
       }
     } catch (error) {
