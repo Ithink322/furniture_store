@@ -1,4 +1,4 @@
-# Online furniture store.
+# Online furniture store
 
 Stack:
 
